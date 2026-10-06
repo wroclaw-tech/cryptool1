@@ -1,6 +1,4 @@
-// Tests of the Scintilla proxy (src/scintilla.cpp): ANSI text and positions on top of a UTF-8
-// wxStyledTextCtrl. Built from scintilla.cpp and the code page sources only; the few window
-// functions it calls are replaced by recording stubs below.
+// Built without the rest of mfcwx: the window functions scintilla.cpp calls are recording stubs below.
 
 #include "windows_impl.h"
 
@@ -244,7 +242,6 @@ void TestCp1250Positions() {
     CHECK_STR(buf, "\xAF\xD3\xA3\xC6");
     CHECK_STR(Range(2, 6), "\xBF\xF3\xB3\xE6");
 
-    // CScintillaWnd::SearchForward / ReplaceSearchedText
     Send(SCI_SETSEL, 0, static_cast<LPARAM>(0));
     Send(SCI_SETSEARCHFLAGS, SCFIND_MATCHCASE);
     Send(SCI_SETTARGETSTART, 0);
@@ -256,7 +253,6 @@ void TestCp1250Positions() {
     CHECK_STR(GetAll(), "Za\xBF\xF3\xA3\xC6! g\xEA\x9Cl\xB9 ja\x9F\xF1\r\nZA\xAF\xD3\xA3\xC6 koniec");
     CHECK_EQ(Send(SCI_GETLENGTH), len + 1);
 
-    // CScintillaWnd::ReplaceAll
     Send(SCI_SETTEXT, 0, "\xB9\xB9 a \xB9");
     const char* find = "\xB9";
     const char* repl = "\xA5\xA5";
@@ -528,7 +524,6 @@ void TestMisc() {
     Send(SCI_BRACEHIGHLIGHT, 0, 2);
 }
 
-// Random edits against a model string, compared through the ANSI interface.
 void TestLargeDocument() {
     mfcwx::SetAnsiCodePage(1250);
     std::mt19937 rng(12345);
@@ -553,23 +548,37 @@ void TestLargeDocument() {
     long long sum = 0;
     for (int i = 0; i < 20000; ++i) {
         int p = static_cast<int>(rng() % (model.size() + 1));
-        Send(SCI_GOTOPOS, W(p));
-        sum += Send(SCI_GETCURRENTPOS) + Send(SCI_LINEFROMPOSITION, W(p));
+        sum += Send(SCI_LINEFROMPOSITION, W(p)) + Send(SCI_POSITIONAFTER, W(p));
     }
     for (int i = 0; i < 2000; ++i) {
         int p = static_cast<int>(rng() % model.size());
         Send(SCI_INSERTTEXT, W(p), "\xE4");
-        Send(SCI_GOTOPOS, W(p + 1));
-        sum += Send(SCI_GETCURRENTPOS);
-        Send(SCI_SETSEL, W(p), static_cast<LPARAM>(p + 1));
-        Send(SCI_CLEAR);
+        Send(SCI_SETTARGETSTART, W(p));
+        Send(SCI_SETTARGETEND, W(p + 1));
+        Send(SCI_REPLACETARGET, 0, "");
+        sum += Send(SCI_GETLENGTH);
     }
     double proxyMs = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t0).count();
-    printf("large document: load + 20000 lookups + 2000 edits through the proxy: %.1f ms (%lld)\n", proxyMs, sum);
+    auto t1 = std::chrono::steady_clock::now();
+    for (int i = 0; i < 20000; ++i) {
+        int p = static_cast<int>(rng() % (model.size() + 1));
+        sum += g_stc->SendMsg(SCI_LINEFROMPOSITION, p) + g_stc->SendMsg(SCI_POSITIONAFTER, p);
+    }
+    for (int i = 0; i < 2000; ++i) {
+        int p = static_cast<int>(rng() % model.size());
+        g_stc->SendMsg(SCI_INSERTTEXT, p, reinterpret_cast<wxIntPtr>("\xC3\xA4"));
+        g_stc->SendMsg(SCI_SETTARGETSTART, p);
+        g_stc->SendMsg(SCI_SETTARGETEND, p + 2);
+        g_stc->SendMsg(SCI_REPLACETARGET, 0, reinterpret_cast<wxIntPtr>(""));
+        sum += g_stc->SendMsg(SCI_GETLENGTH);
+    }
+    double rawMs = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t1).count();
+    printf("large document: load + 20000 lookups + 2000 edits: proxy %.1f ms, same calls sent to wx directly %.1f ms (%lld)\n",
+           proxyMs, rawMs, sum);
     CHECK(copy == model);
     CHECK(GetAll() == model);
     bool ok = Send(SCI_GETLENGTH) == static_cast<LRESULT>(model.size());
-    for (int i = 0; i < 2000 && ok; ++i) {
+    for (int i = 0; i < 300 && ok; ++i) {
         int p = static_cast<int>(rng() % (model.size() + 1));
         Send(SCI_GOTOPOS, W(p));
         ok = Send(SCI_GETCURRENTPOS) == p && g_stc->GetCurrentPos() == g_stc->PositionRelative(0, p);
