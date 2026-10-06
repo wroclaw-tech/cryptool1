@@ -89,6 +89,12 @@ void NotifyParent(wxWindow* control, UINT code);
 // Sends WM_NOTIFY with the given header (hwndFrom/idFrom are filled in).
 LRESULT NotifyParentNM(wxWindow* control, NMHDR* hdr);
 
+// menu.cpp: command ids of menu items (ID_APP_ABOUT/ID_APP_EXIT map to the wx stock ids)
+int MenuWxId(int winId);
+int MenuWinId(int wxId);
+// Accelerator table whose keys are shown in menus built afterwards.
+void SetMenuAccelerators(const rc::AccelTable* table);
+
 // dialog.cpp
 wxWindow* CreateDialogWindow(CDialog* dlg, const rc::Dialog& tmpl, wxWindow* parent);
 BOOL ApplyDlgInit(CWnd* pWnd, int dialogId);
