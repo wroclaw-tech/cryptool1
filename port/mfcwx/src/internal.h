@@ -115,6 +115,7 @@ struct WindowState {
     int checkState = 0;            // BM_SETCHECK state of buttons
     void* image = nullptr;         // STM_SETIMAGE / STM_SETICON handle
     wxString text;                 // caption of custom-drawn windows
+    wxSize baseUnits;              // dialogs: dialog base units of the dialog font
     std::function<void(wxPaintEvent&)> customPaint;
     std::vector<std::pair<DWORD_PTR, wxString>> itemData; // unused by most kinds
     CWnd* buddy = nullptr;         // spin buttons

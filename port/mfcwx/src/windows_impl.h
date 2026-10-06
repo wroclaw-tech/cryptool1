@@ -90,6 +90,7 @@ void NotifyParent(wxWindow* control, UINT code);
 LRESULT NotifyParentNM(wxWindow* control, NMHDR* hdr);
 
 // dialog.cpp
+wxWindow* CreateDialogWindow(CDialog* dlg, const rc::Dialog& tmpl, wxWindow* parent);
 BOOL ApplyDlgInit(CWnd* pWnd, int dialogId);
 // Handles Enter/Escape/F1 like the Windows dialog manager; true if consumed.
 bool DialogKeyHook(wxWindow* dialog, wxKeyEvent& event);
