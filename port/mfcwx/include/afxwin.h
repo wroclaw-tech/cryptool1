@@ -764,6 +764,7 @@ public:
     HCURSOR SetCursor(HCURSOR hCursor);
     HCURSOR GetCursor();
     virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
+    BOOL OnChildNotify(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult) override;
 };
 
 class CButton : public CWnd {
@@ -784,6 +785,7 @@ public:
     HCURSOR SetCursor(HCURSOR hCursor);
     HCURSOR GetCursor();
     virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
+    BOOL OnChildNotify(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult) override;
 };
 
 class CEdit : public CWnd {
@@ -877,6 +879,8 @@ public:
     void SetAnchorIndex(int) {}
     UINT ItemFromPoint(CPoint pt, BOOL& bOutside) const;
 };
+
+#define CLBN_CHKCHANGE 40
 
 class CCheckListBox : public CListBox {
     DECLARE_DYNAMIC(CCheckListBox)

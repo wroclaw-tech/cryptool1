@@ -394,7 +394,19 @@ std::vector<wxRect> TabRects(wxWindow* w) {
 
 namespace {
 
-void SendDrawItem(wxWindow* w, WindowState& st, wxDC& dc, UINT ctlType) {
+using PaintFn = void (*)(wxWindow*, wxDC&, CDC*);
+
+std::function<void(wxPaintEvent&)> PaintBridge(wxWindow* w, PaintFn fn) {
+    return [w, fn](wxPaintEvent&) {
+        wxPaintDC dc(w);
+        CDC* cdc = WrapDC(&dc, w);
+        fn(w, dc, cdc);
+        PaintClientDCOverlay(w, dc);
+        UnwrapDC(cdc);
+    };
+}
+
+void SendDrawItem(wxWindow* w, WindowState& st, CDC* cdc, UINT ctlType) {
     ButtonExtra& bx = Extra<ButtonExtra>(st);
     DRAWITEMSTRUCT dis;
     memset(&dis, 0, sizeof dis);
@@ -409,7 +421,6 @@ void SendDrawItem(wxWindow* w, WindowState& st, wxDC& dc, UINT ctlType) {
     if (w->HasFocus())
         dis.itemState |= ODS_FOCUS;
     dis.hwndItem = ToHwnd(w);
-    CDC* cdc = WrapDC(&dc, w);
     dis.hDC = cdc->m_hDC;
     wxSize sz = w->GetClientSize();
     dis.rcItem.right = sz.x;
@@ -417,19 +428,16 @@ void SendDrawItem(wxWindow* w, WindowState& st, wxDC& dc, UINT ctlType) {
     wxWindow* parent = LogicalParent(w);
     if (parent && IsManagedWindow(parent))
         DispatchMessageTo(ToHwnd(parent), WM_DRAWITEM, static_cast<WPARAM>(st.winId), reinterpret_cast<LPARAM>(&dis));
-    UnwrapDC(cdc);
 }
 
-void PaintOwnerDrawButton(wxWindow* w, wxPaintEvent&) {
-    wxPaintDC dc(w);
+void PaintOwnerDrawButton(wxWindow* w, wxDC&, CDC* cdc) {
     WindowState* st = GetState(w);
     if (!st)
         return;
-    SendDrawItem(w, *st, dc, ODT_BUTTON);
+    SendDrawItem(w, *st, cdc, ODT_BUTTON);
 }
 
-void PaintStaticFrame(wxWindow* w, wxPaintEvent&) {
-    wxPaintDC dc(w);
+void PaintStaticFrame(wxWindow* w, wxDC& dc, CDC*) {
     WindowState* st = GetState(w);
     if (!st)
         return;
@@ -479,13 +487,12 @@ void PaintStaticFrame(wxWindow* w, wxPaintEvent&) {
     }
 }
 
-void PaintGenericStatic(wxWindow* w, wxPaintEvent&) {
-    wxPaintDC dc(w);
+void PaintGenericStatic(wxWindow* w, wxDC& dc, CDC* cdc) {
     WindowState* st = GetState(w);
     if (!st)
         return;
     if ((st->style & SS_TYPEMASK) == SS_OWNERDRAW) {
-        SendDrawItem(w, *st, dc, ODT_STATIC);
+        SendDrawItem(w, *st, cdc, ODT_STATIC);
         return;
     }
     wxString text = st->text;
@@ -573,8 +580,7 @@ void BindStaticNotify(wxWindow* w) {
 // ---------------------------------------------------------------------------------------------
 // Tab control (header only, as in Windows)
 
-void PaintTabs(wxWindow* w, wxPaintEvent&) {
-    wxPaintDC dc(w);
+void PaintTabs(wxWindow* w, wxDC& dc, CDC*) {
     WindowState* st = GetState(w);
     if (!st)
         return;
@@ -731,37 +737,13 @@ void ForwardScroll(wxScrollEvent& e) {
     if (st->kind == ControlKind::Slider) {
         RangeExtra& r = Extra<RangeExtra>(*st);
         r.pos = pos;
+    } else if (st->kind == ControlKind::ScrollBar) {
+        pos += Extra<RangeExtra>(*st).minValue;
     }
     DispatchMessageTo(ToHwnd(parent), msg, MAKEWPARAM(code, static_cast<WORD>(pos)), reinterpret_cast<LPARAM>(ToHwnd(w)));
     if (e.GetEventType() == wxEVT_SCROLL_CHANGED || e.GetEventType() == wxEVT_SCROLL_THUMBRELEASE)
         DispatchMessageTo(ToHwnd(parent), msg, MAKEWPARAM(SB_ENDSCROLL, static_cast<WORD>(pos)),
                           reinterpret_cast<LPARAM>(ToHwnd(w)));
-}
-
-// ---------------------------------------------------------------------------------------------
-// List view notifications
-
-void ListNotify(wxListEvent& e, UINT code, bool selected) {
-    wxWindow* w = static_cast<wxWindow*>(e.GetEventObject());
-    NMLISTVIEW nm;
-    memset(&nm, 0, sizeof nm);
-    nm.hdr.code = code;
-    nm.iItem = static_cast<int>(e.GetIndex());
-    nm.iSubItem = e.GetColumn() < 0 ? 0 : e.GetColumn();
-    if (code == LVN_ITEMCHANGED) {
-        nm.uChanged = LVIF_STATE;
-        nm.uNewState = selected ? (LVIS_SELECTED | LVIS_FOCUSED) : 0;
-        nm.uOldState = selected ? 0 : LVIS_SELECTED;
-    }
-    if (code == LVN_COLUMNCLICK)
-        nm.iItem = -1;
-    wxPoint p = e.GetPoint();
-    nm.ptAction.x = p.x;
-    nm.ptAction.y = p.y;
-    if (auto* lc = wxDynamicCast(w, wxListCtrl))
-        if (nm.iItem >= 0)
-            nm.lParam = static_cast<LPARAM>(lc->GetItemData(nm.iItem));
-    NotifyParentNM(w, &nm.hdr);
 }
 
 } // namespace
@@ -806,11 +788,11 @@ void BindControlEvents(wxWindow* w, WindowState& st) {
         });
         break;
     case ControlKind::OwnerDrawButton:
-        st.customPaint = [w](wxPaintEvent& e) { PaintOwnerDrawButton(w, e); };
+        st.customPaint = PaintBridge(w, &PaintOwnerDrawButton);
         BindOwnerDrawButton(w);
         break;
     case ControlKind::StaticFrame:
-        st.customPaint = [w](wxPaintEvent& e) { PaintStaticFrame(w, e); };
+        st.customPaint = PaintBridge(w, &PaintStaticFrame);
         BindStaticNotify(w);
         break;
     case ControlKind::Static:
@@ -894,38 +876,10 @@ void BindControlEvents(wxWindow* w, WindowState& st) {
         });
         break;
     case ControlKind::ListView:
-        w->Bind(wxEVT_LIST_ITEM_SELECTED, [](wxListEvent& e) { ListNotify(e, LVN_ITEMCHANGED, true); });
-        w->Bind(wxEVT_LIST_ITEM_DESELECTED, [](wxListEvent& e) { ListNotify(e, LVN_ITEMCHANGED, false); });
-        w->Bind(wxEVT_LIST_ITEM_ACTIVATED, [](wxListEvent& e) { ListNotify(e, NM_DBLCLK, true); });
-        w->Bind(wxEVT_LIST_ITEM_RIGHT_CLICK, [](wxListEvent& e) { ListNotify(e, NM_RCLICK, true); });
-        w->Bind(wxEVT_LIST_COL_CLICK, [](wxListEvent& e) { ListNotify(e, LVN_COLUMNCLICK, false); });
-        w->Bind(wxEVT_LIST_ITEM_CHECKED, [](wxListEvent& e) { ListNotify(e, LVN_ITEMCHANGED, true); });
-        w->Bind(wxEVT_LIST_ITEM_UNCHECKED, [](wxListEvent& e) { ListNotify(e, LVN_ITEMCHANGED, true); });
-        w->Bind(wxEVT_LIST_KEY_DOWN, [w](wxListEvent& e) {
-            NMLVKEYDOWN nm;
-            memset(&nm, 0, sizeof nm);
-            nm.hdr.code = LVN_KEYDOWN;
-            nm.wVKey = static_cast<WORD>(VirtualKeyFromWx(e.GetKeyCode()));
-            NotifyParentNM(w, &nm.hdr);
-            e.Skip();
-        });
-        w->Bind(wxEVT_LEFT_UP, [w](wxMouseEvent& e) {
-            NMITEMACTIVATE nm;
-            memset(&nm, 0, sizeof nm);
-            nm.hdr.code = NM_CLICK;
-            int flags = 0;
-            long sub = 0;
-            if (auto* lc = wxDynamicCast(w, wxListCtrl))
-                nm.iItem = static_cast<int>(lc->HitTest(e.GetPosition(), flags, &sub));
-            nm.iSubItem = static_cast<int>(sub);
-            nm.ptAction.x = e.GetX();
-            nm.ptAction.y = e.GetY();
-            NotifyParentNM(w, &nm.hdr);
-            e.Skip();
-        });
+        BindListViewEvents(w);
         break;
     case ControlKind::Tab:
-        st.customPaint = [w](wxPaintEvent& e) { PaintTabs(w, e); };
+        st.customPaint = PaintBridge(w, &PaintTabs);
         BindTabs(w);
         break;
     case ControlKind::Scintilla:
@@ -1067,7 +1021,7 @@ wxWindow* CreateControl(wxWindow* parent, const char* cls, const char* text, int
         } else if (type == SS_OWNERDRAW || type == SS_USERITEM) {
             w = new GenericWindow(parent, id, pos, size, wxBORDER_NONE);
             kind = ControlKind::Generic;
-            EnsureState(w).customPaint = [w](wxPaintEvent& e) { PaintGenericStatic(w, e); };
+            EnsureState(w).customPaint = PaintBridge(w, &PaintGenericStatic);
         } else {
             long f = wxST_NO_AUTORESIZE | BorderFlags(style, exStyle, false);
             if (style & SS_SUNKEN)
@@ -1236,10 +1190,34 @@ wxWindow* CreateWindowForClass(CWnd* pWnd, CREATESTRUCT& cs) {
     return w;
 }
 
+namespace {
+
+wxWindow* ReplaceWithCheckListBox(wxListBox* lb, WindowState& st) {
+    auto* c = new wxCheckListBox(lb->GetParent(), lb->GetId(), lb->GetPosition(), lb->GetSize(), 0, nullptr,
+                                 lb->GetWindowStyleFlag());
+    c->MoveAfterInTabOrder(lb);
+    c->SetFont(lb->GetFont());
+    for (unsigned i = 0; i < lb->GetCount(); ++i)
+        c->Append(lb->GetString(i), lb->HasClientUntypedData() ? lb->GetClientData(i) : nullptr);
+    WindowState& cs = EnsureState(c);
+    HookWindow(c, ControlKind::ListBox, st.winId, st.style, st.exStyle);
+    cs.font = st.font;
+    c->Bind(wxEVT_CHECKLISTBOX, [c](wxCommandEvent&) { NotifyParent(c, CLBN_CHKCHANGE); });
+    c->Show(lb->IsShown());
+    c->Enable(lb->IsThisEnabled());
+    lb->Destroy();
+    return c;
+}
+
+} // namespace
+
 wxWindow* PrepareForSubclass(wxWindow* w, CWnd* pWnd) {
     WindowState* st = GetState(w);
     if (!st || !pWnd)
         return w;
+    if (st->kind == ControlKind::ListBox && pWnd->IsKindOf(RUNTIME_CLASS(CCheckListBox)) &&
+        !wxDynamicCast(w, wxCheckListBox) && wxDynamicCast(w, wxListBox))
+        return ReplaceWithCheckListBox(static_cast<wxListBox*>(w), *st);
     bool paints = HasMessageHandler(pWnd, WM_PAINT) || HasMessageHandler(pWnd, WM_ERASEBKGND);
     bool nativeStatic = st->kind == ControlKind::Static || st->kind == ControlKind::StaticBitmap;
     bool ownerDrawStatic = st->kind == ControlKind::Static && (st->style & SS_TYPEMASK) == SS_OWNERDRAW;
@@ -1257,7 +1235,7 @@ wxWindow* PrepareForSubclass(wxWindow* w, CWnd* pWnd) {
     gs.text = st->text;
     gs.font = st->font;
     if (!HasMessageHandler(pWnd, WM_PAINT))
-        gs.customPaint = [g](wxPaintEvent& e) { PaintGenericStatic(g, e); };
+        gs.customPaint = PaintBridge(g, &PaintGenericStatic);
     g->Show(w->IsShown());
     g->Enable(w->IsThisEnabled());
     w->Destroy();
@@ -1268,6 +1246,13 @@ wxWindow* PrepareForSubclass(wxWindow* w, CWnd* pWnd) {
 // Control message processing
 
 namespace {
+
+int FirstVisibleLine(wxTextCtrl* t) {
+    wxTextCoord col = 0, row = 0;
+    if (t->HitTest(wxPoint(2, 2), &col, &row) != wxTE_HT_UNKNOWN && row > 0)
+        return static_cast<int>(row);
+    return 0;
+}
 
 LRESULT EditProc(wxTextCtrl* t, WindowState& st, UINT msg, WPARAM wParam, LPARAM lParam, bool& handled) {
     handled = true;
@@ -1400,12 +1385,29 @@ LRESULT EditProc(wxTextCtrl* t, WindowState& st, UINT msg, WPARAM wParam, LPARAM
     case EM_GETPASSWORDCHAR:
         return static_cast<unsigned char>(ex.passwordChar);
     case EM_GETFIRSTVISIBLELINE:
-        return 0;
+        return FirstVisibleLine(t);
     case EM_SCROLLCARET:
         t->ShowPosition(t->GetInsertionPoint());
         return TRUE;
-    case EM_LINESCROLL:
+    case EM_LINESCROLL: {
+        int lines = static_cast<int>(lParam);
+        if (lines && IsMultilineEdit(st)) {
+            int count = std::max(1, t->GetNumberOfLines());
+            int target = std::max(0, std::min(count - 1, FirstVisibleLine(t) + lines));
+            t->ShowPosition(t->GetLastPosition());
+            t->ShowPosition(t->XYToPosition(0, target));
+        }
         return TRUE;
+    }
+    case EM_CANPASTE:
+        return t->CanPaste();
+    case EM_SELECTIONTYPE: {
+        long from, to;
+        t->GetSelection(&from, &to);
+        return from == to ? 0 : 1;
+    }
+    case EM_GETTEXTLENGTHEX:
+        return static_cast<LRESULT>(FromWx(FromEditText(st, t->GetValue())).size());
     case EM_SETTABSTOPS:
     case EM_SETMARGINS:
     case EM_SETRECT:
@@ -1428,7 +1430,18 @@ LRESULT EditProc(wxTextCtrl* t, WindowState& st, UINT msg, WPARAM wParam, LPARAM
         return 0;
     }
     case EM_POSFROMCHAR: {
-        wxPoint p(0, 0);
+        bool rich = st.kind == ControlKind::RichEdit && wParam > 0xFFFF;
+        long pos = WinToWxPos(t, st, static_cast<long>(rich ? lParam : static_cast<LPARAM>(wParam)));
+        wxPoint p = t->PositionToCoords(pos);
+        if (p == wxDefaultPosition)
+            p = wxPoint(0, 0);
+        if (rich) {
+            if (auto* pt = reinterpret_cast<POINT*>(wParam)) {
+                pt->x = p.x;
+                pt->y = p.y;
+            }
+            return 0;
+        }
         return MAKELRESULT(p.x, p.y);
     }
     case EM_CHARFROMPOS: {
@@ -1508,6 +1521,12 @@ LRESULT EditProc(wxTextCtrl* t, WindowState& st, UINT msg, WPARAM wParam, LPARAM
             if (es->pfnCallback(es->dwCookie, buf, sizeof buf, &got) != 0 || got <= 0)
                 break;
             data.append(reinterpret_cast<char*>(buf), static_cast<size_t>(got));
+        }
+        if (wParam & SF_RTF) {
+            if (!(wParam & SFF_SELECTION))
+                t->Clear();
+            InsertRtf(t, IsMultilineEdit(st), data);
+            return static_cast<LRESULT>(data.size());
         }
         wxString v = ToEditText(st, ToWx(data.data(), static_cast<int>(data.size())));
         if (wParam & SFF_SELECTION)
@@ -1770,6 +1789,18 @@ LRESULT ComboProc(wxWindow* w, WindowState& st, UINT msg, WPARAM wParam, LPARAM 
         return TRUE;
     case CB_GETDROPPEDSTATE:
         return FALSE;
+    case CB_GETDROPPEDCONTROLRECT: {
+        auto* r = reinterpret_cast<RECT*>(lParam);
+        if (r) {
+            wxRect sr = w->GetScreenRect();
+            int visible = std::max(1, std::min(ItemCount(items), 30));
+            r->left = sr.x;
+            r->top = sr.y;
+            r->right = sr.x + sr.width;
+            r->bottom = sr.y + sr.height + visible * (w->GetCharHeight() + 2) + 2;
+        }
+        return CB_OKAY;
+    }
     case CB_SETITEMHEIGHT:
     case CB_SETEXTENDEDUI:
     case CB_SETDROPPEDWIDTH:
@@ -1892,10 +1923,11 @@ LRESULT ListBoxProc(wxListBox* lb, WindowState& st, UINT msg, WPARAM wParam, LPA
     case LB_SELITEMRANGEEX: {
         int first = LOWORD(lParam);
         int last = HIWORD(lParam);
-        bool select = msg == LB_SELITEMRANGE ? wParam != 0 : first <= last;
+        bool select = wParam != 0;
         if (msg == LB_SELITEMRANGEEX) {
             first = static_cast<int>(wParam);
             last = static_cast<int>(lParam);
+            select = first <= last;
             if (first > last)
                 std::swap(first, last);
         }
@@ -2245,10 +2277,22 @@ LRESULT RangeProc(wxWindow* w, WindowState& st, UINT msg, WPARAM wParam, LPARAM 
         case TBM_GETNUMTICS:
             return 2;
         case TBM_SETSEL:
-        case TBM_SETSELSTART:
-        case TBM_SETSELEND:
-        case TBM_CLEARSEL:
+            r.selStart = static_cast<short>(LOWORD(lParam));
+            r.selEnd = static_cast<short>(HIWORD(lParam));
             return 0;
+        case TBM_SETSELSTART:
+            r.selStart = static_cast<int>(lParam);
+            return 0;
+        case TBM_SETSELEND:
+            r.selEnd = static_cast<int>(lParam);
+            return 0;
+        case TBM_CLEARSEL:
+            r.selStart = r.selEnd = 0;
+            return 0;
+        case TBM_GETSELSTART:
+            return r.selStart;
+        case TBM_GETSELEND:
+            return r.selEnd;
         default:
             break;
         }
@@ -2314,12 +2358,52 @@ LRESULT RangeProc(wxWindow* w, WindowState& st, UINT msg, WPARAM wParam, LPARAM 
                 return sb->GetThumbPosition() + r.minValue;
             return 0;
         case SBM_SETRANGE:
+        case SBM_SETRANGEREDRAW:
             if (auto* sb = wxDynamicCast(w, wxScrollBar)) {
                 r.minValue = static_cast<int>(wParam);
                 r.maxValue = static_cast<int>(lParam);
-                sb->SetScrollbar(sb->GetThumbPosition(), 1, std::max(1, r.maxValue - r.minValue + 1), std::max(1, (r.maxValue - r.minValue) / 10));
+                int thumb = std::max(1, r.page);
+                int pageSize = r.page > 0 ? r.page : std::max(1, (r.maxValue - r.minValue) / 10);
+                sb->SetScrollbar(sb->GetThumbPosition(), thumb, std::max(thumb, r.maxValue - r.minValue + 1), pageSize);
             }
             return 0;
+        case SBM_SETSCROLLINFO: {
+            auto* si = reinterpret_cast<SCROLLINFO*>(lParam);
+            auto* sb = wxDynamicCast(w, wxScrollBar);
+            if (!si || !sb)
+                return 0;
+            int pos = sb->GetThumbPosition() + r.minValue;
+            if (si->fMask & SIF_RANGE) {
+                r.minValue = si->nMin;
+                r.maxValue = si->nMax;
+            }
+            if (si->fMask & SIF_PAGE)
+                r.page = static_cast<int>(si->nPage);
+            if (si->fMask & SIF_POS)
+                pos = si->nPos;
+            int thumb = std::max(1, r.page);
+            int range = std::max(thumb, r.maxValue - r.minValue + 1);
+            pos = std::max(0, std::min(pos - r.minValue, range - thumb));
+            sb->SetScrollbar(pos, thumb, range, r.page > 0 ? r.page : std::max(1, range / 10), wParam != 0);
+            return pos + r.minValue;
+        }
+        case SBM_GETSCROLLINFO: {
+            auto* si = reinterpret_cast<SCROLLINFO*>(lParam);
+            auto* sb = wxDynamicCast(w, wxScrollBar);
+            if (!si || !sb)
+                return FALSE;
+            if (si->fMask & SIF_RANGE) {
+                si->nMin = r.minValue;
+                si->nMax = r.maxValue;
+            }
+            if (si->fMask & SIF_PAGE)
+                si->nPage = static_cast<UINT>(std::max(0, r.page));
+            if (si->fMask & SIF_POS)
+                si->nPos = sb->GetThumbPosition() + r.minValue;
+            if (si->fMask & SIF_TRACKPOS)
+                si->nTrackPos = sb->GetThumbPosition() + r.minValue;
+            return TRUE;
+        }
         case SBM_GETRANGE:
             if (wParam)
                 *reinterpret_cast<int*>(wParam) = r.minValue;
@@ -2384,6 +2468,8 @@ LRESULT ControlWindowProc(wxWindow* w, WindowState& st, UINT msg, WPARAM wParam,
         return RangeProc(w, st, msg, wParam, lParam, handled);
     case ControlKind::Tab:
         return TabProc(w, st, msg, wParam, lParam, handled);
+    case ControlKind::ListView:
+        return ListViewProc(w, st, msg, wParam, lParam, handled);
     case ControlKind::Scintilla:
         if (msg >= 2000 || msg == WM_GETTEXT || msg == WM_SETTEXT || msg == WM_GETTEXTLENGTH)
             return ScintillaWindowProc(w, msg, wParam, lParam, handled);
