@@ -124,6 +124,11 @@ public:
     HDC GetPrinterDC() const { return nullptr; }
     HDC CreatePrinterDC() { return nullptr; }
     CString GetDeviceName() const { return CString(); }
+    BOOL PrintSelection() const;
+    BOOL PrintRange() const;
+    BOOL PrintAll() const;
+    int GetFromPage() const;
+    int GetToPage() const;
 };
 
 #define FR_DOWN 0x00000001

@@ -1074,6 +1074,7 @@ public:
     virtual BOOL OnIdle(LONG lCount);
     virtual BOOL IsIdleMessage(MSG*) { return TRUE; }
     virtual CWnd* GetMainWnd();
+    virtual BOOL ProcessMessageFilter(int code, LPMSG lpMsg);
     operator HANDLE() const { return m_hThread; }
 
     CWnd* m_pMainWnd;
@@ -1157,6 +1158,7 @@ public:
     virtual void ParseCommandLine(class CCommandLineInfo& rCmdInfo);
     virtual BOOL DoPromptFileName(CString& fileName, UINT nIDSTitle, DWORD lFlags, BOOL bOpenFileDialog,
                                   CDocTemplate* pTemplate);
+    virtual BOOL OnDDECommand(LPTSTR lpszCommand);
 
     void AddDocTemplate(CDocTemplate* pTemplate);
     POSITION GetFirstDocTemplatePosition() const;

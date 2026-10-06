@@ -3,6 +3,14 @@
 
 namespace mfcwx {
 
+// Namespace-scope const arrays have internal linkage unless declared extern.
+extern const uint16_t kCp1250High[128];
+extern const uint16_t kCp1251High[128];
+extern const uint16_t kCp1252High[128];
+extern const uint16_t kCp1253High[128];
+extern const uint16_t kCp1254High[128];
+extern const uint16_t kCp1257High[128];
+
 const uint16_t kCp1250High[128] = {
     0x20AC, 0x0081, 0x201A, 0x0083, 0x201E, 0x2026, 0x2020, 0x2021,
     0x0088, 0x2030, 0x0160, 0x2039, 0x015A, 0x0164, 0x017D, 0x0179,

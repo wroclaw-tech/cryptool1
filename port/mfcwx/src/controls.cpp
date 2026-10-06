@@ -1,5 +1,6 @@
-#include "windows_impl.h"
+#include "controls_internal.h"
 
+#include <wx/checklst.h>
 #include <wx/gauge.h>
 #include <wx/glcanvas.h>
 #include <wx/listctrl.h>
@@ -49,6 +50,9 @@ struct RangeExtra {
     int step = 10;
     int pos = 0;
     bool inverted = false;
+    int page = 0;
+    int selStart = 0;
+    int selEnd = 0;
 };
 
 struct ButtonExtra {
@@ -57,20 +61,6 @@ struct ButtonExtra {
     HBITMAP image = nullptr;
     HICON icon = nullptr;
 };
-
-struct TabExtra {
-    std::vector<std::pair<wxString, LPARAM>> items;
-    int current = -1;
-};
-
-template <class T>
-T& Extra(WindowState& st) {
-    if (!st.extra) {
-        st.extra = new T();
-        st.deleteExtra = [&st] { delete static_cast<T*>(st.extra); st.extra = nullptr; };
-    }
-    return *static_cast<T*>(st.extra);
-}
 
 wxString AnsiText(const char* s) { return ToWx(s ? s : ""); }
 
@@ -373,6 +363,33 @@ bool FilterEditChar(wxWindow* w, WindowState& st, UINT& ch, wxKeyEvent& e) {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Tab control geometry
+
+int TabHeaderHeight(wxWindow* w) {
+    WindowState* st = GetState(w);
+    if (st && Extra<TabExtra>(*st).itemSize.y > 0)
+        return Extra<TabExtra>(*st).itemSize.y;
+    return w->GetCharHeight() + 8;
+}
+
+std::vector<wxRect> TabRects(wxWindow* w) {
+    std::vector<wxRect> rects;
+    WindowState* st = GetState(w);
+    if (!st)
+        return rects;
+    TabExtra& tx = Extra<TabExtra>(*st);
+    int tabH = TabHeaderHeight(w);
+    int x = 2;
+    for (const auto& item : tx.items) {
+        int tw = tx.itemSize.x > 0 ? tx.itemSize.x
+                                   : w->GetTextExtent(wxStripMenuCodes(item.first, wxStrip_Mnemonics)).x + 16;
+        rects.emplace_back(x, 0, tw, tabH);
+        x += tw;
+    }
+    return rects;
+}
+
+// ---------------------------------------------------------------------------------------------
 // Owner-drawn buttons and statics
 
 namespace {
@@ -564,17 +581,20 @@ void PaintTabs(wxWindow* w, wxPaintEvent&) {
     TabExtra& tx = Extra<TabExtra>(*st);
     dc.SetFont(w->GetFont());
     wxSize sz = w->GetClientSize();
-    int tabH = dc.GetCharHeight() + 8;
+    int tabH = TabHeaderHeight(w);
     wxColour shadow = wxSystemSettings::GetColour(wxSYS_COLOUR_3DSHADOW);
     dc.SetPen(wxPen(shadow));
     dc.SetBrush(*wxTRANSPARENT_BRUSH);
     dc.DrawRectangle(0, tabH - 1, sz.x, sz.y - tabH + 1);
-    int x = 2;
-    for (size_t i = 0; i < tx.items.size(); ++i) {
+    std::vector<wxRect> rects = TabRects(w);
+    for (size_t i = 0; i < rects.size() && i < tx.items.size(); ++i) {
         wxString label = wxStripMenuCodes(tx.items[i].first, wxStrip_Mnemonics);
-        int tw = dc.GetTextExtent(label).x + 16;
         bool sel = static_cast<int>(i) == tx.current;
-        wxRect r(x, sel ? 0 : 2, tw, tabH - (sel ? 0 : 2));
+        wxRect r = rects[i];
+        if (!sel) {
+            r.y += 2;
+            r.height -= 2;
+        }
         dc.SetBrush(sel ? wxBrush(w->GetBackgroundColour()) : wxBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE)));
         dc.SetPen(wxPen(shadow));
         dc.DrawRectangle(r);
@@ -584,27 +604,14 @@ void PaintTabs(wxWindow* w, wxPaintEvent&) {
         }
         dc.SetTextForeground(w->GetForegroundColour());
         dc.DrawLabel(label, r, wxALIGN_CENTER);
-        x += tw;
     }
 }
 
 int TabHitTest(wxWindow* w, const wxPoint& p) {
-    WindowState* st = GetState(w);
-    if (!st)
-        return -1;
-    TabExtra& tx = Extra<TabExtra>(*st);
-    wxClientDC dc(w);
-    dc.SetFont(w->GetFont());
-    int tabH = dc.GetCharHeight() + 8;
-    if (p.y > tabH)
-        return -1;
-    int x = 2;
-    for (size_t i = 0; i < tx.items.size(); ++i) {
-        int tw = dc.GetTextExtent(wxStripMenuCodes(tx.items[i].first, wxStrip_Mnemonics)).x + 16;
-        if (p.x >= x && p.x < x + tw)
+    std::vector<wxRect> rects = TabRects(w);
+    for (size_t i = 0; i < rects.size(); ++i)
+        if (rects[i].Contains(p))
             return static_cast<int>(i);
-        x += tw;
-    }
     return -1;
 }
 

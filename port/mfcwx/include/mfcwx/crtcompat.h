@@ -31,6 +31,8 @@ extern "C" {
 #define _MAX_DIR 256
 #define _MAX_FNAME 256
 #define _MAX_EXT 256
+#define _TRUNCATE ((size_t)-1)
+#define STRUNCATE 80
 
 #define _O_RDONLY O_RDONLY
 #define _O_WRONLY O_WRONLY
@@ -229,7 +231,7 @@ extern "C" {
 #define _tunlink mfcwx_unlink
 #define _taccess mfcwx_access
 #define _tmkdir _mkdir
-#define _tgetcwd getcwd
+#define _tgetcwd _getcwd
 #define _tchdir mfcwx_chdir
 #define _tsplitpath _splitpath
 #define _tmakepath _makepath
@@ -277,6 +279,8 @@ uintptr_t mfcwx_beginthreadex(void* security, unsigned stack, unsigned (*fn)(voi
                               unsigned* threadId);
 void mfcwx_endthread(unsigned code);
 void mfcwx_normalize_path(char* path);
+/* getcwd returning the application path form ("\\dir\\sub"); see mfcwx::AppPath. */
+char* mfcwx_getcwd(char* buf, int size);
 
 int _mkdir(const char* path);
 
@@ -291,7 +295,7 @@ static inline FILE* _fdopen(int fd, const char* mode) { return fdopen(fd, mode);
 static inline int _unlink(const char* name) { return mfcwx_unlink(name); }
 static inline int _rmdir(const char* name) { return mfcwx_rmdir(name); }
 static inline int _chdir(const char* name) { return mfcwx_chdir(name); }
-static inline char* _getcwd(char* buf, int size) { return getcwd(buf, (size_t)size); }
+static inline char* _getcwd(char* buf, int size) { return mfcwx_getcwd(buf, size); }
 static inline int _access(const char* name, int mode) { return mfcwx_access(name, mode); }
 static inline int _chmod(const char* name, int mode) { return mfcwx_chmod(name, mode); }
 static inline int _getpid(void) { return (int)getpid(); }

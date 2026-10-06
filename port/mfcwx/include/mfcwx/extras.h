@@ -91,14 +91,14 @@ typedef struct tagLOGPALETTE { WORD palVersion, palNumEntries; PALETTEENTRY palP
 #define PC_NOCOLLAPSE 0x04
 
 #define ListView_GetSubItemRect(hwnd, iItem, iSubItem, code, prc) \
-    (BOOL)SendMessage((hwnd), LVM_GETSUBITEMRECT, (WPARAM)(int)(iItem), \
+    (BOOL)::SendMessage((hwnd), LVM_GETSUBITEMRECT, (WPARAM)(int)(iItem), \
                       ((prc) ? ((((LPRECT)(prc))->top = (iSubItem)), (((LPRECT)(prc))->left = (code)), (LPARAM)(prc)) : (LPARAM)(LPRECT)NULL))
-#define ListView_GetTopIndex(hwnd) (int)SendMessage((hwnd), LVM_GETTOPINDEX, 0, 0)
+#define ListView_GetTopIndex(hwnd) (int)::SendMessage((hwnd), LVM_GETTOPINDEX, 0, 0)
 #define ListView_GetItemText(hwndLV, i, iSubItem_, pszText_, cchTextMax_) \
     { LVITEM _lvi; _lvi.iSubItem = (iSubItem_); _lvi.cchTextMax = (cchTextMax_); _lvi.pszText = (pszText_); \
-      SendMessage((hwndLV), LVM_GETITEMTEXT, (WPARAM)(i), (LPARAM)&_lvi); }
-#define ListView_SetExtendedListViewStyle(hwnd, style) SendMessage((hwnd), LVM_SETEXTENDEDLISTVIEWSTYLE, 0, (style))
-#define ListView_GetItemCount(hwnd) (int)SendMessage((hwnd), LVM_GETITEMCOUNT, 0, 0)
+      ::SendMessage((hwndLV), LVM_GETITEMTEXT, (WPARAM)(i), (LPARAM)&_lvi); }
+#define ListView_SetExtendedListViewStyle(hwnd, style) ::SendMessage((hwnd), LVM_SETEXTENDEDLISTVIEWSTYLE, 0, (style))
+#define ListView_GetItemCount(hwnd) (int)::SendMessage((hwnd), LVM_GETITEMCOUNT, 0, 0)
 
 class CWaitCursor {
 public:
@@ -141,3 +141,22 @@ BOOL wglMakeCurrent(HDC hdc, HGLRC hglrc);
 HGLRC wglGetCurrentContext();
 HDC wglGetCurrentDC();
 void* wglGetProcAddress(const char* name);
+
+// ---------------------------------------------------------------------------------------------
+// Declarations required by the application sources (CrypTool, ChallengeResponse, libVolRen).
+
+#define _AFX_NO_DAO_SUPPORT // as in 64-bit MFC: no DAO database classes (afxdao.h)
+#define WM_ICONERASEBKGND 0x0027
+#define MSGF_DIALOGBOX 0
+#define MSGF_MESSAGEBOX 1
+#define MSGF_MENU 2
+#define MSGF_SCROLLBAR 5
+#define MSGF_NEXTWINDOW 6
+typedef struct tagLOGPALETTE* PLOGPALETTE;
+struct IUnknown;
+typedef IUnknown* LPUNKNOWN;
+DWORD SearchPath(const char* lpPath, const char* lpFileName, const char* lpExtension, DWORD nBufferLength,
+                 char* lpBuffer, char** lpFilePart);
+DWORD SearchPathA(const char* lpPath, const char* lpFileName, const char* lpExtension, DWORD nBufferLength,
+                  char* lpBuffer, char** lpFilePart);
+int GetMenuStringW(HMENU hMenu, UINT uIDItem, LPWSTR lpString, int cchMax, UINT flags);
