@@ -2471,9 +2471,7 @@ LRESULT ControlWindowProc(wxWindow* w, WindowState& st, UINT msg, WPARAM wParam,
     case ControlKind::ListView:
         return ListViewProc(w, st, msg, wParam, lParam, handled);
     case ControlKind::Scintilla:
-        if (msg >= 2000 || msg == WM_GETTEXT || msg == WM_SETTEXT || msg == WM_GETTEXTLENGTH)
-            return ScintillaWindowProc(w, msg, wParam, lParam, handled);
-        break;
+        return ScintillaWindowProc(w, msg, wParam, lParam, handled);
     default:
         break;
     }
