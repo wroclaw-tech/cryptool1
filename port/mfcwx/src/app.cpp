@@ -270,6 +270,12 @@ int CWinApp::Run() { return wxTheApp ? wxTheApp->MainLoop() : 0; }
 
 BOOL CWinApp::OnIdle(LONG lCount) {
     if (lCount <= 0) {
+        if (m_pMainWnd && m_pMainWnd->m_hWnd && m_pMainWnd->IsKindOf(RUNTIME_CLASS(CFrameWnd))) {
+            auto* frame = static_cast<CFrameWnd*>(m_pMainWnd);
+            std::vector<CControlBar*> bars = frame->m_listControlBars;
+            for (CControlBar* bar : bars)
+                bar->OnUpdateCmdUI(frame, FALSE);
+        }
         for (CDocTemplate* t : m_templates) {
             POSITION pos = t->GetFirstDocPosition();
             while (pos)

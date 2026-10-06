@@ -145,11 +145,13 @@ void CDocument::SetTitle(const char* lpszTitle) {
 
 void CDocument::SetPathName(const char* lpszPathName, BOOL bAddToMRU) {
     m_strPathName = lpszPathName;
-    CString title = m_strPathName;
-    int slash = title.ReverseFind('\\');
-    if (slash >= 0)
-        title = title.Mid(slash + 1);
-    SetTitle(title);
+    int start = 0;
+    for (int i = 0; i < m_strPathName.GetLength(); ++i) {
+        char c = m_strPathName[i];
+        if (c == '\\' || c == '/' || c == ':')
+            start = i + 1;
+    }
+    SetTitle(m_strPathName.Mid(start));
     if (bAddToMRU && AfxGetApp())
         AfxGetApp()->AddToRecentFileList(lpszPathName);
 }
@@ -511,6 +513,9 @@ BEGIN_MESSAGE_MAP(CFrameWnd, CWnd)
     ON_WM_SETFOCUS()
     ON_UPDATE_COMMAND_UI(ID_VIEW_STATUS_BAR, &CFrameWnd::OnUpdateControlBarMenu)
     ON_UPDATE_COMMAND_UI(ID_VIEW_TOOLBAR, &CFrameWnd::OnUpdateControlBarMenu)
+    ON_UPDATE_COMMAND_UI(ID_INDICATOR_CAPS, &CFrameWnd::OnUpdateKeyIndicator)
+    ON_UPDATE_COMMAND_UI(ID_INDICATOR_NUM, &CFrameWnd::OnUpdateKeyIndicator)
+    ON_UPDATE_COMMAND_UI(ID_INDICATOR_SCRL, &CFrameWnd::OnUpdateKeyIndicator)
     ON_COMMAND_EX(ID_VIEW_STATUS_BAR, &CFrameWnd::OnBarCheck)
     ON_COMMAND_EX(ID_VIEW_TOOLBAR, &CFrameWnd::OnBarCheck)
     ON_COMMAND(ID_HELP, &CFrameWnd::OnHelp)
@@ -824,6 +829,16 @@ void CFrameWnd::OnUpdateControlBarMenu(CCmdUI* pCmdUI) {
         return;
     }
     pCmdUI->SetCheck(bar->IsWindowVisible());
+}
+
+void CFrameWnd::OnUpdateKeyIndicator(CCmdUI* pCmdUI) {
+    int vk = 0;
+    switch (pCmdUI->m_nID) {
+    case ID_INDICATOR_CAPS: vk = VK_CAPITAL; break;
+    case ID_INDICATOR_NUM: vk = VK_NUMLOCK; break;
+    case ID_INDICATOR_SCRL: vk = VK_SCROLL; break;
+    }
+    pCmdUI->Enable(vk && (::GetKeyState(vk) & 1));
 }
 
 BOOL CFrameWnd::OnBarCheck(UINT nID) {
@@ -1401,6 +1416,7 @@ IMPLEMENT_DYNAMIC(CStatusBar, CControlBar)
 
 CControlBar::CControlBar() : m_dwStyle(0), m_dwDockStyle(0) {}
 CSize CControlBar::CalcFixedLayout(BOOL, BOOL) { return CSize(0, 0); }
+void CControlBar::OnUpdateCmdUI(CFrameWnd*, BOOL) {}
 
 CToolBar::CToolBar() : m_nResourceID(0) {}
 
@@ -1526,6 +1542,8 @@ BOOL CStatusBar::SetIndicators(const UINT* lpIDArray, int nIDCount) {
             sb->SetStatusText(ToWx(text), i);
         }
         sb->SetStatusWidths(nIDCount, widths.data());
+        m_paneStyles.assign(static_cast<size_t>(nIDCount), SBPS_NORMAL);
+        m_paneTexts.assign(static_cast<size_t>(nIDCount), CString());
         return TRUE;
     });
 }
@@ -1555,20 +1573,30 @@ void CStatusBar::GetItemRect(int nIndex, LPRECT lpRect) const {
 }
 
 CString CStatusBar::GetPaneText(int nIndex) const {
+    if (nIndex >= 0 && static_cast<size_t>(nIndex) < m_paneStyles.size() && (m_paneStyles[static_cast<size_t>(nIndex)] & SBPS_DISABLED))
+        return m_paneTexts[static_cast<size_t>(nIndex)];
     return OnMain([&]() -> CString {
         auto* sb = wxDynamicCast(GetWx(), wxStatusBar);
-        return sb && nIndex < sb->GetFieldsCount() ? CStr(sb->GetStatusText(nIndex)) : CString();
+        return sb && nIndex >= 0 && nIndex < sb->GetFieldsCount() ? CStr(sb->GetStatusText(nIndex)) : CString();
     });
 }
 
 void CStatusBar::GetPaneText(int nIndex, CString& rString) const { rString = GetPaneText(nIndex); }
 
 BOOL CStatusBar::SetPaneText(int nIndex, const char* lpszNewText, BOOL) {
+    const char* text = lpszNewText ? lpszNewText : "";
     return OnMain([&]() -> BOOL {
         auto* sb = wxDynamicCast(GetWx(), wxStatusBar);
-        if (!sb || nIndex >= sb->GetFieldsCount())
+        if (!sb || nIndex < 0 || nIndex >= sb->GetFieldsCount())
             return FALSE;
-        sb->SetStatusText(ToWx(lpszNewText ? lpszNewText : ""), nIndex);
+        size_t i = static_cast<size_t>(nIndex);
+        if (i < m_paneStyles.size() && (m_paneStyles[i] & SBPS_DISABLED)) {
+            m_paneTexts[i] = text;
+            return TRUE;
+        }
+        wxString wxText = ToWx(text);
+        if (sb->GetStatusText(nIndex) != wxText)
+            sb->SetStatusText(wxText, nIndex);
         return TRUE;
     });
 }
@@ -1598,8 +1626,72 @@ void CStatusBar::SetPaneInfo(int nIndex, UINT nID, UINT nStyle, int cxWidth) {
     });
 }
 
-UINT CStatusBar::GetPaneStyle(int) const { return SBPS_NORMAL; }
-void CStatusBar::SetPaneStyle(int, UINT) {}
+UINT CStatusBar::GetPaneStyle(int nIndex) const {
+    return nIndex >= 0 && static_cast<size_t>(nIndex) < m_paneStyles.size() ? m_paneStyles[static_cast<size_t>(nIndex)] : SBPS_NORMAL;
+}
+
+void CStatusBar::SetPaneStyle(int nIndex, UINT nStyle) {
+    if (nIndex < 0 || static_cast<size_t>(nIndex) >= m_paneStyles.size())
+        return;
+    size_t i = static_cast<size_t>(nIndex);
+    bool wasDisabled = (m_paneStyles[i] & SBPS_DISABLED) != 0;
+    bool disabled = (nStyle & SBPS_DISABLED) != 0;
+    if (wasDisabled == disabled) {
+        m_paneStyles[i] = nStyle;
+        return;
+    }
+    CString text = GetPaneText(nIndex);
+    m_paneStyles[i] = nStyle & ~SBPS_DISABLED;
+    if (disabled) {
+        SetPaneText(nIndex, "");
+        m_paneTexts[i] = text;
+        m_paneStyles[i] = nStyle;
+    } else {
+        SetPaneText(nIndex, text);
+    }
+}
+
+namespace {
+
+class CStatusCmdUI : public CCmdUI {
+public:
+    void Enable(BOOL bOn) override {
+        m_bEnableChanged = TRUE;
+        auto* bar = static_cast<CStatusBar*>(m_pOther);
+        UINT style = bar->GetPaneStyle(static_cast<int>(m_nIndex)) & ~static_cast<UINT>(SBPS_DISABLED);
+        if (!bOn)
+            style |= SBPS_DISABLED;
+        bar->SetPaneStyle(static_cast<int>(m_nIndex), style);
+    }
+
+    void SetCheck(int nCheck) override {
+        auto* bar = static_cast<CStatusBar*>(m_pOther);
+        UINT style = bar->GetPaneStyle(static_cast<int>(m_nIndex)) & ~static_cast<UINT>(SBPS_POPOUT);
+        if (nCheck)
+            style |= SBPS_POPOUT;
+        bar->SetPaneStyle(static_cast<int>(m_nIndex), style);
+    }
+
+    void SetText(const char* lpszText) override { static_cast<CStatusBar*>(m_pOther)->SetPaneText(static_cast<int>(m_nIndex), lpszText); }
+};
+
+} // namespace
+
+void CStatusBar::OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler) {
+    if (!pTarget || !m_hWnd)
+        return;
+    CStatusCmdUI state;
+    state.m_pOther = this;
+    state.m_nIndexMax = static_cast<UINT>(m_indicators.size());
+    for (state.m_nIndex = 0; state.m_nIndex < state.m_nIndexMax; ++state.m_nIndex) {
+        state.m_nID = m_indicators[state.m_nIndex];
+        if (state.m_nID == 0)
+            continue;
+        if (CWnd::OnCmdMsg(state.m_nID, static_cast<int>(CN_UPDATE_COMMAND_UI), &state, nullptr))
+            continue;
+        state.DoUpdate(pTarget, bDisableIfNoHndler);
+    }
+}
 
 // ---------------------------------------------------------------------------------------------
 // Rich edit view/document

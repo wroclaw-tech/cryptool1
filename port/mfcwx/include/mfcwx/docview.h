@@ -210,6 +210,7 @@ public:
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg void OnSetFocus(CWnd* pOldWnd);
     afx_msg void OnUpdateControlBarMenu(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateKeyIndicator(CCmdUI* pCmdUI);
     afx_msg BOOL OnBarCheck(UINT nID);
     afx_msg void OnHelp();
     afx_msg void OnContextHelp();
@@ -383,6 +384,7 @@ public:
     BOOL IsFloating() const { return FALSE; }
     CFrameWnd* GetDockingFrame() const { return GetParentFrame(); }
     virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz);
+    virtual void OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler);
     DWORD m_dwStyle;
     DWORD m_dwDockStyle;
 };
@@ -452,8 +454,11 @@ public:
     void SetPaneStyle(int nIndex, UINT nStyle);
     CString GetText() const { return GetPaneText(0); }
     void SetText(const char* lpsz) { SetPaneText(0, lpsz); }
+    void OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler) override;
 
     std::vector<UINT> m_indicators;
+    std::vector<UINT> m_paneStyles;
+    std::vector<CString> m_paneTexts;
 };
 
 class CDialogBar : public CControlBar {
