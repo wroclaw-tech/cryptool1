@@ -29,4 +29,28 @@ if(MFCWX_TESTS)
     target_compile_options(mfcwx_runtime_tests PRIVATE ${wxWidgets_CXX_FLAGS})
     target_link_libraries(mfcwx_runtime_tests PRIVATE ${wxWidgets_LIBRARIES} Threads::Threads ${CMAKE_DL_LIBS})
     add_test(NAME mfcwx_runtime_tests COMMAND mfcwx_runtime_tests)
+
+    # GDI tests: render through CDC into bitmaps, check pixels and write PNGs for inspection.
+    set(MFCWX_GDI_SOURCES gdi.cpp gdi_bits.cpp gdi_dc.cpp gdi_text.cpp codepage.cpp codepage_tables.cpp cstring.cpp)
+    list(TRANSFORM MFCWX_GDI_SOURCES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/src/)
+    add_executable(mfcwx_gdi_tests tests/gdi_tests.cpp tests/gdi_test_stubs.cpp ${MFCWX_GDI_SOURCES})
+    target_include_directories(mfcwx_gdi_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    target_include_directories(mfcwx_gdi_tests SYSTEM PRIVATE ${wxWidgets_INCLUDE_DIRS})
+    target_compile_features(mfcwx_gdi_tests PRIVATE cxx_std_14)
+    target_compile_definitions(mfcwx_gdi_tests PRIVATE ${wxWidgets_DEFINITIONS} MFCWX=1)
+    target_compile_options(mfcwx_gdi_tests PRIVATE ${wxWidgets_CXX_FLAGS})
+    target_link_libraries(mfcwx_gdi_tests PRIVATE ${wxWidgets_LIBRARIES} Threads::Threads ${CMAKE_DL_LIBS})
+    add_test(NAME mfcwx_gdi_tests COMMAND mfcwx_gdi_tests ${CMAKE_CURRENT_BINARY_DIR}/gdi_test_output)
+
+    # Scintilla proxy; tests/scintilla_tests.cpp records the notifications it sends.
+    add_executable(mfcwx_scintilla_tests tests/scintilla_tests.cpp src/scintilla.cpp src/codepage.cpp
+                   src/codepage_tables.cpp)
+    target_include_directories(mfcwx_scintilla_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+                               ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    target_include_directories(mfcwx_scintilla_tests SYSTEM PRIVATE ${wxWidgets_INCLUDE_DIRS})
+    target_compile_features(mfcwx_scintilla_tests PRIVATE cxx_std_14)
+    target_compile_definitions(mfcwx_scintilla_tests PRIVATE ${wxWidgets_DEFINITIONS} MFCWX=1)
+    target_compile_options(mfcwx_scintilla_tests PRIVATE ${wxWidgets_CXX_FLAGS})
+    target_link_libraries(mfcwx_scintilla_tests PRIVATE ${wxWidgets_LIBRARIES} Threads::Threads)
+    add_test(NAME mfcwx_scintilla_tests COMMAND mfcwx_scintilla_tests)
 endif()

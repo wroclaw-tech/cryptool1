@@ -874,3 +874,72 @@ BOOL GetDiskFreeSpaceExA(LPCSTR dir, PULARGE_INTEGER freeToCaller, PULARGE_INTEG
         totalFree->QuadPart = unit * vfs.f_bfree;
     return TRUE;
 }
+
+DWORD SearchPathA(const char* lpPath, const char* lpFileName, const char* lpExtension, DWORD nBufferLength,
+                  char* lpBuffer, char** lpFilePart) {
+    if (!lpFileName || !*lpFileName) {
+        SetLastError(87);
+        return 0;
+    }
+    std::string name = lpFileName;
+    size_t slash = name.find_last_of("\\/");
+    if (lpExtension && *lpExtension && name.find('.', slash == std::string::npos ? 0 : slash) == std::string::npos)
+        name += lpExtension;
+    std::vector<std::string> dirs;
+    bool absolute = name[0] == '\\' || name[0] == '/' || (name.size() > 1 && name[1] == ':');
+    if (absolute) {
+        dirs.push_back(std::string());
+    } else if (lpPath && *lpPath) {
+        std::string list = lpPath;
+        for (size_t start = 0; start <= list.size();) {
+            size_t sep = list.find(';', start);
+            std::string dir = list.substr(start, sep == std::string::npos ? std::string::npos : sep - start);
+            if (!dir.empty())
+                dirs.push_back(dir);
+            if (sep == std::string::npos)
+                break;
+            start = sep + 1;
+        }
+    } else {
+        std::string exe = ExecutablePath();
+        size_t s = exe.rfind('/');
+        if (s != std::string::npos)
+            dirs.push_back(AppPath(exe.substr(0, s).c_str()));
+        dirs.push_back(AppPath(CurrentDirectory().c_str()));
+        dirs.push_back(AppPath(GetDataDirectory().c_str()));
+        const char* env = getenv("PATH");
+        std::string list = env ? env : "";
+        for (size_t start = 0; start <= list.size();) {
+            size_t sep = list.find(':', start);
+            std::string dir = list.substr(start, sep == std::string::npos ? std::string::npos : sep - start);
+            if (!dir.empty())
+                dirs.push_back(AppPath(dir.c_str()));
+            if (sep == std::string::npos)
+                break;
+            start = sep + 1;
+        }
+    }
+    for (const std::string& dir : dirs) {
+        std::string candidate = dir.empty() ? name : dir + "\\" + name;
+        struct stat st;
+        if (stat(FsPath(candidate.c_str()).c_str(), &st) != 0 || S_ISDIR(st.st_mode))
+            continue;
+        std::string full = FullAppPath(candidate.c_str());
+        DWORD r = CopyResult(full, lpBuffer, nBufferLength);
+        if (lpFilePart) {
+            *lpFilePart = nullptr;
+            if (lpBuffer && r < nBufferLength) {
+                char* sep = strrchr(lpBuffer, '\\');
+                *lpFilePart = sep ? sep + 1 : lpBuffer;
+            }
+        }
+        return r;
+    }
+    SetLastError(ERROR_FILE_NOT_FOUND);
+    return 0;
+}
+
+DWORD SearchPath(const char* lpPath, const char* lpFileName, const char* lpExtension, DWORD nBufferLength,
+                 char* lpBuffer, char** lpFilePart) {
+    return SearchPathA(lpPath, lpFileName, lpExtension, nBufferLength, lpBuffer, lpFilePart);
+}

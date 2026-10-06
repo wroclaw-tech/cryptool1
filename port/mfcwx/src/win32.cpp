@@ -483,6 +483,33 @@ std::vector<Module*>& Modules() {
 
 char g_mainModuleTag;
 
+std::vector<std::string>& BuiltinNames() {
+    static auto* v = new std::vector<std::string>{"scilexer.dll", "scintilla.dll"};
+    return *v;
+}
+
+std::string BaseName(const char* path) {
+    std::string s = path ? path : "";
+    size_t slash = s.find_last_of("\\/");
+    return slash == std::string::npos ? s : s.substr(slash + 1);
+}
+
+// Must be called with ModuleLock held.
+Module* BuiltinModuleLocked(const char* name) {
+    std::string base = BaseName(name);
+    bool known = false;
+    for (const std::string& b : BuiltinNames())
+        known = known || strcasecmp(b.c_str(), base.c_str()) == 0;
+    if (!known)
+        return nullptr;
+    for (Module* m : Modules())
+        if (!m->dl && strcasecmp(m->path.c_str(), base.c_str()) == 0)
+            return m;
+    auto* m = new Module{nullptr, base, 0};
+    Modules().push_back(m);
+    return m;
+}
+
 Module* FindModuleLocked(HMODULE h) {
     for (Module* m : Modules())
         if (reinterpret_cast<HMODULE>(m) == h)
@@ -644,6 +671,16 @@ HGLOBAL GlobalFromData(const void* data, size_t size, UINT flags) {
 
 bool GlobalIsValid(HGLOBAL h) { return GlobalHeaderOf(h) != nullptr; }
 
+void RegisterBuiltinModule(const char* baseName) {
+    if (!baseName || !*baseName)
+        return;
+    std::lock_guard<std::mutex> lk(ModuleLock());
+    for (const std::string& b : BuiltinNames())
+        if (strcasecmp(b.c_str(), baseName) == 0)
+            return;
+    BuiltinNames().push_back(baseName);
+}
+
 void SetCommandLineOverride(const char* commandLine) {
     std::lock_guard<std::mutex> lk(CommandLineLock());
     CommandLineStore() = commandLine ? commandLine : "";
@@ -713,15 +750,12 @@ BOOL SystemTimeToFileTime(const SYSTEMTIME* st, LPFILETIME ft) {
         SetLastError(87);
         return FALSE;
     }
-    struct tm tm;
-    memset(&tm, 0, sizeof tm);
-    tm.tm_year = st->wYear - 1900;
-    tm.tm_mon = st->wMonth - 1;
-    tm.tm_mday = st->wDay;
-    tm.tm_hour = st->wHour;
-    tm.tm_min = st->wMinute;
-    tm.tm_sec = st->wSecond;
-    time_t t = timegm(&tm);
+    long long y = st->wYear - (st->wMonth <= 2);
+    long long era = (y >= 0 ? y : y - 399) / 400;
+    long long yoe = y - era * 400;
+    long long doy = (153 * (st->wMonth > 2 ? st->wMonth - 3 : st->wMonth + 9) + 2) / 5 + st->wDay - 1;
+    long long days = era * 146097 + yoe * 365 + yoe / 4 - yoe / 100 + doy - 719468;
+    time_t t = static_cast<time_t>(days * 86400 + st->wHour * 3600 + st->wMinute * 60 + st->wSecond);
     *ft = MakeFileTime(t, static_cast<long>(st->wMilliseconds) * 1000000L);
     return TRUE;
 }
@@ -1171,6 +1205,13 @@ HMODULE LoadLibraryExA(LPCSTR name, HANDLE, DWORD) {
         SetLastError(87);
         return nullptr;
     }
+    {
+        std::lock_guard<std::mutex> lk(ModuleLock());
+        if (Module* m = BuiltinModuleLocked(name)) {
+            ++m->refs;
+            return reinterpret_cast<HMODULE>(m);
+        }
+    }
     std::string path = FsPath(name);
     void* dl = dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL);
     if (!dl) {
@@ -1196,6 +1237,11 @@ BOOL FreeLibrary(HMODULE mod) {
         SetLastError(ERROR_INVALID_HANDLE);
         return FALSE;
     }
+    if (!m->dl) {
+        if (m->refs > 0)
+            --m->refs;
+        return TRUE;
+    }
     if (--m->refs == 0) {
         dlclose(m->dl);
         Modules().erase(std::find(Modules().begin(), Modules().end(), m));
@@ -1213,6 +1259,10 @@ FARPROC GetProcAddress(HMODULE mod, LPCSTR name) {
     {
         std::lock_guard<std::mutex> lk(ModuleLock());
         Module* m = FindModuleLocked(mod);
+        if (m && !m->dl) {
+            SetLastError(127);
+            return nullptr;
+        }
         dl = m ? m->dl : RTLD_DEFAULT;
     }
     void* sym = dlsym(dl, name);
@@ -1231,6 +1281,8 @@ HMODULE GetModuleHandleA(LPCSTR name) {
     if (slash != std::string::npos)
         wanted = wanted.substr(slash + 1);
     std::lock_guard<std::mutex> lk(ModuleLock());
+    if (Module* m = BuiltinModuleLocked(name))
+        return reinterpret_cast<HMODULE>(m);
     for (Module* m : Modules()) {
         size_t s = m->path.rfind('/');
         std::string base = m->path.substr(s == std::string::npos ? 0 : s + 1);
@@ -1252,7 +1304,7 @@ DWORD GetModuleFileNameA(HMODULE mod, LPSTR buffer, DWORD size) {
     {
         std::lock_guard<std::mutex> lk(ModuleLock());
         if (Module* m = FindModuleLocked(mod))
-            path = m->path;
+            path = m->dl ? m->path : std::string();
     }
     if (path.empty())
         path = ExecutablePath();

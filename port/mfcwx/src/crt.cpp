@@ -1,4 +1,5 @@
 #include "afx.h"
+#include "process.h"
 #include "runtime.h"
 
 #include <algorithm>
@@ -797,5 +798,53 @@ int _findclose(intptr_t handle) {
         errno = ENOENT;
         return -1;
     }
+    return 0;
+}
+
+int mfcwx_memicmp(const void* a, const void* b, size_t n) {
+    const unsigned char* p = static_cast<const unsigned char*>(a);
+    const unsigned char* q = static_cast<const unsigned char*>(b);
+    for (size_t i = 0; i < n; ++i) {
+        int d = tolower(p[i]) - tolower(q[i]);
+        if (d)
+            return d;
+    }
+    return 0;
+}
+
+intptr_t _spawnl(int mode, const char* cmdname, const char* arg0, ...) {
+    if (!cmdname) {
+        errno = EINVAL;
+        return -1;
+    }
+    // Like the Microsoft CRT, the arguments are joined with spaces into one command line.
+    std::string cmd = arg0 ? arg0 : cmdname;
+    va_list ap;
+    va_start(ap, arg0);
+    if (arg0)
+        for (const char* a = va_arg(ap, const char*); a; a = va_arg(ap, const char*))
+            cmd += std::string(" ") + a;
+    va_end(ap);
+    STARTUPINFO si;
+    memset(&si, 0, sizeof si);
+    si.cb = sizeof si;
+    PROCESS_INFORMATION pi;
+    if (!CreateProcessA(cmdname, &cmd[0], nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &pi)) {
+        errno = GetLastError() == ERROR_FILE_NOT_FOUND ? ENOENT : ENOEXEC;
+        return -1;
+    }
+    CloseHandle(pi.hThread);
+    if (mode == _P_WAIT) {
+        DWORD code = 0;
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        GetExitCodeProcess(pi.hProcess, &code);
+        CloseHandle(pi.hProcess);
+        return static_cast<intptr_t>(code);
+    }
+    if (mode == _P_OVERLAY)
+        exit(0);
+    if (mode == _P_NOWAIT || mode == _P_NOWAITO)
+        return reinterpret_cast<intptr_t>(pi.hProcess);
+    CloseHandle(pi.hProcess);
     return 0;
 }

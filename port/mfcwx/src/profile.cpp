@@ -485,7 +485,7 @@ BOOL WritePrivateProfileStringA(LPCSTR app, LPCSTR key, LPCSTR value, LPCSTR fil
             insertAt = i + 1;
         if (KeyValue(ini.lines[i], k, v) && strcasecmp(k.c_str(), key) == 0) {
             if (value)
-                ini.lines[i] = entry;
+                ini.lines[i] = k + "=" + value;
             else
                 ini.lines.erase(ini.lines.begin() + static_cast<long>(i));
             return SaveIni(path, ini) ? TRUE : FALSE;
@@ -707,10 +707,12 @@ LONG CRegKey::QueryDWORDValue(const char* pszValueName, DWORD& dwValue) {
     DWORD size = sizeof(DWORD);
     DWORD value = 0;
     LONG r = RegQueryValueExA(m_hKey, pszValueName, nullptr, &type, reinterpret_cast<LPBYTE>(&value), &size);
-    if (r != ERROR_SUCCESS)
+    if (r != ERROR_SUCCESS && r != ERROR_MORE_DATA)
         return r;
     if (type != REG_DWORD)
         return 13;
+    if (r != ERROR_SUCCESS)
+        return r;
     dwValue = value;
     return ERROR_SUCCESS;
 }

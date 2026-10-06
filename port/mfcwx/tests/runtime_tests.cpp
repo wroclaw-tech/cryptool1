@@ -6,6 +6,8 @@
 #include "afxmt.h"
 #include "afxole.h"
 #include "afxwin.h"
+#include "process.h"
+#include "runtime.h"
 
 #include <atomic>
 #include <string>
@@ -324,9 +326,15 @@ void TestFind() {
     CHECK(count == 6);
     CHECK(dots);
     fh = FindFirstFile(App("find\\*.").c_str(), &wfd);
-    CHECK(fh != INVALID_HANDLE_VALUE && strcmp(wfd.cFileName, "noext") == 0);
-    if (fh != INVALID_HANDLE_VALUE)
+    CHECK(fh != INVALID_HANDLE_VALUE);
+    std::vector<std::string> noExt;
+    if (fh != INVALID_HANDLE_VALUE) {
+        do
+            noExt.push_back(wfd.cFileName);
+        while (FindNextFile(fh, &wfd));
         FindClose(fh);
+    }
+    CHECK(noExt.size() == 3 && noExt[0] == "." && noExt[1] == ".." && noExt[2] == "noext");
 
     CFileFind finder;
     int files = 0;
@@ -788,6 +796,12 @@ void TestProcesses() {
     CHECK(!CreateProcess(nullptr, missing, nullptr, nullptr, FALSE, 0, nullptr, nullptr, nullptr, &pi));
     CHECK(GetLastError() == ERROR_FILE_NOT_FOUND);
     CHECK(WinExec("/usr/bin/true", SW_HIDE) > 31);
+    CHECK(_spawnl(_P_WAIT, "/bin/sh", "sh", "-c", "\"exit 4\"", nullptr) == 4);
+    char found[MAX_PATH];
+    char* part = nullptr;
+    CHECK(SearchPath(nullptr, "sh", nullptr, sizeof found, found, &part) > 0 && part && strcmp(part, "sh") == 0);
+    CHECK(found[0] == '\\');
+    CHECK(SearchPath(nullptr, "AESTool.exe", nullptr, sizeof found, found, &part) == 0);
     CHECK(reinterpret_cast<intptr_t>(ShellExecute(nullptr, "open", "/no/such/file.xyz", nullptr, nullptr, SW_SHOW)) <= 32);
 }
 
@@ -954,7 +968,13 @@ void TestWin32() {
     CHECK(GetUserName(buf, &size) && size == strlen(buf) + 1);
     size = sizeof buf;
     CHECK(GetComputerName(buf, &size) && size == strlen(buf));
-    CHECK(LoadLibrary("SciLexer.dll") == nullptr && GetLastError() == 126);
+    CHECK(LoadLibrary("NoSuchLib.dll") == nullptr && GetLastError() == 126);
+    HMODULE sci = LoadLibrary("SciLexer.DLL");
+    CHECK(sci != nullptr && GetModuleHandle("scilexer.dll") == sci);
+    CHECK(GetProcAddress(sci, "Scintilla_DirectFunction") == nullptr);
+    CHECK(FreeLibrary(sci));
+    mfcwx::RegisterBuiltinModule("extra.dll");
+    CHECK(LoadLibraryEx("C:\\x\\EXTRA.dll", nullptr, 0) != nullptr);
     CHECK(GetModuleHandle(nullptr) != nullptr);
 
     CTime ct(2024, 3, 5, 7, 8, 9);

@@ -33,6 +33,9 @@ std::string AbsoluteNativePath(const char* appPath);
 std::string FullAppPath(const char* appPath);
 
 std::string ExecutablePath();
+// LoadLibrary/GetModuleHandle succeed for this DLL base name (case-insensitive) with a pseudo module
+// whose GetProcAddress returns NULL; used for libraries built into the toolkit (Scintilla).
+void RegisterBuiltinModule(const char* baseName);
 std::string TempDirectory();
 std::string UserConfigDirectory();
 void SetCommandLineOverride(const char* commandLine);
