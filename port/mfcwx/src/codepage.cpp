@@ -1,6 +1,9 @@
 #include "bridge.h"
 
 #include <atomic>
+#include <dirent.h>
+#include <strings.h>
+#include <sys/stat.h>
 #include <cstdint>
 #include <unordered_map>
 
@@ -118,6 +121,50 @@ std::string Utf8ToAnsi(const char* utf8) {
     return FromWx(wxString::FromUTF8(utf8));
 }
 
+namespace {
+
+bool Exists(const std::string& p) {
+    struct stat st;
+    return stat(p.c_str(), &st) == 0;
+}
+
+// Windows file names are case-insensitive; find the spelling used on disk, component by component.
+std::string ResolveCase(const std::string& path) {
+    if (path.empty() || Exists(path))
+        return path;
+    std::string resolved = path[0] == '/' ? "/" : "";
+    size_t pos = path[0] == '/' ? 1 : 0;
+    while (pos <= path.size()) {
+        size_t next = path.find('/', pos);
+        std::string part = path.substr(pos, next == std::string::npos ? std::string::npos : next - pos);
+        pos = next == std::string::npos ? path.size() + 1 : next + 1;
+        if (part.empty())
+            continue;
+        std::string candidate = resolved + part;
+        if (!Exists(candidate)) {
+            DIR* dir = opendir(resolved.empty() ? "." : resolved.c_str());
+            if (!dir)
+                return path;
+            std::string match;
+            while (dirent* e = readdir(dir))
+                if (strcasecmp(e->d_name, part.c_str()) == 0) {
+                    match = e->d_name;
+                    break;
+                }
+            closedir(dir);
+            if (match.empty())
+                return path;
+            candidate = resolved + match;
+        }
+        resolved = candidate;
+        if (pos <= path.size())
+            resolved += '/';
+    }
+    return resolved;
+}
+
+} // namespace
+
 std::string NativePath(const char* path) {
     if (!path)
         return std::string();
@@ -133,9 +180,9 @@ std::string NativePath(const char* path) {
             ascii = false;
             break;
         }
-    if (ascii)
-        return p;
-    return std::string(ToWx(p.c_str()).utf8_str());
+    if (!ascii)
+        p = std::string(ToWx(p.c_str()).utf8_str());
+    return ResolveCase(p);
 }
 
 } // namespace mfcwx

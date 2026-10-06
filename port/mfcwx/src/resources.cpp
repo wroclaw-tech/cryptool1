@@ -17,6 +17,7 @@ struct ResourceContext {
     std::vector<const rc::Module*> modules;
     std::string language = "en";
     std::string dataDir;
+    std::string defaultDataDir;
     std::mutex bitmapMutex;
     std::unordered_map<std::string, wxBitmap> bitmapCache;
 };
@@ -183,11 +184,21 @@ const rc::VersionInfo* GetVersionInfo() {
 
 std::string GetDataDirectory() {
     if (Ctx().dataDir.empty()) {
-        wxString dir = wxStandardPaths::Get().GetResourcesDir();
-        Ctx().dataDir = std::string(dir.utf8_str());
+        wxString env;
+        if (wxGetEnv("MFCWX_DATA_DIR", &env) && wxDirExists(env)) {
+            Ctx().dataDir = std::string(env.utf8_str());
+        } else {
+            wxString installed = wxStandardPaths::Get().GetResourcesDir();
+            if (wxDirExists(installed + "/res") || Ctx().defaultDataDir.empty())
+                Ctx().dataDir = std::string(installed.utf8_str());
+            else
+                Ctx().dataDir = Ctx().defaultDataDir;
+        }
     }
     return Ctx().dataDir;
 }
+
+void SetDefaultDataDirectory(const std::string& dir) { Ctx().defaultDataDir = dir; }
 
 void SetDataDirectory(const std::string& dir) { Ctx().dataDir = dir; }
 

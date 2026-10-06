@@ -48,6 +48,7 @@ const rc::VersionInfo* GetVersionInfo();
 // Directory holding the application's data files (res/, help, pse, examples, ...).
 std::string GetDataDirectory();
 void SetDataDirectory(const std::string& dir);
+void SetDefaultDataDirectory(const std::string& dir);
 
 wxBitmap LoadBitmapResource(const ResRef& ref);
 wxIcon LoadIconResource(const ResRef& ref);
@@ -162,22 +163,47 @@ struct CurrentMessage {
 CurrentMessage* GetCurrentMessageSlot();
 
 // ---------------------------------------------------------------------------------------------
-// GDI (gdi.cpp)
+// GDI (gdi.cpp, gdi_dc.cpp, gdi_text.cpp, gdi_bits.cpp)
 
 struct GdiObjectImpl;
-// HGDIOBJ values are CGdiObject* for application-created objects and stock objects.
+// HGDIOBJ values point to refcounted GdiObjectImpl objects (stock objects are never freed);
+// (HBRUSH)(COLOR_xxx + 1) values are accepted wherever Win32 accepts them. HDC values point to
+// a DCState; CDC::m_hDC holds it.
 wxPen PenFromHandle(HPEN h);
 wxBrush BrushFromHandle(HBRUSH h);
 wxFont FontFromHandle(HFONT h);
+// The bitmap is deselected from a memory DC first so its pixels are current; null if invalid.
 wxBitmap* BitmapFromHandle(HBITMAP h);
 HFONT DefaultGuiFont();
 wxColour ToWxColour(COLORREF c);
 COLORREF FromWxColour(const wxColour& c);
 COLORREF SysColor(int index);
+// A new HBITMAP owning a copy of bmp, as if created by CreateBitmap (freed by DeleteObject).
+HBITMAP CreateBitmapHandle(const wxBitmap& bmp);
+// A shared, never deleted HFONT describing font (for WM_GETFONT of controls using wx fonts).
+HFONT FontHandleFor(const wxFont& font);
+// HICON values are wxIcon* owned by the icon loader.
+inline wxIcon* IconFromHandle(HICON h) { return reinterpret_cast<wxIcon*>(h); }
 
 // Wraps a wx DC that is owned elsewhere (e.g. a wxPaintDC in an event handler) as CDC.
+// Wrapping a wxPaintDC registers it as the window's paint DC until UnwrapDC: CPaintDC, CClientDC
+// and GetDC created for that window meanwhile draw through it instead of creating another
+// wxPaintDC (nested native paint contexts must be destroyed in LIFO order on macOS).
 CDC* WrapDC(wxDC* dc, wxWindow* window);
 void UnwrapDC(CDC* cdc);
+// Deletes the temporary CGdiObject/CDC wrappers made by FromHandle and releases the native DCs of
+// GetDC handles that were not released; call on idle.
+void PurgeTemporaryGdiWrappers();
+
+// Drawing through CClientDC/GetDC outside a paint event is not visible on macOS (and Wayland), so
+// it goes to a per-window transparent overlay bitmap and the window is refreshed. The paint bridge
+// must call PaintClientDCOverlay(window, dc) at the end of every paint event (after WM_PAINT, with
+// the event's paint DC); it also ends DCs obtained during that paint. ClearClientDCOverlay drops
+// the overlay (or clears rect, in client coordinates) and is called on Invalidate/InvalidateRect
+// and size changes.
+void PaintClientDCOverlay(wxWindow* window, wxDC& dc);
+bool HasClientDCOverlay(wxWindow* window);
+void ClearClientDCOverlay(wxWindow* window, const wxRect* rect = nullptr);
 
 // ---------------------------------------------------------------------------------------------
 // Menus (menu.cpp)

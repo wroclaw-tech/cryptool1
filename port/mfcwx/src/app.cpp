@@ -1,9 +1,12 @@
 #include "windows_impl.h"
 
 #include "afxdlgs.h"
+#include "mfcwx/app.h"
+#include "runtime.h"
 
 #include <wx/cmdline.h>
 #include <wx/msgdlg.h>
+#include <wx/intl.h>
 #include <wx/stdpaths.h>
 
 namespace mfcwx {
@@ -40,6 +43,47 @@ std::string ArgsToCommandLine(int argc, wxChar** argv) {
     return line;
 }
 
+std::string ChooseLanguage() {
+    std::vector<std::string> available = AvailableResourceLanguages();
+    auto has = [&](const std::string& code) {
+        return std::find(available.begin(), available.end(), code) != available.end();
+    };
+    wxString env;
+    if (wxGetEnv("MFCWX_LANG", &env) && has(std::string(env.utf8_str())))
+        return std::string(env.utf8_str());
+    HKEY key = nullptr;
+    if (RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\mfcwx", 0, KEY_READ, &key) == ERROR_SUCCESS) {
+        char buf[16] = {0};
+        DWORD size = sizeof buf - 1, type = 0;
+        LONG r = RegQueryValueEx(key, "Language", nullptr, &type, reinterpret_cast<LPBYTE>(buf), &size);
+        RegCloseKey(key);
+        if (r == ERROR_SUCCESS && has(buf))
+            return buf;
+    }
+    const wxLanguageInfo* info = wxLocale::GetLanguageInfo(wxLocale::GetSystemLanguage());
+    std::string code = info ? std::string(info->CanonicalName.Left(2).Lower().utf8_str()) : "en";
+    if (code == "sr")
+        code = "rs";
+    return has(code) ? code : "en";
+}
+
+void PrepareEnvironment(int argc, wxChar** argv) {
+    SetResourceLanguage(ChooseLanguage().c_str());
+    std::string temp = TempDirectory();
+    std::string tempApp = AppPath(temp.c_str());
+    while (!tempApp.empty() && tempApp.back() == '\\')
+        tempApp.pop_back();
+    wxSetEnv("TEMP", ToWx(tempApp.c_str()));
+    wxSetEnv("TMP", ToWx(tempApp.c_str()));
+    // The Windows code locates its data files next to the program it finds in the command line.
+    std::string program = AppPath((GetDataDirectory() + "/CrypTool").c_str());
+    std::string commandLine = "\"" + program + "\"";
+    std::string args = ArgsToCommandLine(argc, argv);
+    if (!args.empty())
+        commandLine += " " + args;
+    SetCommandLineOverride(commandLine.c_str());
+}
+
 bool MfcWxApp::OnInit() {
     wxInitAllImageHandlers();
     SetAppName("CrypTool");
@@ -47,6 +91,7 @@ bool MfcWxApp::OnInit() {
     CWinApp* app = AppInstance();
     if (!app)
         return false;
+    PrepareEnvironment(argc, argv);
     static std::string cmdLine = ArgsToCommandLine(argc, argv);
     app->m_lpCmdLine = &cmdLine[0];
     app->m_nCmdShow = SW_SHOWNORMAL;
