@@ -261,6 +261,8 @@ extern "C" {
 #define _tmain main
 #define _tWinMain WinMain
 
+extern int __argc;
+extern char** __argv;
 int mfcwx_open(const char* name, int flags, ...);
 int mfcwx_memicmp(const void* a, const void* b, size_t n);
 int mfcwx_unlink(const char* name);

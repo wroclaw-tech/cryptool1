@@ -34,3 +34,8 @@ if(TARGET secude_compat)
 endif()
 add_subdirectory(port/mfcwx)
 add_subdirectory(port/app)
+
+option(CRYPTOOL_DIALOG_GALLERY "Build the dialog snapshot tool" OFF)
+if(CRYPTOOL_DIALOG_GALLERY)
+    add_subdirectory(port/tools/gallery)
+endif()

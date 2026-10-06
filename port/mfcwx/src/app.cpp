@@ -9,6 +9,9 @@
 #include <wx/intl.h>
 #include <wx/stdpaths.h>
 
+int __argc = 0;
+char** __argv = nullptr;
+
 namespace mfcwx {
 
 CWinApp*& AppInstance() {
@@ -92,6 +95,15 @@ bool MfcWxApp::OnInit() {
     if (!app)
         return false;
     PrepareEnvironment(argc, argv);
+    static std::vector<std::string> ansiArgs;
+    static std::vector<char*> argPointers;
+    for (int i = 0; i < argc; ++i)
+        ansiArgs.push_back(FromWx(wxString(argv[i])));
+    for (std::string& a : ansiArgs)
+        argPointers.push_back(&a[0]);
+    argPointers.push_back(nullptr);
+    __argc = argc;
+    __argv = argPointers.data();
     static std::string cmdLine = ArgsToCommandLine(argc, argv);
     app->m_lpCmdLine = &cmdLine[0];
     app->m_nCmdShow = SW_SHOWNORMAL;
