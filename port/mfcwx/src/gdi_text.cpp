@@ -1,5 +1,9 @@
 #include "gdi_internal.h"
 
+#ifdef __WXOSX__
+#include <CoreText/CoreText.h>
+#endif
+
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -419,6 +423,15 @@ DeviceMetrics GetDeviceMetrics(DCState* s, wxDC* dc) {
     m.descent = fm.descent;
     m.height = fm.height - m.externalLeading;
     m.ascent = m.height - m.descent;
+#ifdef __WXOSX__
+    // Core Graphics puts the baseline at ceil(top + ascent); wx's integer metrics round differently.
+    if (CTFontRef ct = dc->GetFont().OSXGetCTFont()) {
+        m.ascent = static_cast<int>(std::ceil(CTFontGetAscent(ct) - 1e-3));
+        m.descent = static_cast<int>(std::ceil(CTFontGetDescent(ct) - 1e-3));
+        m.externalLeading = static_cast<int>(std::lround(CTFontGetLeading(ct)));
+        m.height = m.ascent + m.descent;
+    }
+#endif
     double sx, sy;
     s->Scales(sx, sy);
     double em = FontEmPixels(s->a.font) * (IsStockFont(s->a.font) ? 1.0 : std::fabs(sy));

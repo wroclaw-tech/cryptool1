@@ -2015,7 +2015,21 @@ int GetDeviceCaps(HDC hdc, int index) {
     DCState* s = DCFromHandle(hdc);
     int dpi = s ? s->Dpi() : 96;
     bool printing = s && s->owner && s->owner->m_bPrinting && s->dc;
-    wxSize res = printing ? s->dc->GetSize() : wxGetDisplaySize();
+    wxSize res;
+    switch (index) {
+    case HORZSIZE:
+    case VERTSIZE:
+    case HORZRES:
+    case VERTRES:
+    case 110:
+    case 111:
+    case 117:
+    case 118:
+        res = printing ? s->dc->GetSize() : wxGetDisplaySize();
+        break;
+    default:
+        break;
+    }
     switch (index) {
     case 2:
         return printing ? 2 : 1;

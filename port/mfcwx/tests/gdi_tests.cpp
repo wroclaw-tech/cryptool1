@@ -867,6 +867,8 @@ void TestWindows() {
     PurgeTemporaryGdiWrappers();
 }
 
+} // namespace
+
 class TestApp : public wxApp {
 public:
     bool OnInit() override {
@@ -902,8 +904,6 @@ public:
         return g_failures ? 1 : 0;
     }
 };
-
-} // namespace
 
 wxIMPLEMENT_APP_NO_MAIN(TestApp);
 
