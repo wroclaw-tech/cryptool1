@@ -40,6 +40,10 @@ the OpenSSL legacy provider and with `SECUDE_COMPAT_NO_LEGACY_PROVIDER=1`.
 | `rsa_aid` (2.5.8.1.1, INTEGER keysize), `rsaEncryption_aid` | OpenSSL BIGNUM |
 | `dsa_aid` (1.3.14.3.2.12, Dss-Parms) | OpenSSL BIGNUM |
 
+The legacy provider is loaded into a private `OSSL_LIB_CTX`; whatever it
+does not offer (all of it if it is missing, IDEA on Debian) is served by the
+built-in implementations, which the tests cross-check against OpenSSL.
+
 Notes on behaviour that CrypTool relies on:
 
 * Hash results are always written to freshly allocated `octets`; input and

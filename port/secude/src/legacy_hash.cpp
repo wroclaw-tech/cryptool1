@@ -152,6 +152,8 @@ void md5_transform(uint32_t state[4], const uint8_t *block)
 template <class Ctx, void (*Transform)(uint32_t *, const uint8_t *)>
 void md_update(Ctx *c, const uint8_t *p, size_t n)
 {
+    if (n == 0)
+        return;
     size_t index = (c->count[0] >> 3) & 0x3f;
     uint64_t bits = (uint64_t(c->count[1]) << 32 | c->count[0]) + (uint64_t(n) << 3);
     c->count[0] = uint32_t(bits);
@@ -460,6 +462,8 @@ void sec_MD2Init(SEC_MD2_CTX *context)
 
 void sec_MD2Update(SEC_MD2_CTX *context, unsigned char *input, sec_uint4 inputLen)
 {
+    if (inputLen == 0)
+        return;
     unsigned index = context->count;
     context->count = (index + inputLen) & 0xf;
     unsigned part = 16 - index;
