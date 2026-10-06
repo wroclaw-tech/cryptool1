@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgCrtTransformation.h"
-#include ".\dlgcrttransformation.h"
+#include "DlgCrtTransformation.h"
 #include "big.h"
 #include "crt.h"
 #include "IntegerArithmetic.h"
@@ -94,25 +94,25 @@ void CDlgCrtTransformation::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgCrtTransformation, CDialog)
-	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_BUTTONSOLVE, OnBnClickedCrtTransformationButtonsolve)
-	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_BUTTONRESET2, OnBnClickedCrtTransformationButtonreset)
-	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_BUTTONEND2, OnBnClickedCrtTransformationButtonend)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITA0, OnEnChangeCrtTransformationEdita0)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITA1, OnEnChangeCrtTransformationEdita1)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM0, OnEnChangeCrtTransformationEditm0)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM1, OnEnChangeCrtTransformationEditm1)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM2, OnEnChangeCrtTransformationEditm2)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM3, OnEnChangeCrtTransformationEditm3)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM4, OnEnChangeCrtTransformationEditm4)
-	ON_BN_CLICKED(IDC_Generate1, OnBnClickedGenerate1)
-	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_RADIO1, OnBnClickedCrtTransformationRadio1)
-	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_RADIO2, OnBnClickedCrtTransformationRadio2)
-	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_RADIO3, OnBnClickedCrtTransformationRadio3)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITANZAHL, OnEnChangeCrtTransformationEditanzahl)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITX, OnEnChangeCrtTransformationEditx)
-	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITY, OnEnChangeCrtTransformationEdity)
-	ON_BN_CLICKED(IDC_GENERATERADIO1, OnBnClickedGenerateradio1)
-	ON_BN_CLICKED(IDC_GENERATERADIO2, OnBnClickedGenerateradio2)
+	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_BUTTONSOLVE, &CDlgCrtTransformation::OnBnClickedCrtTransformationButtonsolve)
+	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_BUTTONRESET2, &CDlgCrtTransformation::OnBnClickedCrtTransformationButtonreset)
+	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_BUTTONEND2, &CDlgCrtTransformation::OnBnClickedCrtTransformationButtonend)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITA0, &CDlgCrtTransformation::OnEnChangeCrtTransformationEdita0)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITA1, &CDlgCrtTransformation::OnEnChangeCrtTransformationEdita1)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM0, &CDlgCrtTransformation::OnEnChangeCrtTransformationEditm0)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM1, &CDlgCrtTransformation::OnEnChangeCrtTransformationEditm1)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM2, &CDlgCrtTransformation::OnEnChangeCrtTransformationEditm2)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM3, &CDlgCrtTransformation::OnEnChangeCrtTransformationEditm3)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITM4, &CDlgCrtTransformation::OnEnChangeCrtTransformationEditm4)
+	ON_BN_CLICKED(IDC_Generate1, &CDlgCrtTransformation::OnBnClickedGenerate1)
+	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_RADIO1, &CDlgCrtTransformation::OnBnClickedCrtTransformationRadio1)
+	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_RADIO2, &CDlgCrtTransformation::OnBnClickedCrtTransformationRadio2)
+	ON_BN_CLICKED(IDC_CRT_TRANSFORMATION_RADIO3, &CDlgCrtTransformation::OnBnClickedCrtTransformationRadio3)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITANZAHL, &CDlgCrtTransformation::OnEnChangeCrtTransformationEditanzahl)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITX, &CDlgCrtTransformation::OnEnChangeCrtTransformationEditx)
+	ON_EN_CHANGE(IDC_CRT_TRANSFORMATION_EDITY, &CDlgCrtTransformation::OnEnChangeCrtTransformationEdity)
+	ON_BN_CLICKED(IDC_GENERATERADIO1, &CDlgCrtTransformation::OnBnClickedGenerateradio1)
+	ON_BN_CLICKED(IDC_GENERATERADIO2, &CDlgCrtTransformation::OnBnClickedGenerateradio2)
 END_MESSAGE_MAP()
 
 

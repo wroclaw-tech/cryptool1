@@ -43,7 +43,7 @@ class CDlgVerifySignature : public CDialog
 public:
 	CDlgVerifySignature(CWnd* pParent = NULL);   // Standardkonstruktor
 	CDlgVerifySignature(char* sig_id, char* hash_id, CString sig_key,  CWnd* pParent = NULL);
-	CDlgVerifySignature::~CDlgVerifySignature(); // Destruktor
+	~CDlgVerifySignature(); // Destruktor
 
 	EcDomParam_ac_ptr DomParamAc; // The Domain Parameter (affine coordinates) of the selected elliptic Curve
 	EcDomParam_pc_ptr DomParamPc; // The Domain Parameter (projective coordinates) of the selected elliptic Curve

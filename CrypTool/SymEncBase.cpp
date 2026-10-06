@@ -19,7 +19,7 @@
 **************************************************************************/
 #include "stdafx.h"
 #include "CrypToolApp.h"
-#include ".\symencbase.h"
+#include "SymEncBase.h"
 #include "SecudeCryptography.h"
 #include "CoreCryptography.h"
 #include "secure.h" // Include-File von SECUDE

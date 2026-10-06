@@ -75,7 +75,7 @@ using namespace std;
 #include "DlgKeyHexFixedLen.h"
 #include "DlgBruteForceAES.h" 
 #include "ListResults.h"
-#include "bruteforceheap.h"
+#include "BruteForceHeap.h"
 
 #include <iostream>
 #include <fstream>

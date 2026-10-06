@@ -72,7 +72,7 @@ void CDlgFactorisationList::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgFactorisationList, CDialog)
 	//{{AFX_MSG_MAP(CDlgFactorisationList)
-	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDblclkSelect)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CDlgFactorisationList::OnDblclkSelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -74,11 +74,11 @@ void CDlgHashDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgHashDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgHashDemo)
-	ON_BN_CLICKED(IDC_RADIO_BIN, OnRadioBin)
-	ON_BN_CLICKED(IDC_RADIO_DEC, OnRadioDec)
-	ON_BN_CLICKED(IDC_RADIO_HEX, OnRadioHex)
-	ON_EN_CHANGE(IDC_EDIT_TEXT, OnChangeEditText)
-	ON_CBN_SELENDOK(IDC_COMBO_SELECT_HASH_FUNCTION, OnSelendokComboSelectHashFunction)
+	ON_BN_CLICKED(IDC_RADIO_BIN, &CDlgHashDemo::OnRadioBin)
+	ON_BN_CLICKED(IDC_RADIO_DEC, &CDlgHashDemo::OnRadioDec)
+	ON_BN_CLICKED(IDC_RADIO_HEX, &CDlgHashDemo::OnRadioHex)
+	ON_EN_CHANGE(IDC_EDIT_TEXT, &CDlgHashDemo::OnChangeEditText)
+	ON_CBN_SELENDOK(IDC_COMBO_SELECT_HASH_FUNCTION, &CDlgHashDemo::OnSelendokComboSelectHashFunction)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -55,9 +55,9 @@ void CDlgShowKeyParameter::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgShowKeyParameter, CDialog)
 	//{{AFX_MSG_MAP(CDlgShowKeyParameter)
-	ON_BN_CLICKED(IDC_RADIO1, OnUpdate)
-	ON_BN_CLICKED(IDC_RADIO2, OnUpdate)
-	ON_BN_CLICKED(IDC_RADIO3, OnUpdate)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgShowKeyParameter::OnUpdate)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgShowKeyParameter::OnUpdate)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgShowKeyParameter::OnUpdate)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

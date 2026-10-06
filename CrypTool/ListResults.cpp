@@ -24,8 +24,8 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "ListResults.h"
-#include ".\listresults.h"
-#include "bruteforceheap.h"
+#include "ListResults.h"
+#include "BruteForceHeap.h"
 #include "DialogeMessage.h"
 
 // CListResults dialog
@@ -53,7 +53,7 @@ void CListResults::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CListResults, CDialog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDOK, &CListResults::OnBnClickedOk)
 	ON_WM_SIZE()
 END_MESSAGE_MAP()
 

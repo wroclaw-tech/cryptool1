@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef _WIN32
 #define CRACKLIB_WIN32_API __declspec(dllexport)
@@ -59,17 +61,17 @@ typedef struct
 #define PW_WORDS(x) ((x)->header.pih_numwords)
 #define PIH_MAGIC 0x70775631
 
-extern CRACKLIB_WIN32_API PWDICT *PWOpen();
-extern CRACKLIB_WIN32_API char *Mangle();
-extern CRACKLIB_WIN32_API char *FascistCheck();
-extern CRACKLIB_WIN32_API char * FascistLook(pwp, instring);
-extern CRACKLIB_WIN32_API char * Trim(string);
-extern CRACKLIB_WIN32_API int PMatch(control, string);
-extern CRACKLIB_WIN32_API int32 FindPW(pwp, string);
-extern CRACKLIB_WIN32_API int PWClose(pwp);
-extern CRACKLIB_WIN32_API int PutPW(pwp, string);
-extern CRACKLIB_WIN32_API char * GetPW(pwp, number);
-extern CRACKLIB_WIN32_API char Chop(string);
+extern CRACKLIB_WIN32_API PWDICT *PWOpen(char *prefix, char *mode);
+extern CRACKLIB_WIN32_API char *Mangle(char *input, char *control);
+extern CRACKLIB_WIN32_API char *FascistCheck(char *password, char *path);
+extern CRACKLIB_WIN32_API char * FascistLook(PWDICT *pwp, char *instring);
+extern CRACKLIB_WIN32_API char * Trim(char *string);
+extern CRACKLIB_WIN32_API int PMatch(char *control, char *string);
+extern CRACKLIB_WIN32_API int32 FindPW(PWDICT *pwp, char *string);
+extern CRACKLIB_WIN32_API int PWClose(PWDICT *pwp);
+extern CRACKLIB_WIN32_API int PutPW(PWDICT *pwp, char *string);
+extern CRACKLIB_WIN32_API char * GetPW(PWDICT *pwp, int32 number);
+extern CRACKLIB_WIN32_API char Chop(char *string);
 
 #define CRACK_TOLOWER(a)	(isupper(a)?tolower(a):(a)) 
 #define CRACK_TOUPPER(a)	(islower(a)?toupper(a):(a)) 

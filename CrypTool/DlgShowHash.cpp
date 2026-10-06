@@ -56,7 +56,7 @@ void CDlgShowHash::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgShowHash, CDialog)
 	//{{AFX_MSG_MAP(CDlgShowHash)
-	ON_BN_CLICKED(IDOK, OnShowHashInDesktop)
+	ON_BN_CLICKED(IDOK, &CDlgShowHash::OnShowHashInDesktop)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

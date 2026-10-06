@@ -48,7 +48,7 @@ struct HashAlgorithmsFP
 	int HashOpsPerSecond;	// ausgehend von einem Rechner mit ???-Prozessor und ??? MHz Taktfrequenz
 };
 
-struct HashAlgorithmsFP HAFP[];
+extern struct HashAlgorithmsFP HAFP[];
 
 class HashingOperations  
 {

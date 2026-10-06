@@ -15,13 +15,15 @@ static char vers_id[] = "rules.c : v5.0p3 Alec Muffett 20 May 1993";
 #else
 
 #include "packer.h"
+#include <stdarg.h>
 
 static void
-Debug(val, a, b, c, d, e, f, g)
-    int val;
-    char *a, *b, *c, *d, *e, *f, *g;
+Debug(int val, char *a, ...)
 {
-    fprintf(stderr, a, b, c, d, e, f);
+    va_list ap;
+    va_start(ap, a);
+    vfprintf(stderr, a, ap);
+    va_end(ap);
 }
 
 #endif

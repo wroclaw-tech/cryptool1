@@ -27,7 +27,7 @@
 #include "ScintillaDoc.h"
 #include "ScintillaView.h"
 #include "HexEditCtrlView.h"
-#include ".\dlgfindandreplace.h"
+#include "DlgFindAndReplace.h"
 
 // this function returns true if the input string (which is the output string also) 
 // could be converted from hex to ascii; in case the hex string contains a zero byte (00),
@@ -117,11 +117,11 @@ void CDlgFindAndReplace::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CDlgFindAndReplace, CDialog)
-	ON_BN_CLICKED(IDC_BUTTON_FIND, OnBnClickedButtonFind)
-	ON_BN_CLICKED(IDC_BUTTON_REPLACE, OnBnClickedButtonReplace)
-	ON_BN_CLICKED(IDC_BUTTON_REPLACE_ALL, OnBnClickedButtonReplaceAll)
-	ON_BN_CLICKED(IDC_RADIO_TEXT_MODE, OnBnClickedRadioTextMode)
-	ON_BN_CLICKED(IDC_RADIO_HEX_MODE, OnBnClickedRadioHexMode)
+	ON_BN_CLICKED(IDC_BUTTON_FIND, &CDlgFindAndReplace::OnBnClickedButtonFind)
+	ON_BN_CLICKED(IDC_BUTTON_REPLACE, &CDlgFindAndReplace::OnBnClickedButtonReplace)
+	ON_BN_CLICKED(IDC_BUTTON_REPLACE_ALL, &CDlgFindAndReplace::OnBnClickedButtonReplaceAll)
+	ON_BN_CLICKED(IDC_RADIO_TEXT_MODE, &CDlgFindAndReplace::OnBnClickedRadioTextMode)
+	ON_BN_CLICKED(IDC_RADIO_HEX_MODE, &CDlgFindAndReplace::OnBnClickedRadioHexMode)
 END_MESSAGE_MAP()
 
 // CDlgFindAndReplace message handlers

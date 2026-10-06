@@ -26,7 +26,7 @@
 #include "DlgFileProperties.h"
 #include "DlgShowKey.h"
 #include "CrypToolTools.h"
-#include "keyHillBase.h"
+#include "KeyHillBase.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -70,7 +70,7 @@ void CDlgFileProperties::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgFileProperties, CDialog)
 	//{{AFX_MSG_MAP(CDlgFileProperties)
-	ON_BN_CLICKED(IDC_BUTTON1, OnShowKey)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgFileProperties::OnShowKey)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

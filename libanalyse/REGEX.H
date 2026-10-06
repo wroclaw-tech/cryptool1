@@ -18,7 +18,7 @@ Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
 #ifndef _Regex_h
-#ifdef __GNUG__
+#if defined(__GNUG__) && __GNUC__ < 3
 #pragma interface
 #endif
 #define _Regex_h 1

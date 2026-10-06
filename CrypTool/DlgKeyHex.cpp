@@ -112,10 +112,10 @@ void CDlgKeyHex::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgKeyHex, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeyHex)
-	ON_BN_CLICKED(IDC_BUTTON1, OnDecrypt)
-	ON_BN_CLICKED(IDOK, OnEncrypt)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdateKey)
-	ON_BN_CLICKED(IDC_BUTTON2, OnPasteHexKey)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgKeyHex::OnDecrypt)
+	ON_BN_CLICKED(IDOK, &CDlgKeyHex::OnEncrypt)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgKeyHex::OnUpdateKey)
+	ON_BN_CLICKED(IDC_BUTTON2, &CDlgKeyHex::OnPasteHexKey)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -104,9 +104,11 @@ public:
     friend ZZn  pow( int,ZZn *,Big *);    
 
     friend ZZn  sqrt(const ZZn&);          // only works if modulus is prime
-    friend ZZn  luc( const ZZn&, const Big&, ZZn* b3=NULL);
+    friend ZZn  luc( const ZZn&, const Big&, ZZn* b3);
     ~ZZn() { }
 };
+
+ZZn luc(const ZZn&, const Big&, ZZn* b3=NULL);
 
 #endif
 

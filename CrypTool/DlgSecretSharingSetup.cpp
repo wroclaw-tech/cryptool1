@@ -30,7 +30,7 @@
 #include "DlgSecretSharingReveal.h"
 #include "DlgSecretSharingOptions.h"
 #include "SecretSharingLog.h"
-#include ".\dlgsecretsharingsetup.h"
+#include "DlgSecretSharingSetup.h"
 #include "CrypToolTools.h"
 
 #ifdef _DEBUG
@@ -89,18 +89,18 @@ void CDlgSecretSharingSetup::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgSecretSharingSetup, CDialog)
 	//{{AFX_MSG_MAP(CDlgSecretSharingSetup)
-	ON_BN_CLICKED(IDC_BUTTON_GENERATE, OnButtonGenerate)
-	ON_BN_CLICKED(IDC_BUTTON_UPDATE, OnButtonUpdate)
-	ON_BN_CLICKED(IDOK, OnButtonOk)
-	ON_EN_UPDATE(IDC_EDIT_THRESHOLD, OnUpdateEditThreshold)
-	ON_EN_UPDATE(IDC_EDIT_SECRET, OnUpdateEditSecret)
-	ON_EN_UPDATE(IDC_EDIT_PARTICIPANTS, OnUpdateEditParticipants)
-	ON_BN_CLICKED(IDC_BUTTON_OPT, OnButtonOpt)
-	ON_BN_CLICKED(IDC_BUTTON_CHANGE, OnButtonChange)
-	ON_BN_CLICKED(IDC_CHECK_SHOWINTRO, OnButtonClickedCheckShowintro)
-	ON_BN_CLICKED(IDC_BUTTON_EXAMPLE, OnButtonExample)
+	ON_BN_CLICKED(IDC_BUTTON_GENERATE, &CDlgSecretSharingSetup::OnButtonGenerate)
+	ON_BN_CLICKED(IDC_BUTTON_UPDATE, &CDlgSecretSharingSetup::OnButtonUpdate)
+	ON_BN_CLICKED(IDOK, &CDlgSecretSharingSetup::OnButtonOk)
+	ON_EN_UPDATE(IDC_EDIT_THRESHOLD, &CDlgSecretSharingSetup::OnUpdateEditThreshold)
+	ON_EN_UPDATE(IDC_EDIT_SECRET, &CDlgSecretSharingSetup::OnUpdateEditSecret)
+	ON_EN_UPDATE(IDC_EDIT_PARTICIPANTS, &CDlgSecretSharingSetup::OnUpdateEditParticipants)
+	ON_BN_CLICKED(IDC_BUTTON_OPT, &CDlgSecretSharingSetup::OnButtonOpt)
+	ON_BN_CLICKED(IDC_BUTTON_CHANGE, &CDlgSecretSharingSetup::OnButtonChange)
+	ON_BN_CLICKED(IDC_CHECK_SHOWINTRO, &CDlgSecretSharingSetup::OnButtonClickedCheckShowintro)
+	ON_BN_CLICKED(IDC_BUTTON_EXAMPLE, &CDlgSecretSharingSetup::OnButtonExample)
 	//}}AFX_MSG_MAP	
-	ON_NOTIFY(NM_CLICK, IDC_LIST_SHARES, OnNMClickListShares)
+	ON_NOTIFY(NM_CLICK, IDC_LIST_SHARES, &CDlgSecretSharingSetup::OnNMClickListShares)
 END_MESSAGE_MAP()
 
 BOOL CDlgSecretSharingSetup::OnInitDialog()

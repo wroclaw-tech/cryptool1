@@ -79,16 +79,16 @@ void CDlgHomophonicSubstitution::DoDataExchange(CDataExchange *pDX) {
 }
 
 BEGIN_MESSAGE_MAP(CDlgHomophonicSubstitution, CDialog)
-	ON_BN_CLICKED(IDC_BUTTON_UPDATE_COUNT_HOMOPHONES, clickedButtonUpdateCountHomophones)
-	ON_BN_CLICKED(IDC_BUTTON_COPY_KEY_TO_KEYSTORE, clickedButtonCopyKeyToKeystore)
-	ON_BN_CLICKED(IDC_BUTTON_COPY_KEY_TO_CLIPBOARD, clickedButtonCopyKeyToClipboard)
-	ON_BN_CLICKED(IDC_BUTTON_PASTE_KEY_FROM_KEYSTORE, clickedButtonPasteKeyFromKeystore)
-	ON_BN_CLICKED(IDC_BUTTON_PASTE_KEY_FROM_CLIPBOARD, clickedButtonPasteKeyFromClipboard)
-	ON_NOTIFY(NM_DBLCLK, IDC_LIST_HOMOPHONES_KEY_TABLE, doubleClickedListHomophonesKeyTable)
-	ON_BN_CLICKED(IDC_BUTTON_ENCRYPT, clickedButtonEncrypt)
-	ON_BN_CLICKED(IDC_BUTTON_DECRYPT, clickedButtonDecrypt)
-	ON_BN_CLICKED(IDC_BUTTON_GENERATE_KEY, clickedButtonGenerateKey)
-	ON_BN_CLICKED(IDC_BUTTON_CANCEL, clickedButtonCancel)
+	ON_BN_CLICKED(IDC_BUTTON_UPDATE_COUNT_HOMOPHONES, &CDlgHomophonicSubstitution::clickedButtonUpdateCountHomophones)
+	ON_BN_CLICKED(IDC_BUTTON_COPY_KEY_TO_KEYSTORE, &CDlgHomophonicSubstitution::clickedButtonCopyKeyToKeystore)
+	ON_BN_CLICKED(IDC_BUTTON_COPY_KEY_TO_CLIPBOARD, &CDlgHomophonicSubstitution::clickedButtonCopyKeyToClipboard)
+	ON_BN_CLICKED(IDC_BUTTON_PASTE_KEY_FROM_KEYSTORE, &CDlgHomophonicSubstitution::clickedButtonPasteKeyFromKeystore)
+	ON_BN_CLICKED(IDC_BUTTON_PASTE_KEY_FROM_CLIPBOARD, &CDlgHomophonicSubstitution::clickedButtonPasteKeyFromClipboard)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST_HOMOPHONES_KEY_TABLE, &CDlgHomophonicSubstitution::doubleClickedListHomophonesKeyTable)
+	ON_BN_CLICKED(IDC_BUTTON_ENCRYPT, &CDlgHomophonicSubstitution::clickedButtonEncrypt)
+	ON_BN_CLICKED(IDC_BUTTON_DECRYPT, &CDlgHomophonicSubstitution::clickedButtonDecrypt)
+	ON_BN_CLICKED(IDC_BUTTON_GENERATE_KEY, &CDlgHomophonicSubstitution::clickedButtonGenerateKey)
+	ON_BN_CLICKED(IDC_BUTTON_CANCEL, &CDlgHomophonicSubstitution::clickedButtonCancel)
 END_MESSAGE_MAP()
 
 void CDlgHomophonicSubstitution::checkInputFile() {
@@ -371,7 +371,7 @@ void CDlgHomophoneSubstitutionKeyEntryDetails::DoDataExchange(CDataExchange *pDX
 }
 
 BEGIN_MESSAGE_MAP(CDlgHomophoneSubstitutionKeyEntryDetails, CDialog)
-	ON_BN_CLICKED(IDC_BUTTON_CLOSE, clickedButtonClose)
+	ON_BN_CLICKED(IDC_BUTTON_CLOSE, &CDlgHomophoneSubstitutionKeyEntryDetails::clickedButtonClose)
 END_MESSAGE_MAP()
 
 void CDlgHomophoneSubstitutionKeyEntryDetails::clickedButtonClose() {

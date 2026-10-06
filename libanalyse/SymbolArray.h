@@ -147,7 +147,7 @@ public:
 	void Show(OStream& out=DefaultOStream) const;
 
 // Static Members - (should be put in Symbol 'class')
-	static int MaxBits() {return sizeof(symbol)*8;} 
+	static int MaxBits() {return 32;} // bit-permutation width of the original 32-bit 'unsigned long' symbols
 	static symbol MaxNum() {return 0xFFFFFFFF;}
 
 // Implementation

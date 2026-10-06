@@ -28,7 +28,7 @@
 #include "RandomTest.h"
 #include "ParseIniFile2.h"
 #include "DialogeMessage.h"
-#include ".\dlgstatrandtests.h"
+#include "DlgStatRandTests.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -150,13 +150,13 @@ void CDlgFreqTest::init (const char *Infile_, const char *OldTitle_)
 
 BEGIN_MESSAGE_MAP(CDlgFreqTest, CDialog)
 	//{{AFX_MSG_MAP(CDlgFreqTest)
-	ON_BN_CLICKED(IDC_BUTTON_FREQTEST, OnButtonFreqtest)
-	ON_CBN_SELCHANGE(IDC_COMBO_ALPHA, OnSelchangeComboAlpha)
-	ON_BN_CLICKED(IDC_CHECK1, OnCheck1)
-	ON_BN_CLICKED(IDC_CHECK2, OnCheck2)
-	ON_CBN_SELCHANGE(IDC_TUPELCOMBO, OnSelchangeTupelcombo)
+	ON_BN_CLICKED(IDC_BUTTON_FREQTEST, &CDlgFreqTest::OnButtonFreqtest)
+	ON_CBN_SELCHANGE(IDC_COMBO_ALPHA, &CDlgFreqTest::OnSelchangeComboAlpha)
+	ON_BN_CLICKED(IDC_CHECK1, &CDlgFreqTest::OnCheck1)
+	ON_BN_CLICKED(IDC_CHECK2, &CDlgFreqTest::OnCheck2)
+	ON_CBN_SELCHANGE(IDC_TUPELCOMBO, &CDlgFreqTest::OnSelchangeTupelcombo)
 	//}}AFX_MSG_MAP
-	ON_STN_CLICKED(IDC_INFO_STATIC, OnStnClickedInfoStatic)
+	ON_STN_CLICKED(IDC_INFO_STATIC, &CDlgFreqTest::OnStnClickedInfoStatic)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -405,11 +405,11 @@ void CDlgRunsTest::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgRunsTest, CDialog)
 	//{{AFX_MSG_MAP(CDlgRunsTest)
-	ON_BN_CLICKED(IDC_TESTBUTTON, OnTestbutton)
-	ON_CBN_SELCHANGE(IDC_COMBO1, OnSelchangeCombo1)
-	ON_BN_CLICKED(IDC_CHECK2, OnCheck2)
-	ON_BN_CLICKED(IDC_CHECK3, OnCheck3)
-	ON_BN_CLICKED(IDC_CHECK1, OnCheck1)
+	ON_BN_CLICKED(IDC_TESTBUTTON, &CDlgRunsTest::OnTestbutton)
+	ON_CBN_SELCHANGE(IDC_COMBO1, &CDlgRunsTest::OnSelchangeCombo1)
+	ON_BN_CLICKED(IDC_CHECK2, &CDlgRunsTest::OnCheck2)
+	ON_BN_CLICKED(IDC_CHECK3, &CDlgRunsTest::OnCheck3)
+	ON_BN_CLICKED(IDC_CHECK1, &CDlgRunsTest::OnCheck1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -679,7 +679,7 @@ void CDlgFIPSTest140_1::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgFIPSTest140_1, CDialog)
 	//{{AFX_MSG_MAP(CDlgFIPSTest140_1)
-	ON_BN_CLICKED(IDC_BATTERIETEST, OnBatterietest)
+	ON_BN_CLICKED(IDC_BATTERIETEST, &CDlgFIPSTest140_1::OnBatterietest)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

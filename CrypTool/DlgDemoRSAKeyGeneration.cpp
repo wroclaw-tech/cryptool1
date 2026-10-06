@@ -81,11 +81,11 @@ void CDlgDemoRSAKeyGeneration::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgDemoRSAKeyGeneration, CDialog)
 	//{{AFX_MSG_MAP(CDlgDemoRSAKeyGeneration)
-	ON_BN_CLICKED(IDC_GENERATE_PRIME, OnGeneratePrime)
-	ON_EN_UPDATE(IDC_EDIT_RSA_KEY_PUBLIC, OnUpdateParameter)
-	ON_BN_CLICKED(IDOK, OnOK)
-	ON_EN_UPDATE(IDC_EDIT_PRIME_P, OnUpdateParameter)
-	ON_EN_UPDATE(IDC_EDIT_PRIME_Q, OnUpdateParameter)
+	ON_BN_CLICKED(IDC_GENERATE_PRIME, &CDlgDemoRSAKeyGeneration::OnGeneratePrime)
+	ON_EN_UPDATE(IDC_EDIT_RSA_KEY_PUBLIC, &CDlgDemoRSAKeyGeneration::OnUpdateParameter)
+	ON_BN_CLICKED(IDOK, &CDlgDemoRSAKeyGeneration::OnOK)
+	ON_EN_UPDATE(IDC_EDIT_PRIME_P, &CDlgDemoRSAKeyGeneration::OnUpdateParameter)
+	ON_EN_UPDATE(IDC_EDIT_PRIME_Q, &CDlgDemoRSAKeyGeneration::OnUpdateParameter)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

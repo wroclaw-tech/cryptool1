@@ -57,7 +57,7 @@ void CDlgShowKey::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgShowKey, CDialog)
 	//{{AFX_MSG_MAP(CDlgShowKey)
-	ON_BN_CLICKED(IDC_BUTTON1, OnCopyKey)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgShowKey::OnCopyKey)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -112,7 +112,7 @@ BOOL CDlgShowKey::PreTranslateMessage(MSG *msg) {
 	return CDialog::PreTranslateMessage(msg);
 }
 
-int CDlgShowKey::DoModal() 
+INT_PTR CDlgShowKey::DoModal() 
 {
 	// TODO: Speziellen Code hier einfügen und/oder Basisklasse aufrufen
 	return CDialog::DoModal();

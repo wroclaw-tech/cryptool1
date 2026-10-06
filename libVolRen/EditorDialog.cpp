@@ -1,7 +1,7 @@
 // EditorDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "resource.h"
 #include "EditorDialog.h"
 #include "VolumeRenderer.h"

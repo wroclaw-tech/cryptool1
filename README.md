@@ -1,4 +1,6 @@
 # CrypTool 1
+
+![macOS/Linux port](https://img.shields.io/badge/macOS%2FLinux%20port-35%25-orange) — see [port/PORTING_STATUS.md](port/PORTING_STATUS.md)
 [CrypTool 1](https://www.cryptool.org/ct1/) (CT1) is a free Windows program for cryptography and cryptanalysis.
 
 It is part of the [CrypTool Project](https://www.cryptool.org/).

@@ -40,7 +40,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "polymod.h"
+#include "POLYMOD.H"
 
 Poly modulus;
   

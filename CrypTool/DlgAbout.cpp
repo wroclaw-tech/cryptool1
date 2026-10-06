@@ -31,7 +31,7 @@
 #include "DlgTranslations.h"
 
 // für NTL Bibliothek
-#include "..\libNTL\include\NTL\version.h"
+#include <NTL/version.h>
 namespace OPENSSL {
 #include "crypto.h" // clashes with secude.h
 }
@@ -82,8 +82,8 @@ void CDlgAbout::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgAbout, CDialog)
 	//{{AFX_MSG_MAP(CDlgAbout)
 	ON_WM_PAINT()
-	ON_BN_CLICKED(ID_CONTRIBUTORS, OnBnClickedContributors)
-	ON_BN_CLICKED(ID_TRANSLATIONS, OnBnClickedTranslations)
+	ON_BN_CLICKED(ID_CONTRIBUTORS, &CDlgAbout::OnBnClickedContributors)
+	ON_BN_CLICKED(ID_TRANSLATIONS, &CDlgAbout::OnBnClickedTranslations)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

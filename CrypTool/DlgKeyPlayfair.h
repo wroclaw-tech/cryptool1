@@ -29,7 +29,7 @@
 // Copyright 1998-2001 Deutsche Bank AG, Frankfurt am Main
 //////////////////////////////////////////////////////////////////
 
-#include <PlayfairAnalysis.h>
+#include "PlayfairAnalysis.h"
 #include "ToolTipButton.h"
 
 // Dlg_PlayfairKey.h : Header-Datei

@@ -25,7 +25,7 @@
 #include "stdafx.h"
 #include "Scenario.h"
 #include "ScenarioObject.h"
-#include "wire.h" 
+#include "Wire.h" 
 #include "resource.h" 
 
 #ifdef _DEBUG

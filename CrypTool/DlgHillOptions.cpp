@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgHillOptions.h"
-#include ".\dlghilloptions.h"
+#include "DlgHillOptions.h"
 #include "CrypToolTools.h"
 
 // DlgHillOptions dialog
@@ -35,10 +35,10 @@ void DlgHillOptions::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(DlgHillOptions, CDialog)
-	ON_BN_CLICKED(IDOK,        OnBnClickedOk)
-	ON_BN_CLICKED(IDC_RADIO1,  OnBnClickedRadio1)
-	ON_BN_CLICKED(IDC_RADIO2,  OnBnClickedRadio2)
-	ON_EN_CHANGE (IDC_EDIT2,   OnEnChangeEdit2)
+	ON_BN_CLICKED(IDOK,        &DlgHillOptions::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_RADIO1,  &DlgHillOptions::OnBnClickedRadio1)
+	ON_BN_CLICKED(IDC_RADIO2,  &DlgHillOptions::OnBnClickedRadio2)
+	ON_EN_CHANGE (IDC_EDIT2,   &DlgHillOptions::OnEnChangeEdit2)
    ON_BN_CLICKED(IDC_RADIO3, &DlgHillOptions::OnBnClickedOffset0)
    ON_BN_CLICKED(IDC_RADIO4, &DlgHillOptions::OnBnClickedOffset1)
 END_MESSAGE_MAP()

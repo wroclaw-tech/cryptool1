@@ -57,7 +57,7 @@ IMPLEMENT_DYNCREATE(CHexEditCtrlDoc, CCryptDoc)
 
 BEGIN_MESSAGE_MAP(CHexEditCtrlDoc, CCryptDoc)
 	//{{AFX_MSG_MAP(CHexEditCtrlDoc)
-	ON_COMMAND(ID_TOTXT, OnTotxt)
+	ON_COMMAND(ID_TOTXT, &CHexEditCtrlDoc::OnTotxt)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -37,7 +37,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "elliptic.h"
+#include "ELLIPTIC.H"
 
 int ECn::get(Big& x,Big& y) const 
         {return epoint_get(p,x.getbig(),y.getbig());}

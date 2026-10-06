@@ -23,7 +23,7 @@
 
 #include "DlgShowProgress.h"
 #include "MakeNewName.h"
-#include "symEncBase.h"
+#include "SymEncBase.h"
 
 #define _CRT_SECURE_NO_WARNINGS
 

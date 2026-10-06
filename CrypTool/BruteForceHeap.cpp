@@ -18,7 +18,7 @@
 
 **************************************************************************/
 
-#include ".\bruteforceheap.h"
+#include "BruteForceHeap.h"
 
 
 

@@ -25,7 +25,7 @@
 #include "stdlib.h"
 #include "CrypToolApp.h"
 #include "DlgCrtSecretSharing.h"
-#include ".\dlgcrtsecretsharing.h"
+#include "DlgCrtSecretSharing.h"
 #include "DlgCrtSecretSharingOptions.h"
 #include "DlgCrtSecretSharing_Facts.h"
 #include "DlgCrtSecretSharing_Log.h"
@@ -121,23 +121,23 @@ void CDlgCrtSecretSharing::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgCrtSecretSharing, CDialog)
-	ON_BN_CLICKED(IDC_SECRETSHARING_BUTTON1, OnBnClickedSecretsharingShare)
-	ON_BN_CLICKED(IDC_SECRETSHARING_BUTTON2, OnBnClickedSecretsharingReset)
-	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedSecretsharingSolve)
-	ON_BN_CLICKED(IDC_SECRETSHARING_ADD1, OnBnClickedSecretsharingAdd1)
-	ON_BN_CLICKED(IDC_SECRETSHARING_ADD2, OnBnClickedSecretsharingAdd2)
-	ON_BN_CLICKED(IDC_SECRETSHARING_ADD3, OnBnClickedSecretsharingAdd3)
-	ON_BN_CLICKED(IDC_SECRETSHARING_ADD4, OnBnClickedSecretsharingAdd4)
-	ON_BN_CLICKED(IDC_SECRETSHARING_ADD5, OnBnClickedSecretsharingAdd5)
-	ON_BN_CLICKED(IDC_SECRETSHARING_ADD6, OnBnClickedSecretsharingAdd6)
-	ON_BN_CLICKED(IDC_SECRETSHARING_ADD7, OnBnClickedSecretsharingAdd7)
-	ON_BN_CLICKED(IDC_SECRETSHARING_ALGO, OnBnClickedSecretsharingEnd)
-	ON_BN_CLICKED(IDC_BUTTON4, OnBnClickedSecretsharingOptions)
-	ON_BN_CLICKED(IDC_SECRETSHARING_FACTS, OnBnClickedSecretsharingFacts)
-	ON_BN_CLICKED(IDC_SECRETSHARING_LOG, OnBnClickedSecretsharingLog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_BN_CLICKED(IDC_CRT_Radio_AUT, OnBnClickedCrtRadioAut)
-	ON_BN_CLICKED(IDC_CRT_RADIO_MAN, OnBnClickedCrtRadioMan)
+	ON_BN_CLICKED(IDC_SECRETSHARING_BUTTON1, &CDlgCrtSecretSharing::OnBnClickedSecretsharingShare)
+	ON_BN_CLICKED(IDC_SECRETSHARING_BUTTON2, &CDlgCrtSecretSharing::OnBnClickedSecretsharingReset)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgCrtSecretSharing::OnBnClickedSecretsharingSolve)
+	ON_BN_CLICKED(IDC_SECRETSHARING_ADD1, &CDlgCrtSecretSharing::OnBnClickedSecretsharingAdd1)
+	ON_BN_CLICKED(IDC_SECRETSHARING_ADD2, &CDlgCrtSecretSharing::OnBnClickedSecretsharingAdd2)
+	ON_BN_CLICKED(IDC_SECRETSHARING_ADD3, &CDlgCrtSecretSharing::OnBnClickedSecretsharingAdd3)
+	ON_BN_CLICKED(IDC_SECRETSHARING_ADD4, &CDlgCrtSecretSharing::OnBnClickedSecretsharingAdd4)
+	ON_BN_CLICKED(IDC_SECRETSHARING_ADD5, &CDlgCrtSecretSharing::OnBnClickedSecretsharingAdd5)
+	ON_BN_CLICKED(IDC_SECRETSHARING_ADD6, &CDlgCrtSecretSharing::OnBnClickedSecretsharingAdd6)
+	ON_BN_CLICKED(IDC_SECRETSHARING_ADD7, &CDlgCrtSecretSharing::OnBnClickedSecretsharingAdd7)
+	ON_BN_CLICKED(IDC_SECRETSHARING_ALGO, &CDlgCrtSecretSharing::OnBnClickedSecretsharingEnd)
+	ON_BN_CLICKED(IDC_BUTTON4, &CDlgCrtSecretSharing::OnBnClickedSecretsharingOptions)
+	ON_BN_CLICKED(IDC_SECRETSHARING_FACTS, &CDlgCrtSecretSharing::OnBnClickedSecretsharingFacts)
+	ON_BN_CLICKED(IDC_SECRETSHARING_LOG, &CDlgCrtSecretSharing::OnBnClickedSecretsharingLog)
+	ON_BN_CLICKED(IDOK, &CDlgCrtSecretSharing::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_CRT_Radio_AUT, &CDlgCrtSecretSharing::OnBnClickedCrtRadioAut)
+	ON_BN_CLICKED(IDC_CRT_RADIO_MAN, &CDlgCrtSecretSharing::OnBnClickedCrtRadioMan)
 END_MESSAGE_MAP()
 
 // CDlgCrtAstronomy-Meldungshandler

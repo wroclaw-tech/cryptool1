@@ -1,6 +1,9 @@
 #ifndef NTL_mach_desc__H
 #define NTL_mach_desc__H
 
+#if defined(__SIZEOF_LONG__) && (__SIZEOF_LONG__ != 4)
+#error "This mach_desc.h assumes 32-bit long; put the generated NTL/mach_desc.h (port/thirdparty, target cryptool_ntl) first in the include path"
+#endif
 
 #define NTL_BITS_PER_LONG (32)
 #define NTL_MAX_LONG (2147483647L)

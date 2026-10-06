@@ -65,10 +65,10 @@ void CDlgKeySubstitution::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgKeySubstitution, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeySubstitution)
-	ON_EN_CHANGE(IDC_EDIT1, OnChangeEdit1)
-	ON_BN_CLICKED(IDC_BUTTON1, OnDecrypt)
-	ON_BN_CLICKED(IDOK, OnEncrypt)
-	ON_BN_CLICKED(IDC_BUTTON2, OnPasteKey)
+	ON_EN_CHANGE(IDC_EDIT1, &CDlgKeySubstitution::OnChangeEdit1)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgKeySubstitution::OnDecrypt)
+	ON_BN_CLICKED(IDOK, &CDlgKeySubstitution::OnEncrypt)
+	ON_BN_CLICKED(IDC_BUTTON2, &CDlgKeySubstitution::OnPasteKey)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

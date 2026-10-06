@@ -1,0 +1,6 @@
+build/
+build-*/
+port/secude/build*/
+port/thirdparty/build*/
+port/rc/test/build*/
+__pycache__/

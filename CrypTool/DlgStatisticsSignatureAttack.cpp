@@ -70,7 +70,7 @@ void CDlgStatisticsSignatureAttack::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgStatisticsSignatureAttack, CDialog)
 	//{{AFX_MSG_MAP(CDlgStatisticsSignatureAttack)
-	ON_BN_CLICKED(IDOK, OnPrintStatistics)
+	ON_BN_CLICKED(IDOK, &CDlgStatisticsSignatureAttack::OnPrintStatistics)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -34,10 +34,10 @@
 #include "CrypToolApp.h"
 #include "CryptDoc.h"
 #include "FileTools.h"
-#include "cryptography.h"
+#include "Cryptography.h"
 #include "HexEditCtrlDoc.h"
 #include "HexEditCtrlView.h"
-#include ".\hexeditctrlview.h"
+#include "HexEditCtrlView.h"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -60,23 +60,23 @@ IMPLEMENT_DYNCREATE(CHexEditCtrlView, CHexEditBaseView)
 
 BEGIN_MESSAGE_MAP(CHexEditCtrlView, CHexEditBaseView)
 	//{{AFX_MSG_MAP(CHexEditCtrlView)
-	ON_COMMAND(ID_EDIT_CUT, OnEditCut)
-	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-	ON_COMMAND(ID_EDIT_PASTE, OnEditPaste)
-	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
-	ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
-	ON_COMMAND(ID_GOTO_VATER, OnGotoVater)
-    ON_UPDATE_COMMAND_UI(ID_INDICATOR_LINE, OnUpdateLine) 
-	ON_UPDATE_COMMAND_UI(ID_INDICATOR_OVR, OnUpdateInsert)
-	ON_COMMAND(ID_EDIT_UNDO, OnEditUndo)
-	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, OnUpdateEditUndo)
-	ON_COMMAND(ID_EDIT_REDO, OnEditRedo)
-	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, OnUpdateEditRedo)
+	ON_COMMAND(ID_EDIT_CUT, &CHexEditCtrlView::OnEditCut)
+	ON_COMMAND(ID_EDIT_COPY, &CHexEditCtrlView::OnEditCopy)
+	ON_COMMAND(ID_EDIT_PASTE, &CHexEditCtrlView::OnEditPaste)
+	ON_COMMAND(ID_EDIT_CLEAR, &CHexEditCtrlView::OnEditClear)
+	ON_COMMAND(ID_EDIT_SELECT_ALL, &CHexEditCtrlView::OnEditSelectAll)
+	ON_COMMAND(ID_GOTO_VATER, &CHexEditCtrlView::OnGotoVater)
+    ON_UPDATE_COMMAND_UI(ID_INDICATOR_LINE, &CHexEditCtrlView::OnUpdateLine) 
+	ON_UPDATE_COMMAND_UI(ID_INDICATOR_OVR, &CHexEditCtrlView::OnUpdateInsert)
+	ON_COMMAND(ID_EDIT_UNDO, &CHexEditCtrlView::OnEditUndo)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, &CHexEditCtrlView::OnUpdateEditUndo)
+	ON_COMMAND(ID_EDIT_REDO, &CHexEditCtrlView::OnEditRedo)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, &CHexEditCtrlView::OnUpdateEditRedo)
 	//}}AFX_MSG_MAP
-	ON_COMMAND(ID_ENTROPY, OnEntropy)
-	ON_COMMAND(ID_HISTOGRAM, OnHistogram)
-	ON_COMMAND(ID_TOTXT, OnTotxt)
-	ON_COMMAND(ID_EDIT_FIND, OnEditFind)
+	ON_COMMAND(ID_ENTROPY, &CHexEditCtrlView::OnEntropy)
+	ON_COMMAND(ID_HISTOGRAM, &CHexEditCtrlView::OnHistogram)
+	ON_COMMAND(ID_TOTXT, &CHexEditCtrlView::OnTotxt)
+	ON_COMMAND(ID_EDIT_FIND, &CHexEditCtrlView::OnEditFind)
 END_MESSAGE_MAP()
 
 

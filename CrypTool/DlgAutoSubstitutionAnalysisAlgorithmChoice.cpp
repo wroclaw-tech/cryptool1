@@ -22,7 +22,7 @@
 //
 
 #include "stdafx.h"
-#include "cryptoolapp.h"
+#include "CrypToolApp.h"
 #include "DlgAutoSubstitutionAnalysisAlgorithmChoice.h"
 
 #ifdef _DEBUG
@@ -54,8 +54,8 @@ void CDlgAutoSubstitutionAnalysisAlgorithmChoice::DoDataExchange(CDataExchange* 
 
 BEGIN_MESSAGE_MAP(CDlgAutoSubstitutionAnalysisAlgorithmChoice, CDialog)
 	//{{AFX_MSG_MAP(CDlgAutoSubstitutionAnalysisAlgorithmChoice)
-	ON_BN_CLICKED(IDC_ALG_DIGRAM, OnAlgDigram)
-	ON_BN_CLICKED(IDC_ALG_WORD, OnAlgWord)
+	ON_BN_CLICKED(IDC_ALG_DIGRAM, &CDlgAutoSubstitutionAnalysisAlgorithmChoice::OnAlgDigram)
+	ON_BN_CLICKED(IDC_ALG_WORD, &CDlgAutoSubstitutionAnalysisAlgorithmChoice::OnAlgWord)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -74,7 +74,7 @@ void CDlgAutoSubstitutionAnalysisAlgorithmChoice::OnAlgWord()
 	CheckRadioButton (IDC_ALG_DIGRAM, IDC_ALG_WORD, IDC_ALG_WORD);
 }
 
-int CDlgAutoSubstitutionAnalysisAlgorithmChoice::DoModal() 
+INT_PTR CDlgAutoSubstitutionAnalysisAlgorithmChoice::DoModal() 
 {
 	return CDialog::DoModal();
 }

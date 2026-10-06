@@ -29,7 +29,7 @@
 
 #include "KeyRepository.h"
 #include "DialogeMessage.h"
-#include ".\dlgkeypermutation.h"
+#include "DlgKeyPermutation.h"
 #include "CrypToolTools.h"
 #include "ChrTools.h"
 
@@ -90,14 +90,14 @@ void CDlgKeyPermutation::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgKeyPermutation, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeyPermutation)
-	ON_BN_CLICKED(IDC_BUTTON1, OnDecrypt)
-	ON_BN_CLICKED(IDOK, OnEncrypt)
-	ON_BN_CLICKED(IDC_BUTTON2, OnPasteKey)
-	ON_BN_CLICKED(IDC_BUTTON_TxtOpt, OnTextOptions)
-	ON_EN_CHANGE(IDC_EDIT1, OnChangeEdit1)
-	ON_EN_CHANGE(IDC_EDIT2, OnChangeEdit2)
-	ON_BN_CLICKED(IDC_RADIO9, OnRadioButtonBinaryData)
-	ON_BN_CLICKED(IDC_RADIO14, OnRadioButtonText)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgKeyPermutation::OnDecrypt)
+	ON_BN_CLICKED(IDOK, &CDlgKeyPermutation::OnEncrypt)
+	ON_BN_CLICKED(IDC_BUTTON2, &CDlgKeyPermutation::OnPasteKey)
+	ON_BN_CLICKED(IDC_BUTTON_TxtOpt, &CDlgKeyPermutation::OnTextOptions)
+	ON_EN_CHANGE(IDC_EDIT1, &CDlgKeyPermutation::OnChangeEdit1)
+	ON_EN_CHANGE(IDC_EDIT2, &CDlgKeyPermutation::OnChangeEdit2)
+	ON_BN_CLICKED(IDC_RADIO9, &CDlgKeyPermutation::OnRadioButtonBinaryData)
+	ON_BN_CLICKED(IDC_RADIO14, &CDlgKeyPermutation::OnRadioButtonText)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

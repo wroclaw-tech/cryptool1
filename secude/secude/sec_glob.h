@@ -20,7 +20,10 @@
 
 #include <secude/sec_conf.h>
 
-#if !defined(TARGET_OS_MAC) || !TARGET_OS_MAC
+#if defined(__APPLE__) && defined(__MACH__)
+/* identical to the MacTypes.h typedef, so both headers can be combined */
+typedef unsigned char           Boolean;
+#elif !defined(TARGET_OS_MAC) || !TARGET_OS_MAC
 /* MPW-C defines 'Boolean', too */
 #if (defined(applec)||defined(_MAC))
 #include <types.h>

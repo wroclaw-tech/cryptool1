@@ -192,8 +192,8 @@ private:
 /////////////////////////////////////////////////////////////////////
 // NFormat<NAME;BASE,offset>: Static Part
 public:
-	static Format::Index NewIndex() {return Index(currentindex++);}
-	static Format::SIndex NewString() {return SIndex(currentstringindex++);}
+	static Format::Index NewIndex() {return Format::Index(currentindex++);}
+	static Format::SIndex NewString() {return Format::SIndex(currentstringindex++);}
 private:
 	static int currentindex;
 	static int currentstringindex;

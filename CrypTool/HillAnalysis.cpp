@@ -5,7 +5,7 @@
 #include "FileTools.h"
 #include "DialogeMessage.h"
 #include "DlgTextOptions.h"
-#include "keyHillBase.h"
+#include "KeyHillBase.h"
 #include "assert.h"
 
 

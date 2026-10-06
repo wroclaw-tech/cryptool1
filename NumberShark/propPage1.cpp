@@ -48,7 +48,7 @@ void propPage1::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(propPage1, CPropertyPage)
-	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
+	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &propPage1::OnTcnSelchangeTab1)
 END_MESSAGE_MAP()
 
 

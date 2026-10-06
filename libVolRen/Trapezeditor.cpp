@@ -4,7 +4,7 @@
 //  Microsoft Visual C++, your modifications will be overwritten.
 
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Trapezeditor.h"
 
 /////////////////////////////////////////////////////////////////////////////

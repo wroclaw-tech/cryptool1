@@ -102,7 +102,7 @@ void CDlgECSignatureStepByStep::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgECSignatureStepByStep, CDialog)
 	//{{AFX_MSG_MAP(CDlgECSignatureStepByStep)
-	ON_BN_CLICKED(IDC_BUTTON_CONTINUE, OnButtonContinue)
+	ON_BN_CLICKED(IDC_BUTTON_CONTINUE, &CDlgECSignatureStepByStep::OnButtonContinue)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

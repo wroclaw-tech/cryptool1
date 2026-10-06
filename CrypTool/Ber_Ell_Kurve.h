@@ -25,7 +25,7 @@
 #if !defined(AFX_BER_ELL_KURVE_H__DED21344_096E_11D5_8899_00062919F268__INCLUDED_)
 #define AFX_BER_ELL_KURVE_H__DED21344_096E_11D5_8899_00062919F268__INCLUDED_
 
-#include "..\LIBMIRACL\INCLUDE\BIG.H"	// Hinzugefügt von der Klassenansicht
+#include "big.h"	// Hinzugefügt von der Klassenansicht
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
@@ -35,10 +35,10 @@
 #define RAISE '^'
 
 #include <big.h>
-#include "elliptic.h"
-#include "comflash.h"
-#include "fpoly.h"
-#include "poly.h"
+#include "ELLIPTIC.H"
+#include "COMFLASH.H"
+#include "FPOLY.H"
+#include "POLY.H"
 
 #include <monty.h>
 #if defined(_MSC_VER) || _MSC_VER <= 1200

@@ -24,7 +24,7 @@
 #include "CrypToolApp.h"
 #include "DlgPasswordGuidelines.h"
 #include "CrypToolTools.h"
-#include ".\dlgpasswordguidelines.h"
+#include "DlgPasswordGuidelines.h"
 #include "DialogeMessage.h"
 
 CDlgPasswordGuidelines::CDlgPasswordGuidelines(CWnd* pParent /*=NULL*/)
@@ -133,8 +133,8 @@ void CDlgPasswordGuidelines::OnBnClickedOk()
 }
 
 BEGIN_MESSAGE_MAP(CDlgPasswordGuidelines, CDialog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_BN_CLICKED(ID_DEFAULT, OnBnClickedDefault)
+	ON_BN_CLICKED(IDOK, &CDlgPasswordGuidelines::OnBnClickedOk)
+	ON_BN_CLICKED(ID_DEFAULT, &CDlgPasswordGuidelines::OnBnClickedDefault)
 END_MESSAGE_MAP()
 
 void CDlgPasswordGuidelines::OnBnClickedDefault()

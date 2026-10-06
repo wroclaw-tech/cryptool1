@@ -47,7 +47,7 @@ using namespace std;
 #include "OptionsForSignatureAttack.h"
 #include "ErrorcodesForSignatureAttack.h"
 #include "DlgShowProgress.h"
-#include ".\dlgsignatureattack.h"
+#include "DlgSignatureAttack.h"
 
 // Verzeichnis, in dem CT gerade läuft (siehe CrypToolApp.cpp)
 extern char *Pfad;
@@ -87,14 +87,14 @@ void CDlgSignatureAttack::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgSignatureAttack, CDialog)
 	//{{AFX_MSG_MAP(CDlgSignatureAttack)
-	ON_BN_CLICKED(IDC_OPTIONS, OnOptions)
-	ON_BN_CLICKED(IDC_BROWSE_HARMLESS, OnBrowseOriginal)
-	ON_BN_CLICKED(IDC_BROWSE_DANGEROUS, OnBrowseFake)
-	ON_BN_CLICKED(IDC_COMPUTE, OnCompute)
-	ON_EN_UPDATE(IDC_FILE_DANGEROUS, OnUpdateFileFake)
-	ON_EN_UPDATE(IDC_FILE_HARMLESS, OnUpdateFileOriginal)
+	ON_BN_CLICKED(IDC_OPTIONS, &CDlgSignatureAttack::OnOptions)
+	ON_BN_CLICKED(IDC_BROWSE_HARMLESS, &CDlgSignatureAttack::OnBrowseOriginal)
+	ON_BN_CLICKED(IDC_BROWSE_DANGEROUS, &CDlgSignatureAttack::OnBrowseFake)
+	ON_BN_CLICKED(IDC_COMPUTE, &CDlgSignatureAttack::OnCompute)
+	ON_EN_UPDATE(IDC_FILE_DANGEROUS, &CDlgSignatureAttack::OnUpdateFileFake)
+	ON_EN_UPDATE(IDC_FILE_HARMLESS, &CDlgSignatureAttack::OnUpdateFileOriginal)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDC_BUTTON_USEDEFAULTMESSAGES, OnBnClickedButtonUsedefaultmessages)
+	ON_BN_CLICKED(IDC_BUTTON_USEDEFAULTMESSAGES, &CDlgSignatureAttack::OnBnClickedButtonUsedefaultmessages)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

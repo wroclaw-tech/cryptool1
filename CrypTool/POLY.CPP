@@ -31,7 +31,7 @@
  * See Knuth The Art of Computer Programming Vol.2, Chapter 4.6 
  */
 
-#include "poly.h"
+#include "POLY.H"
 
 Poly::Poly(const Poly& p)
 {

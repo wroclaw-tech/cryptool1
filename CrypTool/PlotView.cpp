@@ -45,7 +45,7 @@ IMPLEMENT_DYNCREATE(CPlotView, CView)
 
 BEGIN_MESSAGE_MAP(CPlotView, CView)
 	//{{AFX_MSG_MAP(CPlotView)
-	ON_COMMAND(ID_GOTO_VATER, OnGotoVater)
+	ON_COMMAND(ID_GOTO_VATER, &CPlotView::OnGotoVater)
 	ON_WM_CONTEXTMENU()
 	//}}AFX_MSG_MAP
 	// Standard printing commands

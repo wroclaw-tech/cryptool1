@@ -22,7 +22,7 @@
 //
 
 #include "stdafx.h"
-#include "cryptoolapp.h"
+#include "CrypToolApp.h"
 #include "DlgAutoSubstitutionAnalysis.h"
 
 #ifdef _DEBUG
@@ -72,10 +72,10 @@ void CDlgAutoSubstitutionAnalysis::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgAutoSubstitutionAnalysis, CDialog)
 	//{{AFX_MSG_MAP(CDlgAutoSubstitutionAnalysis)
-	ON_BN_CLICKED(ID_SUBST_Cancel, OnSUBSTCancel)
+	ON_BN_CLICKED(ID_SUBST_Cancel, &CDlgAutoSubstitutionAnalysis::OnSUBSTCancel)
 	ON_WM_TIMER()
-	ON_BN_CLICKED(IDC_COPY, OnKeyCopy)
-	ON_BN_CLICKED(IDC_MANUAL, OnManualAnalysis)
+	ON_BN_CLICKED(IDC_COPY, &CDlgAutoSubstitutionAnalysis::OnKeyCopy)
+	ON_BN_CLICKED(IDC_MANUAL, &CDlgAutoSubstitutionAnalysis::OnManualAnalysis)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

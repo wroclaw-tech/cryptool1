@@ -71,11 +71,11 @@ BOOL CDlgLengthOfANumber::OnInitDialog()
 }
 
 BEGIN_MESSAGE_MAP(CDlgLengthOfANumber, CDialog)
-	ON_BN_CLICKED(IDC_RADIO_BINARY, updateNumberRepresentation)
-	ON_BN_CLICKED(IDC_RADIO_OCTAL, updateNumberRepresentation)
-	ON_BN_CLICKED(IDC_RADIO_DECIMAL, updateNumberRepresentation)
-	ON_BN_CLICKED(IDC_RADIO_HEXADECIMAL, updateNumberRepresentation)
-	ON_EN_CHANGE(IDC_EDIT_NUMBER, updateNumber)
+	ON_BN_CLICKED(IDC_RADIO_BINARY, &CDlgLengthOfANumber::updateNumberRepresentation)
+	ON_BN_CLICKED(IDC_RADIO_OCTAL, &CDlgLengthOfANumber::updateNumberRepresentation)
+	ON_BN_CLICKED(IDC_RADIO_DECIMAL, &CDlgLengthOfANumber::updateNumberRepresentation)
+	ON_BN_CLICKED(IDC_RADIO_HEXADECIMAL, &CDlgLengthOfANumber::updateNumberRepresentation)
+	ON_EN_CHANGE(IDC_EDIT_NUMBER, &CDlgLengthOfANumber::updateNumber)
 END_MESSAGE_MAP()
 
 void CDlgLengthOfANumber::updateNumberRepresentation()

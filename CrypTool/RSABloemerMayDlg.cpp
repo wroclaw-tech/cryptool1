@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include "CrypToolApp.h"
-#include "RSABloemerMayDlg.h"
+#include "rsabloemermaydlg.h"
 #include "NTLExpPars.h"
 #include "FileTools.h"
 #ifdef _DEBUG
@@ -74,24 +74,24 @@ BEGIN_MESSAGE_MAP(CRSABloemerMayDlg, CDialog)
 	//{{AFX_MSG_MAP(CRSABloemerMayDlg)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BUTTONSTART, OnStart)
-	ON_BN_CLICKED(IDC_RANDOM, OnRandom)
+	ON_BN_CLICKED(IDC_BUTTONSTART, &CRSABloemerMayDlg::OnStart)
+	ON_BN_CLICKED(IDC_RANDOM, &CRSABloemerMayDlg::OnRandom)
 	ON_WM_TIMER()
-	ON_BN_CLICKED(IDC_CANCELATTACK, OnCancelattack)
-	ON_EN_CHANGE(IDC_EDITM, OnChangeEditm)
-	ON_EN_KILLFOCUS(IDC_EDITDELTA, OnKillfocusEditdelta)
-	ON_EN_CHANGE(IDC_EDITN, OnChangeEditn)
-	ON_EN_CHANGE(IDC_EDITE, OnChangeEdite)
+	ON_BN_CLICKED(IDC_CANCELATTACK, &CRSABloemerMayDlg::OnCancelattack)
+	ON_EN_CHANGE(IDC_EDITM, &CRSABloemerMayDlg::OnChangeEditm)
+	ON_EN_KILLFOCUS(IDC_EDITDELTA, &CRSABloemerMayDlg::OnKillfocusEditdelta)
+	ON_EN_CHANGE(IDC_EDITN, &CRSABloemerMayDlg::OnChangeEditn)
+	ON_EN_CHANGE(IDC_EDITE, &CRSABloemerMayDlg::OnChangeEdite)
 	ON_WM_SETCURSOR()
-	ON_BN_CLICKED(IDC_BUTTONDEFAULT, OnButtondefault)
-	ON_BN_CLICKED(IDC_BUTTONLOG, OnButtonlog)
-	ON_BN_CLICKED(IDC_RADIOCHOICE, OnRadiochoice)
-	ON_EN_CHANGE(IDC_EDITD, OnChangeEditd)
-	ON_EN_CHANGE(IDC_EDITBITSOFN, OnChangeEditbitsofn)
-	ON_EN_CHANGE(IDC_EDITDELTA, OnChangeEditdelta)
-	ON_BN_CLICKED(IDC_BUTTON1, OnCancel)
-	ON_BN_CLICKED(IDC_RADIOCHOICE2, OnRadiochoice)
-	ON_BN_CLICKED(IDC_BUTTONLOG2, OnButtonlog)
+	ON_BN_CLICKED(IDC_BUTTONDEFAULT, &CRSABloemerMayDlg::OnButtondefault)
+	ON_BN_CLICKED(IDC_BUTTONLOG, &CRSABloemerMayDlg::OnButtonlog)
+	ON_BN_CLICKED(IDC_RADIOCHOICE, &CRSABloemerMayDlg::OnRadiochoice)
+	ON_EN_CHANGE(IDC_EDITD, &CRSABloemerMayDlg::OnChangeEditd)
+	ON_EN_CHANGE(IDC_EDITBITSOFN, &CRSABloemerMayDlg::OnChangeEditbitsofn)
+	ON_EN_CHANGE(IDC_EDITDELTA, &CRSABloemerMayDlg::OnChangeEditdelta)
+	ON_BN_CLICKED(IDC_BUTTON1, &CRSABloemerMayDlg::OnCancel)
+	ON_BN_CLICKED(IDC_RADIOCHOICE2, &CRSABloemerMayDlg::OnRadiochoice)
+	ON_BN_CLICKED(IDC_BUTTONLOG2, &CRSABloemerMayDlg::OnButtonlog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

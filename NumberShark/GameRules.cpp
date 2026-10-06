@@ -47,7 +47,7 @@ void GameRules::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(GameRules, CDialog)
 	
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDOK, &GameRules::OnBnClickedOk)
 	ON_WM_ACTIVATE()
 END_MESSAGE_MAP()
 

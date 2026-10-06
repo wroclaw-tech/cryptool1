@@ -25,7 +25,7 @@
 #include "CrypToolApp.h"
 #include "DialogeMessage.h"
 #include "DlgPrimeTest.h"
-#include ".\dlgprimetest.h"
+#include "DlgPrimeTest.h"
 #include "DlgFactorisationDemo.h"
 
 #include "PrimeTest.h"
@@ -128,14 +128,14 @@ void CDlgPrimeTest::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgPrimeTest, CDialog)
-	ON_BN_CLICKED(IDC_PRIMETEST_BUTTON_TEST, OnBnClickedPrimetestButtonTest)
-  ON_BN_CLICKED(IDC_PRIMETEST_BUTTON_CANCEL, OnBnClickedPrimetestButtonCancel)
-  ON_BN_CLICKED(IDC_PRIMETEST_BUTTON_LOADNUMBER, OnBnClickedPrimetestButtonLoadnumber)
-  ON_EN_CHANGE(IDC_PRIMETEST_EDIT_NUMBER, OnEnChangePrimetestEditNumber)
-  ON_BN_CLICKED(IDC_PRIMETEST_RADIO_FERMAT, OnBnClickedPrimetestRadio)
-  ON_BN_CLICKED(IDC_PRIMETEST_RADIO_SOLOVAY, OnBnClickedPrimetestRadio)
-  ON_BN_CLICKED(IDC_PRIMETEST_RADIO_MILLERRABIN, OnBnClickedPrimetestRadio)
-  ON_BN_CLICKED(IDC_PRIMETEST_RADIO_AKS, OnBnClickedPrimetestRadio)
+	ON_BN_CLICKED(IDC_PRIMETEST_BUTTON_TEST, &CDlgPrimeTest::OnBnClickedPrimetestButtonTest)
+  ON_BN_CLICKED(IDC_PRIMETEST_BUTTON_CANCEL, &CDlgPrimeTest::OnBnClickedPrimetestButtonCancel)
+  ON_BN_CLICKED(IDC_PRIMETEST_BUTTON_LOADNUMBER, &CDlgPrimeTest::OnBnClickedPrimetestButtonLoadnumber)
+  ON_EN_CHANGE(IDC_PRIMETEST_EDIT_NUMBER, &CDlgPrimeTest::OnEnChangePrimetestEditNumber)
+  ON_BN_CLICKED(IDC_PRIMETEST_RADIO_FERMAT, &CDlgPrimeTest::OnBnClickedPrimetestRadio)
+  ON_BN_CLICKED(IDC_PRIMETEST_RADIO_SOLOVAY, &CDlgPrimeTest::OnBnClickedPrimetestRadio)
+  ON_BN_CLICKED(IDC_PRIMETEST_RADIO_MILLERRABIN, &CDlgPrimeTest::OnBnClickedPrimetestRadio)
+  ON_BN_CLICKED(IDC_PRIMETEST_RADIO_AKS, &CDlgPrimeTest::OnBnClickedPrimetestRadio)
   ON_BN_CLICKED(IDC_BUTTON_JUMP_TO_FACTORIZATION, CDlgPrimeTest::OnBnClickedButtonJumpToFactorization)
 END_MESSAGE_MAP()
 

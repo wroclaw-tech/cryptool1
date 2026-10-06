@@ -50,7 +50,7 @@ extern OStream DefaultOStream;
 
 // GNU specific
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && __GNUC__ < 3
 #define EXPLICIT explicit
 #define NOSTATICTAMPLES
 #else

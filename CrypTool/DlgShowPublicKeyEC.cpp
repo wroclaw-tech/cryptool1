@@ -91,9 +91,9 @@ void CDlgShowPublicKeyEC::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgShowPublicKeyEC, CDialog)
 	//{{AFX_MSG_MAP(CDlgShowPublicKeyEC)
-	ON_BN_CLICKED(IDC_RADIO1, OnOctalRadio)
-	ON_BN_CLICKED(IDC_RADIO2, OnDecimalRadio)
-	ON_BN_CLICKED(IDC_RADIO3, OnHexRadio)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgShowPublicKeyEC::OnOctalRadio)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgShowPublicKeyEC::OnDecimalRadio)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgShowPublicKeyEC::OnHexRadio)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -27,7 +27,7 @@
 // at the Ruhr-University Bochum  (http://www.crypto.rub.de)
 //////////////////////////////////////////////////////////////////
 
-#include ".\DESXL.h"
+#include "DESXL.h"
 
 DESXL::DESXL(void)
 {

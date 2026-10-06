@@ -108,9 +108,9 @@ protected:
 
 /////////////////////////////////////////////////////////////////////
 #ifdef IMPLEMENT_CONVERTERCLASS
-#define CLONE(TYPE) virtual Converter* TYPE::Clone() const { return new TYPE(*this); }
+#define CLONE(TYPE) virtual Converter* Clone() const { return new TYPE(*this); }
 #else
-#define CLONE(TYPE) virtual Converter* TYPE::Clone() const;
+#define CLONE(TYPE) virtual Converter* Clone() const;
 #endif
 /////////////////////////////////////////////////////////////////////
 

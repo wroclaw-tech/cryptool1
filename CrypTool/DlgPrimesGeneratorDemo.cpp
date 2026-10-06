@@ -27,7 +27,7 @@
 #include <stdlib.h>
 
 #include "DlgPrimesGeneratorDemo.h"
-#include "Keyrepository.h"
+#include "KeyRepository.h"
 #include "DialogeMessage.h"
 #include "FileTools.h"
 #include "CrypToolTools.h"
@@ -126,17 +126,17 @@ void CDlgPrimesGeneratorDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgPrimesGeneratorDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgPrimesGeneratorDemo)
-	ON_BN_CLICKED(IDC_RADIO4, OnRadio4)
-	ON_BN_CLICKED(IDC_RADIO5, OnRadio5)
-	ON_BN_CLICKED(IDC_RADIO6, OnRadio6)
-	ON_BN_CLICKED(IDC_RADIO7, OnRadio7)
-	ON_BN_CLICKED(IDC_BUTTON_GENERATE, OnButtonGenerate)
-	ON_BN_CLICKED(IDC_BUTTON_ACCEPT, OnButtonAccept)
-	ON_BN_CLICKED(IDC_ENDDIALOG, OnEndDialog)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdateEdit)
-	ON_EN_UPDATE(IDC_EDIT2, OnUpdateEdit)
-	ON_EN_UPDATE(IDC_EDIT3, OnUpdateEdit)
-	ON_EN_UPDATE(IDC_EDIT4, OnUpdateEdit)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgPrimesGeneratorDemo::OnRadio4)
+	ON_BN_CLICKED(IDC_RADIO5, &CDlgPrimesGeneratorDemo::OnRadio5)
+	ON_BN_CLICKED(IDC_RADIO6, &CDlgPrimesGeneratorDemo::OnRadio6)
+	ON_BN_CLICKED(IDC_RADIO7, &CDlgPrimesGeneratorDemo::OnRadio7)
+	ON_BN_CLICKED(IDC_BUTTON_GENERATE, &CDlgPrimesGeneratorDemo::OnButtonGenerate)
+	ON_BN_CLICKED(IDC_BUTTON_ACCEPT, &CDlgPrimesGeneratorDemo::OnButtonAccept)
+	ON_BN_CLICKED(IDC_ENDDIALOG, &CDlgPrimesGeneratorDemo::OnEndDialog)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgPrimesGeneratorDemo::OnUpdateEdit)
+	ON_EN_UPDATE(IDC_EDIT2, &CDlgPrimesGeneratorDemo::OnUpdateEdit)
+	ON_EN_UPDATE(IDC_EDIT3, &CDlgPrimesGeneratorDemo::OnUpdateEdit)
+	ON_EN_UPDATE(IDC_EDIT4, &CDlgPrimesGeneratorDemo::OnUpdateEdit)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

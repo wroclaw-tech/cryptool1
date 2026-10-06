@@ -86,16 +86,16 @@ void ZahlenHaiOptionen::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(ZahlenHaiOptionen, CDialog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_BN_CLICKED(IDC_CHECK1, OnBnClickedCheck1)
-	ON_BN_CLICKED(IDC_CHECK2, OnBnClickedCheck2)
-	ON_BN_CLICKED(IDC_CHECK3, OnBnClickedCheck3)
+	ON_BN_CLICKED(IDOK, &ZahlenHaiOptionen::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_CHECK1, &ZahlenHaiOptionen::OnBnClickedCheck1)
+	ON_BN_CLICKED(IDC_CHECK2, &ZahlenHaiOptionen::OnBnClickedCheck2)
+	ON_BN_CLICKED(IDC_CHECK3, &ZahlenHaiOptionen::OnBnClickedCheck3)
 	
-	ON_BN_CLICKED(IDC_BUTTON_MAX, OnBnClickedButtonMax)
+	ON_BN_CLICKED(IDC_BUTTON_MAX, &ZahlenHaiOptionen::OnBnClickedButtonMax)
 	ON_WM_ACTIVATE()
-	ON_BN_CLICKED(IDC_RADIO_MAX1, OnBnClickedRadioMax1)
-	ON_BN_CLICKED(IDC_RADIO_MAX2, OnBnClickedRadioMax2)
-	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, OnTcnSelchangeTab1)
+	ON_BN_CLICKED(IDC_RADIO_MAX1, &ZahlenHaiOptionen::OnBnClickedRadioMax1)
+	ON_BN_CLICKED(IDC_RADIO_MAX2, &ZahlenHaiOptionen::OnBnClickedRadioMax2)
+	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &ZahlenHaiOptionen::OnTcnSelchangeTab1)
 END_MESSAGE_MAP()
 
 

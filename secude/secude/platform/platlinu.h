@@ -33,6 +33,8 @@
 # define SEC_TARGET_CPU_IA64 1
 #elif defined(__x86_64__)
 # define SEC_TARGET_CPU_AMD64 1
+#elif defined(__aarch64__)
+# define SEC_TARGET_CPU_ARM64 1
 #else
 # error "architecture not supported"
 #endif
@@ -43,6 +45,9 @@
 
 #if __GNUC__ >= 3 || __GNUC_MINOR__ > 8 /* This is stupid: egcs is libc6, else libc5. Find a better way! */
 
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE 1
+#endif
 #define _BSD_SOURCE 1
 
 #include <stdint.h>

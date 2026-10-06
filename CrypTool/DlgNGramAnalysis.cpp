@@ -80,20 +80,20 @@ void CDlgNGramAnaylsis::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgNGramAnaylsis, CDialog)
 	//{{AFX_MSG_MAP(CDlgNGramAnaylsis)
-		ON_BN_CLICKED(IDC_RADIO1, OnEvalNGram)
-		ON_BN_CLICKED(IDC_RADIO2, OnEvalNGram)
-		ON_BN_CLICKED(IDC_RADIO3, OnEvalNGram)
-		ON_BN_CLICKED(IDC_RADIO4, OnEvalNGram)
-		ON_BN_CLICKED(IDC_BUTTON2, OnEvalNGram)
-		ON_BN_CLICKED(IDOK, OnSaveNGramList)
-		ON_BN_CLICKED(IDC_BUTTON_TEXTOPTIONS, OnTextOptions)
+		ON_BN_CLICKED(IDC_RADIO1, &CDlgNGramAnaylsis::OnEvalNGram)
+		ON_BN_CLICKED(IDC_RADIO2, &CDlgNGramAnaylsis::OnEvalNGram)
+		ON_BN_CLICKED(IDC_RADIO3, &CDlgNGramAnaylsis::OnEvalNGram)
+		ON_BN_CLICKED(IDC_RADIO4, &CDlgNGramAnaylsis::OnEvalNGram)
+		ON_BN_CLICKED(IDC_BUTTON2, &CDlgNGramAnaylsis::OnEvalNGram)
+		ON_BN_CLICKED(IDOK, &CDlgNGramAnaylsis::OnSaveNGramList)
+		ON_BN_CLICKED(IDC_BUTTON_TEXTOPTIONS, &CDlgNGramAnaylsis::OnTextOptions)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // Behandlungsroutinen für Nachrichten CDlgNGramAnaylsis 
 
-int CDlgNGramAnaylsis::DoModal() 
+INT_PTR CDlgNGramAnaylsis::DoModal() 
 {
 	// TODO: Speziellen Code hier einfügen und/oder Basisklasse aufrufen
 	

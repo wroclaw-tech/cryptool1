@@ -39,7 +39,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "monty.h"
+#include "MONTY.H"
 
 #define FFT_BREAK_EVEN 16
 

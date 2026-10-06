@@ -74,10 +74,10 @@ void CDlgECCDecReceiver::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgECCDecReceiver, CDialog)
 	//{{AFX_MSG_MAP(CDlgECCDecReceiver)
-	ON_NOTIFY(NM_CLICK, IDC_LIST_KEYS, OnClickListKeys)
-	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST_KEYS, OnItemclickListKeys)
-	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_KEYS, OnColumnclickListKeys)
-	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST_KEYS, OnKeydownListKeys)
+	ON_NOTIFY(NM_CLICK, IDC_LIST_KEYS, &CDlgECCDecReceiver::OnClickListKeys)
+	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST_KEYS, &CDlgECCDecReceiver::OnItemclickListKeys)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_KEYS, &CDlgECCDecReceiver::OnColumnclickListKeys)
+	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST_KEYS, &CDlgECCDecReceiver::OnKeydownListKeys)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -93,10 +93,10 @@ void CDlgOptionsAnalysis::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgOptionsAnalysis, CDialog)
 	//{{AFX_MSG_MAP(CDlgOptionsAnalysis)
-	ON_BN_CLICKED(IDC_BUTTON_SEARCH_DICTIONARY_FILE, OnButtonSearchDictionaryFile)
-	ON_BN_CLICKED(IDC_BUTTON_SEARCH_DIGRAMS_FILE, OnButtonSearchDigramsFile)
-	ON_BN_CLICKED(IDC_BUTTON_SEARCH_TRIGRAMS_FILE, OnButtonSearchTrigramsFile)
-	ON_BN_CLICKED(IDC_BUTTON_RESTORE_STANDARD, OnBnClickedButtonRestoreStandard)
+	ON_BN_CLICKED(IDC_BUTTON_SEARCH_DICTIONARY_FILE, &CDlgOptionsAnalysis::OnButtonSearchDictionaryFile)
+	ON_BN_CLICKED(IDC_BUTTON_SEARCH_DIGRAMS_FILE, &CDlgOptionsAnalysis::OnButtonSearchDigramsFile)
+	ON_BN_CLICKED(IDC_BUTTON_SEARCH_TRIGRAMS_FILE, &CDlgOptionsAnalysis::OnButtonSearchTrigramsFile)
+	ON_BN_CLICKED(IDC_BUTTON_RESTORE_STANDARD, &CDlgOptionsAnalysis::OnBnClickedButtonRestoreStandard)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

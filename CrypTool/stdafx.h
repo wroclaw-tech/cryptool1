@@ -75,8 +75,8 @@
 
 #undef min
 #undef max
-#include "libanalyse\la_string.h"
-#include "libanalyse\analyse.h"
+#include "libanalyse/la_string.h"
+#include "libanalyse/analyse.h"
 #include <afxdhtml.h>
 
 

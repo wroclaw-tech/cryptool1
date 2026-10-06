@@ -28,7 +28,7 @@
 using namespace std;
 // necessary to access the CrypTool alphabet
 #include "CrypToolApp.h"
-#include "libanalyse\NGram.h"
+#include "libanalyse/NGram.h"
 
 adfgvx::adfgvx () {
 	codeMatrix[0][0] = 'A';

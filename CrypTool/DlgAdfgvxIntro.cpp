@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgAdfgvxIntro.h"
-#include ".\dlgadfgvxintro.h"
+#include "DlgAdfgvxIntro.h"
 #include "CrypToolTools.h"
 
 
@@ -49,7 +49,7 @@ void DlgAdfgvxIntro::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(DlgAdfgvxIntro, CDialog)
-	ON_BN_CLICKED(IDC_CHECK1, OnBnClickedCheck1)
+	ON_BN_CLICKED(IDC_CHECK1, &DlgAdfgvxIntro::OnBnClickedCheck1)
 END_MESSAGE_MAP()
 
 

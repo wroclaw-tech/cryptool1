@@ -79,8 +79,8 @@ void CDlgHillAnaylsis::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CDlgHillAnaylsis, CDialog)
-	ON_CBN_SELCHANGE(IDC_DIM_VON, OnSelchangeDimVon)
-	ON_CBN_SELCHANGE(IDC_DIM_BIS, OnSelchangeDimBis)
+	ON_CBN_SELCHANGE(IDC_DIM_VON, &CDlgHillAnaylsis::OnSelchangeDimVon)
+	ON_CBN_SELCHANGE(IDC_DIM_BIS, &CDlgHillAnaylsis::OnSelchangeDimBis)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &CDlgHillAnaylsis::OnTcnSelchangeTab1)
 	ON_BN_CLICKED(IDOK, &CDlgHillAnaylsis::OnBnClickedSearchKey)
 	ON_BN_CLICKED(IDCANCEL, &CDlgHillAnaylsis::OnBnClickedCancel)

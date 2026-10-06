@@ -27,7 +27,7 @@
 #include "resource.h"
 #include "IntegerArithmetic.h"
 
-#include <monty.h>
+#include "MONTY.H"
 #include "DlgProgressFactorisation.h"
 
 #ifdef _DEBUG

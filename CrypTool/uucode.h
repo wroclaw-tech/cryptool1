@@ -37,7 +37,9 @@
 
 #ifndef _HLIB_UUEncDec_H_
 #define _HLIB_UUEncDec_H_ 1
+#ifndef __GNUC__
 #define __attribute__(x)
+#endif
 // ERROR CODES
 #define UU_CODE_NOERROR 0
 #define UU_DECODE_MISSING_BEGIN -1
@@ -59,7 +61,9 @@ extern "C" {
 #endif
 
 typedef unsigned int u_int32_t __attribute__((__mode__(__SI__)));
+#ifdef _WIN32
 typedef signed int ssize_t;
+#endif
 
 
 /* ---ENCODE---

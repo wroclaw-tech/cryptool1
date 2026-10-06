@@ -50,7 +50,7 @@ CColoredListCtrl::~CColoredListCtrl()
 BEGIN_MESSAGE_MAP(CColoredListCtrl, CListCtrl)
 	//{{AFX_MSG_MAP(CColoredListCtrl)
 	ON_WM_ERASEBKGND()
-	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
+	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, &CColoredListCtrl::OnCustomDraw)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

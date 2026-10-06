@@ -22,7 +22,7 @@
 //
 
 #include "stdafx.h"
-#include "CryptoolApp.h"
+#include "CrypToolApp.h"
 #include "DlgDiffieHellmanGenerateFinalKey.h"
 
 #ifdef _DEBUG

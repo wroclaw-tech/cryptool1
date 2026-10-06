@@ -37,7 +37,7 @@
 extern volatile long ExitFactorisationCode;
 
 #include "BIG.H"	// Hinzugefügt von der Klassenansicht
-#include <monty.h>
+#include "MONTY.H"
 #include "ChrTools.h"
 
 

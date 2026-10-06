@@ -42,7 +42,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "poly.h"
+#include "POLY.H"
 
 extern Poly modulus;
 
@@ -52,7 +52,7 @@ public:
     Poly p;
 
     PolyMod() { }
-    PolyMod(const Poly& m)     {p=m%modulus; }
+    PolyMod(const Poly& m)     {p=m%::modulus; }
     PolyMod(const PolyMod& m)  {p=m.p; }
     void clear()               {p.clear();}
     term* addterm(const ZZn& z,int i,term *pos=NULL) {return p.addterm(z,i,pos);}
@@ -62,8 +62,8 @@ public:
     PolyMod& operator=(int m)               {p=m; return *this;}
     PolyMod& operator=(const PolyMod& m)    {p=m.p; return *this;}
     PolyMod& operator=(const Poly& m)       {reduce(m,*this); return *this;}
-    PolyMod& operator+=(const PolyMod& m)   {p=(p+m.p)%modulus;return *this;}
-    PolyMod& operator-=(const PolyMod& m)   {p=(p-m.p)%modulus;return *this;}
+    PolyMod& operator+=(const PolyMod& m)   {p=(p+m.p)%::modulus;return *this;}
+    PolyMod& operator-=(const PolyMod& m)   {p=(p-m.p)%::modulus;return *this;}
     PolyMod& operator+=(const ZZn& m)       {addterm(m,0); return *this;}
     PolyMod& operator-=(const ZZn& m)       {addterm((-m),0); return *this;}
     PolyMod& operator*=(const ZZn& z)       {p*=z;return *this;}

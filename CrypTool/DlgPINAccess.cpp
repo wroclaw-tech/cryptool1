@@ -72,7 +72,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // Behandlungsroutinen für Nachrichten CDlgPINAccess 
 
-int CDlgPINAccess::DoModal() 
+INT_PTR CDlgPINAccess::DoModal() 
 {
 	// TODO: Speziellen Code hier einfügen und/oder Basisklasse aufrufen
 	

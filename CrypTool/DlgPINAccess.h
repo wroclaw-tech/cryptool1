@@ -50,7 +50,7 @@ public:
 	// Vom Klassen-Assistenten generierte virtuelle Funktionsüberschreibungen
 	//{{AFX_VIRTUAL(CDlgPINAccess)
 	public:
-	virtual int DoModal();
+	virtual INT_PTR DoModal();
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV-Unterstützung
 	//}}AFX_VIRTUAL

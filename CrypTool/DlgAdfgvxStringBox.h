@@ -45,6 +45,6 @@ public:
 
 private:
 	CString input;
-	void DlgAdfgvxStringBox::OnOK();
-	BOOL DlgAdfgvxStringBox::OnInitDialog();
+	void OnOK();
+	BOOL OnInitDialog();
 };

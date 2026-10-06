@@ -89,10 +89,10 @@
 #include "DlgComputeMersenneNumbers.h"
 
 // #if !defined(_MSC_VER) || _MSC_VER <= 1200
-#include "RSABloemerMayDlg.h"
-#include "RSAStereotypedMSGDlg.h"
-#include "RSAFactorHintDlg.h"
-#include ".\cryptoolapp.h"
+#include "rsabloemermaydlg.h"
+#include "rsastereotypedmsgdlg.h"
+#include "rsafactorhintdlg.h"
+#include "CrypToolApp.h"
 #include "CrypToolTools.h"
 // #endif
 
@@ -144,61 +144,61 @@ CCrypToolApp NEAR theApp;
 
 BEGIN_MESSAGE_MAP(CCrypToolApp, CWinApp)
 	//{{AFX_MSG_MAP(CCrypToolApp)
-	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
-	ON_COMMAND(ID_OPTIONS_ANALYSIS, OnOptionsAnalysis)
-	ON_COMMAND(ID_WINDOW_CLOSE_ALL, OnWindowCloseAll)
-	ON_COMMAND(ID_OPTTEXT, OnOpttext)
-	ON_UPDATE_COMMAND_UI(ID_CRYPT_KeyGen, OnUpdateNeedSecudeTicket)
-	ON_COMMAND(ID_SHOW_ALL_EC_KEYS, OnShowKeys)
-	ON_COMMAND(ID_CRYPT_KeyGen, OnKeyGen)
-	ON_COMMAND(ID_EINZELVERFAHREN_TUTORIAL_PRIMZAHLENGENERIEREN, OnEinzelverfahrenTutorialPrimzahlengenerieren)
-	ON_COMMAND(ID_EINZELVERFAHREN_TUTORIAL_RSAALGORITHMUS, OnEinzelverfahrenTutorialRsaalgorithmus)
-	ON_COMMAND(ID_EINZELVERFAHREN_TUTORIALFRKLEINEZAHLEN_FAKTORISIERENIFP, OnEinzelverfahrenTutorialfrkleinezahlenFaktorisieren)
-	ON_COMMAND(ID_EINZELVERFAHREN_SCHLUESSELGENERIEREN, OnEinzelverfahrenSchluesselgenerieren)
-	ON_COMMAND(ID_ZUFALL_GENERATOREN, OnGenRandomData)
-	ON_COMMAND(ID_HASH_OFAFILE, OnHashOfAFile)
-	ON_COMMAND(ID_EINZELVERFAHREN_SIGN, OnEinzelverfahrenTutorialSignaturerzeugung)
-	ON_COMMAND(ID_VERENTSCHLSSELN_HYBRIDVERFAHREN_HYBRIDVERSCHLSSELUNG, OnVerentschlsselnHybridverfahrenHybridverschlsselung)
-	ON_COMMAND(ID_OPTIONS_STARTOPTIONS, OnOptionsStartoptions)
-	ON_COMMAND(ID_HILFE_INDEX, OnHilfeIndex)
-	ON_COMMAND(ID_HILFE_STARTSEITE, OnHilfeStartseite)
-	ON_COMMAND(ID_HILFE_SZENARIEN, OnHilfeSzenarien)
-	ON_COMMAND(ID_SIGNATUR_ATTACK, OnSignaturAttack)
-	ON_COMMAND(ID_EINZELVERFAHREN_DIFFIEHELLMANDEMO, OnEinzelverfahrenDiffiehellmandemo)
-	ON_COMMAND(ID_SIGATTMODIFICDEMO, OnSigattmodificdemo)
-	ON_COMMAND(ID_LOAD_README, OnLoadReadme)
-	ON_COMMAND(ID_SCRIPT, OnScript)
-	ON_COMMAND(ID_HELP_PRESENTATION, OnPresentation)
-	ON_COMMAND(ID_EINZELVERFAHREN_SIDECHANNELATTACK_ON_HYBRIDENCRYPTION, OnEinzelverfahrenSidechannelattackOnHybridencryption)
-	ON_COMMAND(ID_PASSWORDQUALITYMETER, OnPasswordQualityMeter)
-	ON_COMMAND(ID_PASSWORDENTROPY, OnPasswordEntropy)
-	ON_COMMAND(ID_LENGTHOFANUMBER, OnLengthOfANumber)
-	ON_COMMAND(ID_CHALLENGE_RESPONSE, OnChallengeResponse)
-	ON_COMMAND(ID_RSA_FACTORHINT, OnRsaFactorhint)
-	ON_COMMAND(ID_RSA_STEREOTYPED, OnRsaStereotyped)
-	ON_COMMAND(ID_RSA_BLOEMERMAY, OnRsaBloemermay)
-	ON_COMMAND(ID_HELP_ANIMAL_CAESAR, OnAnimalCaesar)
-	ON_COMMAND(ID_HELP_ANIMAL_VIGENERE, OnAnimalVigenere)
-	ON_COMMAND(ID_HELP_ANIMAL_NIHILIST, OnAnimalNihilist)
-	ON_COMMAND(ID_HELP_ANIMAL_DES, OnAnimalDes)
-	ON_COMMAND(ID_INDIV_CRT_PLANET, OnIndivCrtPlanet)
-	ON_COMMAND(ID_INDIV_CRT_DEMO, OnIndivCrtDemo)
-	ON_COMMAND(ID_INDIV_CRT_SECRETSHARING, OnIndivCrtSecretsharing)
-	ON_COMMAND(ID_NUMBERSHARK, OnNumberShark)
-	ON_UPDATE_COMMAND_UI(ID_NUMBERSHARK, OnUpdateNumberShark)
-	ON_UPDATE_COMMAND_UI(ID_SHOW_ALL_EC_KEYS, OnUpdateNeedSecudeTicket)
-	ON_UPDATE_COMMAND_UI(ID_CRYPT_KeyGen, OnUpdateNeedSecudeTicket)
-	ON_UPDATE_COMMAND_UI(ID_VERENTSCHLSSELN_HYBRIDVERFAHREN_HYBRIDVERSCHLSSELUNG, OnUpdateNeedSecudeTicket)
-	ON_UPDATE_COMMAND_UI(ID_VERENTSCHLSSELN_HYBRIDVERFAHREN_HYBRIDENTSCHLSSELUNG, OnUpdateNeedSecudeTicket)
-	ON_UPDATE_COMMAND_UI(ID_HASH_OFAFILE, OnUpdateNeedSecudeTicket)
-	ON_UPDATE_COMMAND_UI(ID_EINZELVERFAHREN_SIGN, OnUpdateNeedSecudeTicket)
-	ON_UPDATE_COMMAND_UI(ID_EINZELVERFAHREN_SCHLUESSELGENERIEREN, OnUpdateNeedSecudeTicket)
-	ON_COMMAND(ID_INDIVIDUAL_PROCEDURES_SECRETSHARING, OnIndividualProceduresSecretsharing)
-	ON_COMMAND(ID_GENERATION_TADIC_NAF_KEYS, OnGenerationTAdicNAFKeys)
+	ON_COMMAND(ID_APP_ABOUT, &CCrypToolApp::OnAppAbout)
+	ON_COMMAND(ID_OPTIONS_ANALYSIS, &CCrypToolApp::OnOptionsAnalysis)
+	ON_COMMAND(ID_WINDOW_CLOSE_ALL, &CCrypToolApp::OnWindowCloseAll)
+	ON_COMMAND(ID_OPTTEXT, &CCrypToolApp::OnOpttext)
+	ON_UPDATE_COMMAND_UI(ID_CRYPT_KeyGen, &CCrypToolApp::OnUpdateNeedSecudeTicket)
+	ON_COMMAND(ID_SHOW_ALL_EC_KEYS, &CCrypToolApp::OnShowKeys)
+	ON_COMMAND(ID_CRYPT_KeyGen, &CCrypToolApp::OnKeyGen)
+	ON_COMMAND(ID_EINZELVERFAHREN_TUTORIAL_PRIMZAHLENGENERIEREN, &CCrypToolApp::OnEinzelverfahrenTutorialPrimzahlengenerieren)
+	ON_COMMAND(ID_EINZELVERFAHREN_TUTORIAL_RSAALGORITHMUS, &CCrypToolApp::OnEinzelverfahrenTutorialRsaalgorithmus)
+	ON_COMMAND(ID_EINZELVERFAHREN_TUTORIALFRKLEINEZAHLEN_FAKTORISIERENIFP, &CCrypToolApp::OnEinzelverfahrenTutorialfrkleinezahlenFaktorisieren)
+	ON_COMMAND(ID_EINZELVERFAHREN_SCHLUESSELGENERIEREN, &CCrypToolApp::OnEinzelverfahrenSchluesselgenerieren)
+	ON_COMMAND(ID_ZUFALL_GENERATOREN, &CCrypToolApp::OnGenRandomData)
+	ON_COMMAND(ID_HASH_OFAFILE, &CCrypToolApp::OnHashOfAFile)
+	ON_COMMAND(ID_EINZELVERFAHREN_SIGN, &CCrypToolApp::OnEinzelverfahrenTutorialSignaturerzeugung)
+	ON_COMMAND(ID_VERENTSCHLSSELN_HYBRIDVERFAHREN_HYBRIDVERSCHLSSELUNG, &CCrypToolApp::OnVerentschlsselnHybridverfahrenHybridverschlsselung)
+	ON_COMMAND(ID_OPTIONS_STARTOPTIONS, &CCrypToolApp::OnOptionsStartoptions)
+	ON_COMMAND(ID_HILFE_INDEX, &CCrypToolApp::OnHilfeIndex)
+	ON_COMMAND(ID_HILFE_STARTSEITE, &CCrypToolApp::OnHilfeStartseite)
+	ON_COMMAND(ID_HILFE_SZENARIEN, &CCrypToolApp::OnHilfeSzenarien)
+	ON_COMMAND(ID_SIGNATUR_ATTACK, &CCrypToolApp::OnSignaturAttack)
+	ON_COMMAND(ID_EINZELVERFAHREN_DIFFIEHELLMANDEMO, &CCrypToolApp::OnEinzelverfahrenDiffiehellmandemo)
+	ON_COMMAND(ID_SIGATTMODIFICDEMO, &CCrypToolApp::OnSigattmodificdemo)
+	ON_COMMAND(ID_LOAD_README, &CCrypToolApp::OnLoadReadme)
+	ON_COMMAND(ID_SCRIPT, &CCrypToolApp::OnScript)
+	ON_COMMAND(ID_HELP_PRESENTATION, &CCrypToolApp::OnPresentation)
+	ON_COMMAND(ID_EINZELVERFAHREN_SIDECHANNELATTACK_ON_HYBRIDENCRYPTION, &CCrypToolApp::OnEinzelverfahrenSidechannelattackOnHybridencryption)
+	ON_COMMAND(ID_PASSWORDQUALITYMETER, &CCrypToolApp::OnPasswordQualityMeter)
+	ON_COMMAND(ID_PASSWORDENTROPY, &CCrypToolApp::OnPasswordEntropy)
+	ON_COMMAND(ID_LENGTHOFANUMBER, &CCrypToolApp::OnLengthOfANumber)
+	ON_COMMAND(ID_CHALLENGE_RESPONSE, &CCrypToolApp::OnChallengeResponse)
+	ON_COMMAND(ID_RSA_FACTORHINT, &CCrypToolApp::OnRsaFactorhint)
+	ON_COMMAND(ID_RSA_STEREOTYPED, &CCrypToolApp::OnRsaStereotyped)
+	ON_COMMAND(ID_RSA_BLOEMERMAY, &CCrypToolApp::OnRsaBloemermay)
+	ON_COMMAND(ID_HELP_ANIMAL_CAESAR, &CCrypToolApp::OnAnimalCaesar)
+	ON_COMMAND(ID_HELP_ANIMAL_VIGENERE, &CCrypToolApp::OnAnimalVigenere)
+	ON_COMMAND(ID_HELP_ANIMAL_NIHILIST, &CCrypToolApp::OnAnimalNihilist)
+	ON_COMMAND(ID_HELP_ANIMAL_DES, &CCrypToolApp::OnAnimalDes)
+	ON_COMMAND(ID_INDIV_CRT_PLANET, &CCrypToolApp::OnIndivCrtPlanet)
+	ON_COMMAND(ID_INDIV_CRT_DEMO, &CCrypToolApp::OnIndivCrtDemo)
+	ON_COMMAND(ID_INDIV_CRT_SECRETSHARING, &CCrypToolApp::OnIndivCrtSecretsharing)
+	ON_COMMAND(ID_NUMBERSHARK, &CCrypToolApp::OnNumberShark)
+	ON_UPDATE_COMMAND_UI(ID_NUMBERSHARK, &CCrypToolApp::OnUpdateNumberShark)
+	ON_UPDATE_COMMAND_UI(ID_SHOW_ALL_EC_KEYS, &CCrypToolApp::OnUpdateNeedSecudeTicket)
+	ON_UPDATE_COMMAND_UI(ID_CRYPT_KeyGen, &CCrypToolApp::OnUpdateNeedSecudeTicket)
+	ON_UPDATE_COMMAND_UI(ID_VERENTSCHLSSELN_HYBRIDVERFAHREN_HYBRIDVERSCHLSSELUNG, &CCrypToolApp::OnUpdateNeedSecudeTicket)
+	ON_UPDATE_COMMAND_UI(ID_VERENTSCHLSSELN_HYBRIDVERFAHREN_HYBRIDENTSCHLSSELUNG, &CCrypToolApp::OnUpdateNeedSecudeTicket)
+	ON_UPDATE_COMMAND_UI(ID_HASH_OFAFILE, &CCrypToolApp::OnUpdateNeedSecudeTicket)
+	ON_UPDATE_COMMAND_UI(ID_EINZELVERFAHREN_SIGN, &CCrypToolApp::OnUpdateNeedSecudeTicket)
+	ON_UPDATE_COMMAND_UI(ID_EINZELVERFAHREN_SCHLUESSELGENERIEREN, &CCrypToolApp::OnUpdateNeedSecudeTicket)
+	ON_COMMAND(ID_INDIVIDUAL_PROCEDURES_SECRETSHARING, &CCrypToolApp::OnIndividualProceduresSecretsharing)
+	ON_COMMAND(ID_GENERATION_TADIC_NAF_KEYS, &CCrypToolApp::OnGenerationTAdicNAFKeys)
 	//}}AFX_MSG_MAP
 
 	//ON_COMMAND(ID_VERENTSCHLSSELN_HYBRIDVERFAHREN_HYBRIDVERSCHLSSELUNG, OnVerentschlsselnHybridverfahrenHybridverschlsselung)
-	ON_COMMAND(ID_FILE_NEW, OnFileNew)			     // file commands...
+	ON_COMMAND(ID_FILE_NEW, &CCrypToolApp::OnFileNew)			     // file commands...
 	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
 // BEGINN Fuer Hilfe-Funktionalitaet eingefuegt
@@ -209,14 +209,14 @@ BEGIN_MESSAGE_MAP(CCrypToolApp, CWinApp)
 	ON_COMMAND(ID_DEFAULT_HELP, CWinApp::OnHelpFinder)
 
 // ENDE
-	ON_COMMAND(ID_PRIMENUMBER_TEST, OnPrimenumberTest)
-	ON_COMMAND(ID_AES_SELFEXTRACT, OnAesSelfextract)
-	ON_COMMAND(ID_INDIV_POINTADDITIONONELLIPTICCURVES, OnIndivPointadditiononellipticcurves)
-	ON_COMMAND(ID_COMPUTE_MERSENNE_NUMBERS, OnComputeMersenneNumbers)
-	ON_COMMAND(ID_FLASH_AESDEMO, OnFlashAesdemo)
-	ON_COMMAND(ID_FLASH_RIJNDAEL_INSPECTOR, OnFlashRijndaelInspector)
-	ON_COMMAND(ID_FLASH_ENIGMADEMO, OnFlashEnigmademo)
-	ON_COMMAND(ID_INTERACTIVE_NUMBER_THEORY, OnInteractiveNumberTheory)
+	ON_COMMAND(ID_PRIMENUMBER_TEST, &CCrypToolApp::OnPrimenumberTest)
+	ON_COMMAND(ID_AES_SELFEXTRACT, &CCrypToolApp::OnAesSelfextract)
+	ON_COMMAND(ID_INDIV_POINTADDITIONONELLIPTICCURVES, &CCrypToolApp::OnIndivPointadditiononellipticcurves)
+	ON_COMMAND(ID_COMPUTE_MERSENNE_NUMBERS, &CCrypToolApp::OnComputeMersenneNumbers)
+	ON_COMMAND(ID_FLASH_AESDEMO, &CCrypToolApp::OnFlashAesdemo)
+	ON_COMMAND(ID_FLASH_RIJNDAEL_INSPECTOR, &CCrypToolApp::OnFlashRijndaelInspector)
+	ON_COMMAND(ID_FLASH_ENIGMADEMO, &CCrypToolApp::OnFlashEnigmademo)
+	ON_COMMAND(ID_INTERACTIVE_NUMBER_THEORY, &CCrypToolApp::OnInteractiveNumberTheory)
 	ON_COMMAND(ID_PROTOKOL_SMIME, &CCrypToolApp::OnProtokolSMIME)
 	ON_COMMAND(ID_AES_RIJNDAEL_FLOWVISUALISATION, &CCrypToolApp::OnAesRijndaelFlowvisualisation)
 	ON_COMMAND(ID_KNOWN_ANALYSIS_SINGLE_PERMUTATION, &CCrypToolApp::OnKnownAnalysisSinglePermutation)
@@ -701,8 +701,8 @@ BOOL CCrypToolApp::InitInstance()
 	}
 
 	// Secude ptr fuer EC-Lib setzen
-#define DoOneFn(a,b,c,d) ECSecudeLib.##c = SecudeLib.##c;
-#define DoOneData(a,b) ECSecudeLib.##b = SecudeLib.##b;
+#define DoOneFn(a,b,c,d) ECSecudeLib.c = SecudeLib.c;
+#define DoOneData(a,b) ECSecudeLib.b = SecudeLib.b;
 	DoECAll
 #undef DoOneFn
 #undef DoOneData
@@ -843,7 +843,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_DESTROY()
 	ON_WM_TIMER()
-	ON_COMMAND(ID_OPTIONS_PLOT, OnOptionsPlot)
+	ON_COMMAND(ID_OPTIONS_PLOT, &CMainFrame::OnOptionsPlot)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -35,7 +35,7 @@
 
 #include "stdafx.h"
 #include "SizingDialog.h"
-#include ".\SizingDialog.h"
+#include "SizingDialog.h"
 #include "CrypToolTools.h"
 
 ////////////////////////////////////////////////////////////////////////////

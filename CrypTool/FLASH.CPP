@@ -36,7 +36,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "flash.h"
+#include "FLASH.H"
 
 #ifdef MR_FLASH
 
@@ -52,7 +52,7 @@ return b;}
 Big Flash::num(void) {Big b; numer(fn,b.fn); return b;}
 Big Flash::den(void) {Big b; denom(fn,b.fn); return b;}
 
-Flash operator-(const Flash& f)  {Flash nf; negate(f.fn,nf.fn); return nf;}
+Flash operator-(const Flash& f)  {Flash nf; ::negate(f.fn,nf.fn); return nf;}
 
 Flash operator+(const Flash& f1, const Flash& f2)
 {Flash aff; fadd(f1.fn,f2.fn,aff.fn); return aff;}

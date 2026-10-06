@@ -22,7 +22,7 @@
 //
 
 #include "stdafx.h"
-#include "CryptoolApp.h"
+#include "CrypToolApp.h"
 #include "DlgVigenereAnalysisSchroedel.h"
 #include "CrypToolTools.h"
 #include "FileTools.h"
@@ -1475,9 +1475,9 @@ void CDlgVigenereAnalysisSchroedel::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CDlgVigenereAnalysisSchroedel, CDialog)
-	ON_BN_CLICKED(IDC_BUTTON_START_ANALYSIS, OnBnClickedStartAnalysis)
-	ON_BN_CLICKED(IDC_BUTTON_CANCEL_ANALYSIS, OnBnClickedCancelAnalysis)
-	ON_BN_CLICKED(IDC_BUTTON_SHOW_ANALYSIS_RESULTS, OnBnClickedShowAnalysisResults)
+	ON_BN_CLICKED(IDC_BUTTON_START_ANALYSIS, &CDlgVigenereAnalysisSchroedel::OnBnClickedStartAnalysis)
+	ON_BN_CLICKED(IDC_BUTTON_CANCEL_ANALYSIS, &CDlgVigenereAnalysisSchroedel::OnBnClickedCancelAnalysis)
+	ON_BN_CLICKED(IDC_BUTTON_SHOW_ANALYSIS_RESULTS, &CDlgVigenereAnalysisSchroedel::OnBnClickedShowAnalysisResults)
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
@@ -1669,7 +1669,7 @@ void CDlgVigenereAnalysisSchroedelChooseLanguages::DoDataExchange(CDataExchange*
 }
 
 BEGIN_MESSAGE_MAP(CDlgVigenereAnalysisSchroedelChooseLanguages, CDialog)
-	ON_BN_CLICKED(IDOK, OnOK)
+	ON_BN_CLICKED(IDOK, &CDlgVigenereAnalysisSchroedelChooseLanguages::OnOK)
 END_MESSAGE_MAP()
 
 BOOL CDlgVigenereAnalysisSchroedelChooseLanguages::OnInitDialog()

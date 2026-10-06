@@ -99,7 +99,7 @@ void CDlgDiffieHellmanKeyInformation::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgDiffieHellmanKeyInformation, CDialog)
 	//{{AFX_MSG_MAP(CDlgDiffieHellmanKeyInformation)
-	ON_BN_CLICKED(IDC_SHOWLOGTEXT, OnShowlogtext)
+	ON_BN_CLICKED(IDC_SHOWLOGTEXT, &CDlgDiffieHellmanKeyInformation::OnShowlogtext)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

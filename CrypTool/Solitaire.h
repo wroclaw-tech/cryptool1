@@ -41,7 +41,7 @@ class c_solitaire {
 	unsigned char crypt_c( solitaire_action encrypt, unsigned char c );
 	long		  crypt( solitaire_action encrypt, const char *f_in, const char *f_out );
 
-	friend long crypt_solitaire( solitaire_action encrypt, const char *f_in, const char *f_out, long cards, long ID, unsigned char *cardset, char *password = 0 );
+	friend long crypt_solitaire( solitaire_action encrypt, const char *f_in, const char *f_out, long cards, long ID, unsigned char *cardset, char *password );
 	friend long crypt_solitaire( solitaire_action encrypt, const char *f_in, const char *f_out, CString &cardset );
 
 public:
@@ -63,6 +63,7 @@ public:
 	void            set_inner_state(long state) { inner_state = state; }
 };
 
+long crypt_solitaire( solitaire_action encrypt, const char *f_in, const char *f_out, long cards, long ID, unsigned char *cardset, char *password = 0 );
 
 #if 1
 class Deck

@@ -33,7 +33,7 @@
 #ifndef FPOLY_H
 #define FPOLY_H
 
-#include "flash.h"
+#include "FLASH.H"
 
 class fterm
 {

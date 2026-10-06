@@ -28,12 +28,12 @@
 #include "PSEDemo.h"
 #include "IntegerArithmetic.h"
 #include "DlgKeyAsymGeneration.h"
-#include "secudelib.h"
+#include "SecudeLib.h"
 #include "secure.h"	// Header-File für das SECUDE-Toolkit
 #include "af.h"		// Header-File für den SECUDE Authentication Framework
 #include "CrypToolApp.h"
 #include "Cryptography.h"
-#include "secudetools.h"
+#include "SecudeTools.h"
 #include "DlgRSADecryption.h"
 #include "DialogeMessage.h"
 

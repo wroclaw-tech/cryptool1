@@ -36,7 +36,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "fpoly.h"
+#include "FPOLY.H"
 
 
 FPoly::FPoly(const FPoly& p)

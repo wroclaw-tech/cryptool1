@@ -32,7 +32,13 @@
 #ifndef _MYTEMPLATES_H
 #define _MYTEMPLATES_H 1
 
+#ifdef _MSC_VER
 #include <xutility>
+#define LA_STDCALL __stdcall
+#else
+#include <utility>
+#define LA_STDCALL
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Beginn Aenderung Jens Liebehenschel, 30.12.1998
@@ -70,7 +76,7 @@ template <class T> inline int __stdcall operator>=(const T& x, const T& y)
 #pragma warning( pop )
 
 // templates defining operator +,-,*,/,^,% using +=,... and initializing constructor
-template <class T, class A> inline T __stdcall operator+(const T& x, A& y) 
+template <class T, class A> inline T LA_STDCALL operator+(const T& x, A& y) 
 { T tmp(x); tmp+=y; return tmp; }
 ///////////////////////////////////////////////////////////////////////////////////////
 // Ende Aenderung Jens Liebehenschel, 30.12.1998

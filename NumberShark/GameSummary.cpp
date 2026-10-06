@@ -50,10 +50,10 @@ void CGameSummary::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CGameSummary, CDialog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDOK, &CGameSummary::OnBnClickedOk)
 	ON_WM_ACTIVATE()
-	ON_BN_CLICKED(IDC_RADIO1, OnBnClickedRadio1)
-	ON_BN_CLICKED(IDC_RADIO2, OnBnClickedRadio2)
+	ON_BN_CLICKED(IDC_RADIO1, &CGameSummary::OnBnClickedRadio1)
+	ON_BN_CLICKED(IDC_RADIO2, &CGameSummary::OnBnClickedRadio2)
 END_MESSAGE_MAP()
 
 

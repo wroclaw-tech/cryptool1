@@ -22,9 +22,9 @@
 //
 
 #include "stdafx.h"
-#include "CryptoolApp.h"
+#include "CrypToolApp.h"
 #include "DlgSecretSharingIntro.h"
-#include ".\dlgsecretsharingintro.h"
+#include "DlgSecretSharingIntro.h"
 #include "CrypToolTools.h"
 
 
@@ -54,7 +54,7 @@ void CDlgSecretSharingIntro::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgSecretSharingIntro, CDialog)
 	//{{AFX_MSG_MAP(CDlgSecretSharingIntro)
-	ON_BN_CLICKED(IDOK, OnOk)
+	ON_BN_CLICKED(IDOK, &CDlgSecretSharingIntro::OnOk)
 	//}}AFX_MSG_MAP	
 END_MESSAGE_MAP()
 

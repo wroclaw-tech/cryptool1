@@ -49,7 +49,7 @@ CPlayfairEdit::~CPlayfairEdit()
 BEGIN_MESSAGE_MAP(CPlayfairEdit, CEdit)
 	//{{AFX_MSG_MAP(CPlayfairEdit)
 	ON_WM_CHAR()
-	ON_COMMAND(ID_EDIT_PASTE, OnEditPaste)
+	ON_COMMAND(ID_EDIT_PASTE, &CPlayfairEdit::OnEditPaste)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

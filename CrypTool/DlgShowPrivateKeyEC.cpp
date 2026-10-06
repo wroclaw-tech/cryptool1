@@ -92,9 +92,9 @@ void CDlgShowPrivateKeyEC::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgShowPrivateKeyEC, CDialog)
 	//{{AFX_MSG_MAP(CDlgShowPrivateKeyEC)
-	ON_BN_CLICKED(IDC_RADIO1, OnOctalRadio)
-	ON_BN_CLICKED(IDC_RADIO2, OnDecimalRadio)
-	ON_BN_CLICKED(IDC_RADIO3, OnHexRadio)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgShowPrivateKeyEC::OnOctalRadio)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgShowPrivateKeyEC::OnDecimalRadio)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgShowPrivateKeyEC::OnHexRadio)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

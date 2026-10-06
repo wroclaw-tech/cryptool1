@@ -22,6 +22,11 @@
 
 #include <secude/secure.h>
 
+#if !defined(HAS_EXT)
+/* an older secure.h (CrypTool/secure.h) was included first and lacks this type */
+typedef SEQUENCE_OF(ObjId) SEQUENCE_OF_ObjId;
+#endif
+
 /*
  *   secure.h defines:
  *

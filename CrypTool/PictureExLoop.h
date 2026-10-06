@@ -104,6 +104,10 @@
 
 #include <vector>
 
+#ifndef _WIN32
+class wxImage;
+#endif
+
 //#define GIF_TRACING  // uncomment it if you want detailed TRACEs
 
 
@@ -117,7 +121,11 @@ public:
 
 struct TFrame    // structure that keeps a single frame info
 {
+#ifdef _WIN32
 	IPicture *m_pPicture;  // pointer to the interface used for drawing
+#else
+	wxImage *m_pPicture;
+#endif
 	SIZE     m_frameSize;
 	SIZE     m_frameOffset;
 	UINT     m_nDelay;     // delay (in 1/100s of a second)
@@ -297,7 +305,14 @@ protected:
 	HBITMAP m_hOldBitmap;
 	HANDLE m_hThread;
 	HANDLE m_hExitEvent;
+#ifdef _WIN32
 	IPicture * m_pPicture;
+#else
+	// wxWidgets implementation (PictureEx_wx.cpp): images replace IPicture and the memory DCs
+	wxImage * m_pPicture;
+	wxImage * m_pCanvas;
+	wxImage * m_pDispCanvas;
+#endif
 	TGIFHeader * m_pGIFHeader;
 	unsigned char * m_pRawData;
 	TGIFLSDescriptor * m_pGIFLSDescriptor;
@@ -321,6 +336,9 @@ protected:
 	afx_msg void OnDestroy();
 	afx_msg void OnPaint();
 	//}}AFX_MSG
+#ifndef _WIN32
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+#endif
 	
 	DECLARE_MESSAGE_MAP()
 };

@@ -170,7 +170,7 @@ public:
                                                          // x^m.y^k mod n 
     friend Big pow(int,Big *,Big *,Big);  // x[0]^m[0].x[1].m[1]... mod n
 
-    friend Big luc(const Big& ,const Big&, const Big&, Big *b4=NULL);
+    friend Big luc(const Big& ,const Big&, const Big&, Big *b4);
     friend Big inverse(const Big&, const Big&);
     friend Big rand(const Big&);     // 0 < rand < parameter
     friend Big rand(int,int);        // (digits,base) e.g. (1024,2)
@@ -201,7 +201,7 @@ public:
     friend Big nres_pow(const Big&,const Big&);
     friend Big nres_pow2(const Big&,const Big&,const Big&,const Big&);
     friend Big nres_pown(int,Big *,Big *);
-    friend Big nres_luc(const Big&,const Big&,Big *b3=NULL);
+    friend Big nres_luc(const Big&,const Big&,Big *b3);
     friend Big nres_sqrt(const Big&);
     friend Big nres_modadd(const Big&,const Big&);
     friend Big nres_modsub(const Big&,const Big&);
@@ -229,6 +229,14 @@ public:
 
     ~Big() { mirkill(fn); }
 };
+
+/* standard C++ needs these at namespace scope (no ADL via Big, default arguments) */
+Big luc(const Big&,const Big&,const Big&,Big *b4=NULL);
+Big nres_luc(const Big&,const Big&,Big *b3=NULL);
+Big from_binary(int,char *);
+Big rand(int,int);
+BOOL modulo(int,int,int,int,BOOL);
+Big get_modulus();
 
 
 #endif

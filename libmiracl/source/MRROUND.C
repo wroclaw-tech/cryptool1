@@ -169,7 +169,7 @@ middle:
 }
 
 
-void round(_MIPD_ big num,big den,flash z)
+void mround(_MIPD_ big num,big den,flash z)
 { /* reduces and rounds the fraction num/den into z */
     int s;
 #ifndef MR_GENERIC_MT

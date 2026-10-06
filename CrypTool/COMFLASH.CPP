@@ -18,7 +18,7 @@
 
 **************************************************************************/
 
-#include "comflash.h"
+#include "COMFLASH.H"
 
 
 Complex& Complex::operator=(const Complex& a)

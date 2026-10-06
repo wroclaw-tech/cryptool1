@@ -95,7 +95,7 @@ private:
 	bool FindRoots(ZZX f, vec_ZZ& r);
 	ZZXY *polyPowers; // represent the f(xX,yX)^k polynomials
 	mat_ZZ Lattice; // the lattice to be reduced
-	ZZ BloemerMayAttack::binom(int i, int j);
+	ZZ binom(int i, int j);
 	static long StopLLL(const vec_ZZ& z);
 
 	

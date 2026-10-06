@@ -22,7 +22,7 @@
 //
 
 #include "stdafx.h"
-#include "cryptoolapp.h"
+#include "CrypToolApp.h"
 #include "DlgOptionsAutoSubstitutionAnalysis.h"
 
 #ifdef _DEBUG
