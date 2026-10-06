@@ -1,6 +1,6 @@
 # CrypTool 1
 
-![macOS/Linux port](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/wroclaw-tech/cryptool1/xplat-port/port/status/badge.json) — see [port/status/STATUS.md](port/status/STATUS.md)
+![macOS/Linux port](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/wroclaw-tech/cryptool1/port-status/badge.json) — see [STATUS.md](https://github.com/wroclaw-tech/cryptool1/blob/port-status/STATUS.md)
 [CrypTool 1](https://www.cryptool.org/ct1/) (CT1) is a free Windows program for cryptography and cryptanalysis.
 
 It is part of the [CrypTool Project](https://www.cryptool.org/).

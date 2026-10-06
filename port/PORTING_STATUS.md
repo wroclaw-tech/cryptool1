@@ -2,7 +2,7 @@
 
 Work in progress on branch `xplat-port`. Nothing builds into a runnable app yet.
 
-**Overall progress:** measured automatically, see [status/STATUS.md](status/STATUS.md).
+**Overall progress:** measured automatically, see [STATUS.md on the port-status branch](https://github.com/wroclaw-tech/cryptool1/blob/port-status/STATUS.md) (`python3 port/tools/port_status.py` locally).
 The table below is a manual estimate by area.
 
 | Area | Weight | Done |

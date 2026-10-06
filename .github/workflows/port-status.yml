@@ -3,7 +3,6 @@ name: Port status
 on:
   push:
     branches: [xplat-port]
-    paths-ignore: ['port/status/**']
   workflow_dispatch:
 
 permissions:
@@ -22,10 +21,21 @@ jobs:
         run: brew install wxwidgets@3.2 openssl@3 gmp ninja cmake
       - name: Measure
         run: python3 port/tools/port_status.py
-      - name: Publish
+      - name: Publish to the port-status branch
         run: |
+          out="$RUNNER_TEMP/status"
+          mkdir -p "$out"
+          cp port/status/* "$out/"
           git config user.name "port-status-bot"
           git config user.email "port-status-bot@users.noreply.github.com"
-          git add port/status
-          git diff --cached --quiet || git commit -m "Update port status [skip ci]"
-          git push
+          if git fetch --depth 1 origin port-status; then
+            git switch -c port-status FETCH_HEAD
+          else
+            git switch --orphan port-status
+          fi
+          git rm -rfq --ignore-unmatch .
+          git clean -fdxq
+          cp "$out"/* .
+          git add badge.json status.json STATUS.md
+          git diff --cached --quiet || git commit -m "chore(status): update port status for ${GITHUB_SHA::8}"
+          git push origin port-status
