@@ -54,8 +54,7 @@ add_custom_target(cryptool_data ALL
 add_dependencies(CrypTool cryptool_data)
 
 # ---------------------------------------------------------------------------------------------
-# Help: the HTML Help sources are mirrored into the data directory with the index the mfcwx
-# HtmlHelp replacement reads (context ids, ALinks, keywords) and the generated readme page.
+# Help: hlp_* mirrored into the data directory plus the index read by mfcwx (help.cpp)
 
 set(CT_HELP_LANGUAGES en de)
 set(CT_HELP_GENERATED CrypTool.helpindex hid_load_readme.html)

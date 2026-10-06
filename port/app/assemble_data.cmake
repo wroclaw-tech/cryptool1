@@ -1,5 +1,6 @@
 # Builds the data directory the application reads at run time (a development stand-in for the
-# installed resources): links to the bitmaps, help and template files plus freshly generated key stores.
+# installed resources): links to the bitmaps and template files plus freshly generated key stores.
+# The help directories are set up by the cryptool_help target (port/tools/build_help_index.py).
 #   cmake -DREPO_ROOT=... -DDATA_DIR=... -DMKPSE=... -P assemble_data.cmake
 
 file(MAKE_DIRECTORY "${DATA_DIR}")
@@ -11,8 +12,6 @@ function(link_into name target)
 endfunction()
 
 link_into(res "${REPO_ROOT}/CrypTool/res")
-link_into(hlp_en "${REPO_ROOT}/CrypTool/hlp_en")
-link_into(hlp_de "${REPO_ROOT}/CrypTool/hlp_de")
 
 file(GLOB template_entries RELATIVE "${REPO_ROOT}/setup/template" "${REPO_ROOT}/setup/template/*")
 foreach(entry IN LISTS template_entries)
