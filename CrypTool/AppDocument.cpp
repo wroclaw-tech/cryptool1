@@ -21,7 +21,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "AppDocument.h"
-#include "Windows.h"
+#include "windows.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

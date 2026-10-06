@@ -48,7 +48,7 @@ public:
 	const ZZXY operator-(ZZXY& B);
 	ZZXY operator*(ZZX& B);
 	const ZZXY operator*(ZZXY& B);
-	ZZXY operator *(ZZ &B);
+	ZZXY operator *(const ZZ &B);
 	const ZZXY operator+(ZZXY& B);
 	const ZZXY operator /(ZZ d);
 	const ZZXY operator /(ZZX b);

@@ -38,7 +38,7 @@
 #include "GotoPosDlg.h"
 #endif
 //#include "ScintillaDlg.h"
-#include "scintilla.h"
+#include "Scintilla.h"
 #include "ScintillaView.h"
 #include "FileTools.h"
 // Suchen und ersetzen

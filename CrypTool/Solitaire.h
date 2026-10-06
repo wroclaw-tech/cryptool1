@@ -64,6 +64,7 @@ public:
 };
 
 long crypt_solitaire( solitaire_action encrypt, const char *f_in, const char *f_out, long cards, long ID, unsigned char *cardset, char *password = 0 );
+long crypt_solitaire( solitaire_action encrypt, const char *f_in, const char *f_out, CString &cardset );
 
 #if 1
 class Deck

@@ -82,7 +82,7 @@ ObjId * CrypToolPSEName_OID()
 }
 
 
-static char * basename(char *psename)
+static char * pse_basename(char *psename)
 {
     char *pos;
 
@@ -169,7 +169,7 @@ OctetString *PKCS12_encode(PSE pse, OctetString * PIN, int iterationcount, int e
     P12safe.bags = NULL;
     P12bagp = &P12safe.bags;
 
-	name = basename(pse->pse_name);
+	name = pse_basename(pse->pse_name);
 
 	// cryptool only supports one key pair per PSE. if this changes in the future,
 	// this code must be extended
@@ -255,7 +255,7 @@ OctetString *PKCS12_encode(PSE pse, OctetString * PIN, int iterationcount, int e
 int PKCS12_import(PSE pse, OctetString *input, OctetString *password, int newpse)
 {
     P12_Safe P12safe;
-	char verified;
+	Boolean verified;
     P12_Bag *thisbag;
 	int rc, keys, certs, ii, ok, bags;
 	Certificate *thiscert;

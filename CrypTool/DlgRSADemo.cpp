@@ -21,7 +21,7 @@
 // RSA_mit_kleinenPZ.cpp: Implementierungsdatei
 //
 #include "stdafx.h"
-#include "Afx.h"
+#include "afx.h"
 #include "CrypToolApp.h"
 #include "DlgOptionsRSADemo.h"
 #include "DlgRSADemo.h"

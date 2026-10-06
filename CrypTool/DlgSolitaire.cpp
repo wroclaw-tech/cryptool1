@@ -68,7 +68,7 @@ bool CDlgSolitaire::load_infile()
 {
 	ifstream i_file;
 	in_buffer_size = 0;
-	i_file.open( infile, ios::in || ios::binary );
+	i_file.open( infile, ios::in ); // was "ios::in || ios::binary", which evaluates to ios::in
 	if ( i_file.is_open() )
 	{	
 		if ( !in_buffer  ) in_buffer  = new unsigned char[4000];

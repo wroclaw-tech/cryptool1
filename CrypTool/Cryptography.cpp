@@ -1152,7 +1152,7 @@ void HistogramASCII(const char *infile, const char *OldTitle)
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_ASCII_HISTOGRAM_OF,pc_str,STR_LAENGE_STRING_TABLE);
     MakeNewName2(line,sizeof(line),pc_str,_itoa(len, numbuff, 10),OldTitle);
 
-	distr.Show(OStream(name)<< OStream::Title(0) << OStream::Description(0) << OStream::Summary(0) << OStream::Percent());
+	{ OStream os(name); distr.Show(os << OStream::Title(0) << OStream::Description(0) << OStream::Summary(0) << OStream::Percent()); }
 	// get the tmp name without file extension
 	strcpy(name2, name);
 	name2[strlen(name)-4] = 0x0;
@@ -1195,7 +1195,7 @@ void HistogramBin(const char *infile, const char *OldTitle)
 	int len = text.GetSize();
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_BINARY_HISTOGRAM_OF,pc_str,STR_LAENGE_STRING_TABLE);
     MakeNewName2(line,sizeof(line),pc_str,_itoa(len, numbuff, 10),OldTitle);
-	distr.Show(OStream(name)<< OStream::Title(0) << OStream::Description(0) << OStream::Summary(0) << OStream::Percent());
+	{ OStream os(name); distr.Show(os << OStream::Title(0) << OStream::Description(0) << OStream::Summary(0) << OStream::Percent()); }
 
 	// get the tmp name without file extension
 	strcpy(name2, name);

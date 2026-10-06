@@ -4,8 +4,8 @@ set(CT_SRC ${REPO_ROOT}/CrypTool)
 # *.CPP: the MIRACL wrapper copies (MONTY.CPP, ...); globbing is case-sensitive on Linux.
 file(GLOB CT_SOURCES CONFIGURE_DEPENDS ${CT_SRC}/*.cpp ${CT_SRC}/*.CPP ${CT_SRC}/zip/*.c)
 list(REMOVE_DUPLICATES CT_SOURCES)
-list(FILTER CT_SOURCES EXCLUDE REGEX "/(Ber_Ell_Kurve|DlgCrypToolPRNGSeedCollector|DlgFindText|DlgHomophonicSubstitution|DlgMac|DlgSelHash|HomophonicSubstitution)\\.cpp$")
-# zip/main.c is the standalone test driver of the zip code (not part of CrypTool.vcxproj).
+list(FILTER CT_SOURCES EXCLUDE REGEX "/(Ber_Ell_Kurve|DlgCrypToolPRNGSeedCollector|DlgFindText|DlgMac|DlgSelHash)\\.cpp$")
+# zip/main.c is the standalone test driver of the zip code (not part of CrypTool.vcproj).
 list(FILTER CT_SOURCES EXCLUDE REGEX "/zip/main\\.c$")
 # OLE-based picture control on Windows, wxWidgets-based elsewhere.
 if(WIN32)

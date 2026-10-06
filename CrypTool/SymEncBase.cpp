@@ -25,7 +25,6 @@
 #include "secure.h" // Include-File von SECUDE
 
 
-inline
 int sym_encrypt(int crypt_id, cryptProvider provider,
 			char *key_hex, int key_bitlength, 
 			char *in,  int in_bytelength,  
@@ -44,7 +43,6 @@ int sym_encrypt(int crypt_id, cryptProvider provider,
 	return -1;
 }
 
-inline
 int sym_decrypt(int crypt_id, cryptProvider provider,
 			char *key_hex, int key_bitlength, 
 			char *in, int in_bytelength, 

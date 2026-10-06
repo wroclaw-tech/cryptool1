@@ -201,8 +201,8 @@ int COpenGLView::Init()
     // Createan  OpenGL rendering context
 	m_hOpenGLContext = wglCreateContext(m_pDC->GetSafeHdc());
 	ASSERT(m_hOpenGLContext != NULL);
-	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hOpenGLContext);
-	glEnable(GL_DEPTH_TEST);
+	if (wglMakeCurrent(m_pDC->GetSafeHdc(), m_hOpenGLContext))
+		glEnable(GL_DEPTH_TEST);
 
 	return 1;
 }

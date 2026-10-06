@@ -719,10 +719,10 @@ ostream& operator<<(ostream& s,const Poly& p)
            s << " - ";
         }
         if (ptr->n==0) 
-           cout << a; 
+           cout << (Big)a; 
         else 
         {
-            if ((ZZn) a!=(ZZn)1)  s << a << "*x"; 
+            if ((ZZn) a!=(ZZn)1)  s << (Big)a << "*x"; 
             else            s << "x";
             if (ptr->n!=1)  s << "^" << ptr->n;
         }

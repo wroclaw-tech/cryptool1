@@ -95,7 +95,7 @@ std::string DiffieHellmanParty::GetSessionKey(std::string k)throw(DHError)
 
 // Diese Funktion setzt das Geheimnis (ein zufälliges Geheimnis wird erzeugt)
 // Parameter:		keine
-void DiffieHellmanParty::SetSecret()
+void DiffieHellmanParty::SetSecret()throw(DHError)
 {
 	// Geheimnis "ausdenken"
 	irand((long)time(NULL));

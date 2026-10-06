@@ -46,7 +46,7 @@ struct PossibleResult {
 	// it wasn't very reliable; instead, we present ALL possible solutions to the 
 	// user; the order depends on (1) the length of the longest dictionary match,
 	// and (2) the length of the longest key
-	bool operator<(const PossibleResult &_result) {
+	bool operator<(const PossibleResult &_result) const {
 		if(longestDictionaryMatch.GetLength() == _result.longestDictionaryMatch.GetLength())
 			return (key.GetLength() > _result.key.GetLength());
 		else 

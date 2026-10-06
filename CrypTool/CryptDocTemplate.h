@@ -18,7 +18,7 @@
 
 **************************************************************************/
 
-#include <AFXWIN.H>
+#include <afxwin.h>
 
 class CCryptDocTemplate : public CMultiDocTemplate
 {
