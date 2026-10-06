@@ -1,0 +1,31 @@
+name: Port status
+
+on:
+  push:
+    branches: [xplat-port]
+    paths-ignore: ['port/status/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: port-status
+  cancel-in-progress: true
+
+jobs:
+  status:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: brew install wxwidgets@3.2 openssl@3 gmp ninja cmake
+      - name: Measure
+        run: python3 port/tools/port_status.py
+      - name: Publish
+        run: |
+          git config user.name "port-status-bot"
+          git config user.email "port-status-bot@users.noreply.github.com"
+          git add port/status
+          git diff --cached --quiet || git commit -m "Update port status [skip ci]"
+          git push

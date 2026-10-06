@@ -2,7 +2,8 @@
 
 Work in progress on branch `xplat-port`. Nothing builds into a runnable app yet.
 
-**Overall progress: ~35%** (update the badge in the top-level README.md together with this table)
+**Overall progress:** measured automatically, see [status/STATUS.md](status/STATUS.md).
+The table below is a manual estimate by area.
 
 | Area | Weight | Done |
 |---|---|---|

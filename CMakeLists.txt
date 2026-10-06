@@ -8,6 +8,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 set(REPO_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
+enable_testing()
 
 if(APPLE)
     foreach(prefix /opt/homebrew/opt /usr/local/opt)
