@@ -538,6 +538,38 @@ void OnShow(wxShowEvent& e) {
         SendFromEvent(w, WM_SHOWWINDOW, e.IsShown() ? TRUE : FALSE, 0, e, nullptr);
 }
 
+void OnScrollWin(wxScrollWinEvent& e) {
+    wxWindow* w = static_cast<wxWindow*>(e.GetEventObject());
+    CWnd* pWnd = PermanentWnd(w);
+    UINT msg = e.GetOrientation() == wxVERTICAL ? WM_VSCROLL : WM_HSCROLL;
+    if (!HasMessageHandler(pWnd, msg)) {
+        e.Skip();
+        return;
+    }
+    wxEventType t = e.GetEventType();
+    UINT code = SB_ENDSCROLL;
+    if (t == wxEVT_SCROLLWIN_TOP)
+        code = SB_TOP;
+    else if (t == wxEVT_SCROLLWIN_BOTTOM)
+        code = SB_BOTTOM;
+    else if (t == wxEVT_SCROLLWIN_LINEUP)
+        code = SB_LINEUP;
+    else if (t == wxEVT_SCROLLWIN_LINEDOWN)
+        code = SB_LINEDOWN;
+    else if (t == wxEVT_SCROLLWIN_PAGEUP)
+        code = SB_PAGEUP;
+    else if (t == wxEVT_SCROLLWIN_PAGEDOWN)
+        code = SB_PAGEDOWN;
+    else if (t == wxEVT_SCROLLWIN_THUMBTRACK)
+        code = SB_THUMBTRACK;
+    else if (t == wxEVT_SCROLLWIN_THUMBRELEASE)
+        code = SB_THUMBPOSITION;
+    WPARAM wp = MAKEWPARAM(code, static_cast<WORD>(e.GetPosition()));
+    SendFromEvent(w, msg, wp, 0, e, nullptr);
+    if (code == SB_THUMBPOSITION)
+        SendFromEvent(w, msg, MAKEWPARAM(SB_ENDSCROLL, 0), 0, e, nullptr);
+}
+
 void OnDestroyEvent(wxWindowDestroyEvent& e) {
     e.Skip();
     wxWindow* w = static_cast<wxWindow*>(e.GetEventObject());
@@ -584,6 +616,10 @@ void HookWindow(wxWindow* window, ControlKind kind, int winId, DWORD style, DWOR
     window->Bind(wxEVT_SET_CURSOR, &OnSetCursor);
     window->Bind(wxEVT_SHOW, &OnShow);
     window->Bind(wxEVT_DESTROY, &OnDestroyEvent);
+    for (const wxEventTypeTag<wxScrollWinEvent>& t : {wxEVT_SCROLLWIN_TOP, wxEVT_SCROLLWIN_BOTTOM, wxEVT_SCROLLWIN_LINEUP, wxEVT_SCROLLWIN_LINEDOWN,
+                          wxEVT_SCROLLWIN_PAGEUP, wxEVT_SCROLLWIN_PAGEDOWN, wxEVT_SCROLLWIN_THUMBTRACK,
+                          wxEVT_SCROLLWIN_THUMBRELEASE})
+        window->Bind(t, &OnScrollWin);
     BindControlEvents(window, st);
 }
 
