@@ -232,7 +232,7 @@ int secude_compat_create_ca(const char *ca_pse_path, const char *ca_dir, const c
     return guarded<int>("secude_compat_create_ca", -1, [&] {
         if (!ca_pse_path || !ca_dir)
             fail(EINVALID, "missing path");
-        create_ca(ca_pse_path, ca_dir, pin ? pin : SECUDE_COMPAT_CA_PIN, ca_name ? ca_name : SECUDE_COMPAT_CA_NAME,
+        create_ca(native_path(ca_pse_path), native_path(ca_dir), pin ? pin : SECUDE_COMPAT_CA_PIN, ca_name ? ca_name : SECUDE_COMPAT_CA_NAME,
                   key_bits > 0 ? key_bits : 2048, validity_days > 0 ? validity_days : 7305);
         return 0;
     });
@@ -243,7 +243,7 @@ int secude_compat_create_sample_keystore(const char *key_store_root, int overwri
     return guarded<int>("secude_compat_create_sample_keystore", -1, [&] {
         if (!key_store_root)
             fail(EINVALID, "missing key store directory");
-        std::string pse_dir = join(key_store_root, "PSE");
+        std::string pse_dir = join(native_path(key_store_root), "PSE");
         std::string ca_dir = join(pse_dir, "PSECA");
         std::string ca_pse = join(ca_dir, "capse.cse");
         make_dirs(ca_dir);

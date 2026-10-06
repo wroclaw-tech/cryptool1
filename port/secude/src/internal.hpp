@@ -302,6 +302,9 @@ void *print_keyinfo_flag_address();
 
 // ---- misc -------------------------------------------------------------------
 Bytes random_bytes(size_t n);
+// CrypTool passes Windows style paths ("C:\\dir\\file"); off Windows every path
+// used for file access goes through this: '\\' becomes '/', a drive prefix is dropped.
+std::string native_path(const std::string &path);
 Bytes read_file(const std::string &path, bool &exists);
 void write_file_atomic(const std::string &path, const Bytes &data, int mode = 0600);
 std::string hex(const uint8_t *p, size_t n, bool upper = true);

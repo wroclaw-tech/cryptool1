@@ -509,3 +509,44 @@ TEST(pse_sample_keystore)
     af_close(ca);
     aux_free_OctetString(&s1);
 }
+
+TEST(pse_windows_style_paths)
+{
+    // CrypTool keeps paths like "C:\\...\\PSE\\PSECA\\capse.cse"
+    auto win = [](const std::string &posix) {
+        std::string w = "C:" + posix;
+        for (char &c : w)
+            if (c == '/')
+                c = '\\';
+        return w;
+    };
+    std::string path = testing::scratch_dir() + "/win.pse";
+    PSE pse = af_create(cstr(win(path)), nullptr, const_cast<char *>("pin"), nullptr, TRUE);
+    CHECK(pse != nullptr);
+    af_close(pse);
+    CHECK(std::ifstream(path).good());
+    pse = af_open(cstr(win(path)), nullptr, const_cast<char *>("pin"), nullptr);
+    CHECK(pse != nullptr);
+    af_close(pse);
+
+    char text[] = "data";
+    OctetString o{4, text};
+    std::string file = testing::scratch_dir() + "/win.txt";
+    CHECK_EQ(aux_OctetString2file(&o, cstr(win(file)), 2), 0);
+    CHECK_EQ(aux_OctetString2file(&o, cstr(win(file)), 3), 0);
+    OctetString *back = aux_file2OctetString(cstr(win(file)));
+    CHECK(back && std::string(back->octets, back->noctets) == "datadata");
+    aux_free_OctetString(&back);
+
+    PSE ca = af_open(cstr(win(store().ca_pse)), cstr(win(store().ca_dir)), const_cast<char *>(kCaPin), nullptr);
+    CHECK(ca != nullptr);
+    SET_OF_IssuedCertificate *l = af_cadb_get_user(ca, const_cast<char *>("CN=Bob SideChannelAttack [1152179494], DC=cryptool, DC=org"));
+    CHECK(l != nullptr);
+    aux_free_SET_OF_IssuedCertificate(&l);
+    af_close(ca);
+
+    std::string root = testing::scratch_dir() + "/winstore";
+    CHECK_EQ(secude_compat_create_sample_keystore(win(root).c_str(), 0), 0);
+    CHECK(std::ifstream(root + "/PSE/PSECA/capse.cse").good());
+    CHECK(std::ifstream(root + "/PSE/PSECA/cadb.der").good());
+}

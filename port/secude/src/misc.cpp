@@ -1,6 +1,7 @@
 // Files, randomness, licensing and version information.
 #include "internal.hpp"
 
+#include <cctype>
 #include <cerrno>
 #include <cstdio>
 #include <fcntl.h>
@@ -19,8 +20,24 @@ Bytes random_bytes(size_t n)
     return b;
 }
 
-Bytes read_file(const std::string &path, bool &exists)
+std::string native_path(const std::string &path)
 {
+#ifdef _WIN32
+    return path;
+#else
+    std::string p = path;
+    if (p.size() >= 2 && p[1] == ':' && std::isalpha(static_cast<unsigned char>(p[0])))
+        p.erase(0, 2);
+    for (char &c : p)
+        if (c == '\\')
+            c = '/';
+    return p;
+#endif
+}
+
+Bytes read_file(const std::string &win_path, bool &exists)
+{
+    std::string path = native_path(win_path);
     exists = false;
     FILE *f = std::fopen(path.c_str(), "rb");
     if (!f) {
@@ -41,8 +58,9 @@ Bytes read_file(const std::string &path, bool &exists)
     return data;
 }
 
-void write_file_atomic(const std::string &path, const Bytes &data, int mode)
+void write_file_atomic(const std::string &win_path, const Bytes &data, int mode)
 {
+    std::string path = native_path(win_path);
     std::string tmp = path + ".tmp" + std::to_string(::getpid());
     int fd = ::open(tmp.c_str(), O_WRONLY | O_CREAT | O_TRUNC, mode);
     if (fd < 0)
@@ -136,7 +154,7 @@ int aux_OctetString2file(OctetString *ostr, char *fn, int flag)
     return guarded<int>("aux_OctetString2file", -1, [&] {
         if (!ostr || !fn)
             fail(EINVALID, "missing parameter");
-        FILE *f = std::fopen(fn, flag == 3 ? "ab" : "wb");
+        FILE *f = std::fopen(native_path(fn).c_str(), flag == 3 ? "ab" : "wb");
         if (!f)
             fail(EWRITEFILE, std::string("cannot open ") + fn + ": " + std::strerror(errno));
         size_t n = ostr->noctets ? std::fwrite(ostr->octets, 1, ostr->noctets, f) : 0;

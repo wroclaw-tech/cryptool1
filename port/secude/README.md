@@ -154,7 +154,9 @@ Smart cards (`SC_DATA` is ignored), revocation lists
   this library uses internally).
 * `CrypTool/SecudeLib.h` uses `register` in its prototypes: fine in C++14
   (deprecation warning), an error in C++17 unless `-Wno-register` is used.
-* `CrypToolApp.cpp` builds the key store paths with backslashes
-  (`PSE\\PSECA\\capse.cse`); use `/` on other platforms. Its
-  `ECSecudeLib.##c = SecudeLib.##c` loop is not valid outside MSVC and can be
-  dropped there (`ECsecude.c` already initialises the table).
+* Windows style paths (`C:\...\PSE\PSECA\capse.cse`) are accepted: off
+  Windows every path the library opens goes through `native_path()`, which
+  turns `\` into `/` and drops a drive prefix.
+* `CrypToolApp.cpp`'s `ECSecudeLib.##c = SecudeLib.##c` loop is not valid
+  outside MSVC and can be dropped there (`ECsecude.c` already initialises the
+  table).
