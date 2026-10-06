@@ -5,6 +5,7 @@
 #include "runtime.h"
 
 #include <wx/cmdline.h>
+#include <wx/filename.h>
 #include <wx/msgdlg.h>
 #include <wx/intl.h>
 #include <wx/stdpaths.h>
@@ -78,6 +79,20 @@ void PrepareEnvironment(int argc, wxChar** argv) {
         tempApp.pop_back();
     wxSetEnv("TEMP", ToWx(tempApp.c_str()));
     wxSetEnv("TMP", ToWx(tempApp.c_str()));
+    if (!wxGetEnv("APPDATA", nullptr)) {
+        wxString home = wxGetHomeDir();
+#ifdef __APPLE__
+        wxString appData = home + "/Library/Application Support";
+#else
+        wxString appData;
+        if (!wxGetEnv("XDG_DATA_HOME", &appData) || !appData.StartsWith("/"))
+            appData = home + "/.local/share";
+#endif
+        wxFileName::Mkdir(appData, 0700, wxPATH_MKDIR_FULL);
+        wxSetEnv("APPDATA", ToWx(AppPath(FromWx(appData).c_str()).c_str()));
+        if (!wxGetEnv("USERPROFILE", nullptr))
+            wxSetEnv("USERPROFILE", ToWx(AppPath(FromWx(home).c_str()).c_str()));
+    }
     // The Windows code locates its data files next to the program it finds in the command line.
     std::string program = AppPath((GetDataDirectory() + "/CrypTool").c_str());
     std::string commandLine = "\"" + program + "\"";
