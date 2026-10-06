@@ -57,7 +57,7 @@ bool CreateDialogControls(wxWindow* parent, const rc::Dialog& tmpl) {
     for (int i = 0; i < tmpl.controlCount; ++i) {
         const rc::Control& c = tmpl.controls[i];
         wxRect r = DialogUnitsToPixels(parent, c.x, c.y, c.cx, c.cy);
-        wxWindow* w = CreateControl(parent, c.cls, c.text, c.id, r, c.style, c.exStyle);
+        wxWindow* w = CreateControl(parent, c.cls, Utf8ToAnsi(c.text).c_str(), c.id, r, c.style, c.exStyle);
         if (!w)
             continue;
         w->SetFont(parent->GetFont());
