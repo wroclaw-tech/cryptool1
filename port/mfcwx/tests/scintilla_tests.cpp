@@ -28,6 +28,7 @@ struct Note {
 
 std::vector<Note> g_notes;
 std::vector<UINT> g_commands;
+std::vector<std::pair<std::string, size_t>> g_remembered;
 std::function<void(const SCNotification&)> g_onNotify;
 
 int g_failures = 0;
@@ -524,6 +525,50 @@ void TestMisc() {
     Send(SCI_BRACEHIGHLIGHT, 0, 2);
 }
 
+void TestClipboardBytes() {
+    mfcwx::SetAnsiCodePage(1252);
+    const std::string t("ab\0c\xE9\r\nd\0", 9);
+    SetBytes(t);
+
+    g_remembered.clear();
+    Send(SCI_SETSEL, 1, 8);
+    Send(SCI_COPY);
+    CHECK_EQ(g_remembered.size(), 1);
+    CHECK(g_remembered.back().first == t.substr(1, 7));
+    CHECK_EQ(g_remembered.back().second, 7);
+
+    g_remembered.clear();
+    Send(SCI_SETSEL, 3, 3);
+    Send(SCI_COPY);
+    CHECK_EQ(g_remembered.size(), 0);
+
+    g_remembered.clear();
+    Send(SCI_COPYRANGE, 2, 5);
+    CHECK_EQ(g_remembered.size(), 1);
+    CHECK(g_remembered.back().first == t.substr(2, 3));
+
+    g_remembered.clear();
+    Send(SCI_COPYTEXT, 4, "x\0y\xFC");
+    CHECK_EQ(g_remembered.size(), 1);
+    CHECK(g_remembered.back().first == std::string("x\0y\xFC", 4));
+
+    g_remembered.clear();
+    Send(WM_COPY);
+    CHECK_EQ(g_remembered.size(), 0);
+    Send(SCI_SETSEL, 0, 9);
+    Send(WM_COPY);
+    CHECK_EQ(g_remembered.size(), 1);
+    CHECK(g_remembered.back().first == t);
+
+    g_remembered.clear();
+    Send(SCI_SETSEL, 2, 4);
+    Send(WM_CUT);
+    CHECK_EQ(g_remembered.size(), 1);
+    CHECK(g_remembered.back().first == t.substr(2, 2));
+    CHECK_STR(GetAll(), t.substr(0, 2) + t.substr(4));
+    mfcwx::SetAnsiCodePage(1252);
+}
+
 void TestLargeDocument() {
     mfcwx::SetAnsiCodePage(1250);
     std::mt19937 rng(12345);
@@ -628,6 +673,7 @@ int RunTests() {
     TestNotifications();
     TestSanitizedInput();
     TestMisc();
+    TestClipboardBytes();
     TestLargeDocument();
     frame->Destroy();
     printf("%d checks, %d failures\n", g_checks, g_failures);
@@ -666,6 +712,8 @@ LRESULT NotifyParentNM(wxWindow* control, NMHDR* hdr) {
         g_onNotify(scn);
     return 0;
 }
+
+void RememberClipboardText(std::string ansiBytes, size_t minSize) { g_remembered.emplace_back(std::move(ansiBytes), minSize); }
 
 bool IsMainThread() { return true; }
 void RunOnMainThread(const std::function<void()>& fn) { fn(); }

@@ -75,6 +75,9 @@ void SetControlText(wxWindow* window, const wxString& text);
 void BindScintillaEvents(wxWindow* window);
 LRESULT ScintillaWindowProc(wxWindow* window, UINT msg, WPARAM wParam, LPARAM lParam, bool& handled);
 
+// winapi.cpp: exact ANSI bytes copied by a Scintilla window; GetClipboardData(CF_TEXT) returns them (zero-padded to minSize).
+void RememberClipboardText(std::string ansiBytes, size_t minSize);
+
 // gdi.cpp: an HBITMAP owning a copy of bmp
 HBITMAP CreateBitmapHandle(const wxBitmap& bmp);
 

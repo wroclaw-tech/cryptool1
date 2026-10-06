@@ -1305,6 +1305,9 @@ struct ClipboardState {
     bool emptied = false;
     std::vector<HGLOBAL> owned;
     std::map<std::string, UINT> formats;
+    std::string remembered;
+    size_t rememberedMin = 0;
+    bool hasRemembered = false;
 };
 
 ClipboardState& Clip() {
@@ -1319,7 +1322,44 @@ std::string FormatName(UINT format) {
     return "CrypTool.Format." + std::to_string(format);
 }
 
+void ForgetClipboardText() {
+    Clip().remembered.clear();
+    Clip().rememberedMin = 0;
+    Clip().hasRemembered = false;
+}
+
+// What wxStyledTextCtrl puts on the clipboard: NUL becomes a space and every line ending becomes LF.
+wxString NormalizeCopiedText(const wxString& s) {
+    wxString out;
+    bool afterCr = false;
+    for (wxString::const_iterator it = s.begin(); it != s.end(); ++it) {
+        wxUniChar c = *it;
+        if (c == '\n' && afterCr) {
+            afterCr = false;
+            continue;
+        }
+        afterCr = c == '\r';
+        out += c == '\r' ? wxUniChar('\n') : (c == wxUniChar(0) ? wxUniChar(' ') : c);
+    }
+    return out;
+}
+
+bool RememberedMatches(const wxString& clipboardText) {
+    const ClipboardState& c = Clip();
+    return c.hasRemembered &&
+           NormalizeCopiedText(ToWx(c.remembered.data(), static_cast<int>(c.remembered.size()))) ==
+               NormalizeCopiedText(clipboardText);
+}
+
 } // namespace
+
+void mfcwx::RememberClipboardText(std::string ansiBytes, size_t minSize) {
+    OnMain([&]() {
+        Clip().remembered = std::move(ansiBytes);
+        Clip().rememberedMin = minSize;
+        Clip().hasRemembered = true;
+    });
+}
 
 BOOL OpenClipboard(HWND) {
     return OnMain([]() -> BOOL {
@@ -1352,6 +1392,7 @@ BOOL EmptyClipboard() {
         if (!Clip().open)
             return FALSE;
         wxTheClipboard->Clear();
+        ForgetClipboardText();
         Clip().emptied = true;
         return TRUE;
     });
@@ -1366,6 +1407,7 @@ HANDLE SetClipboardData(UINT uFormat, HANDLE hMem) {
         if (!data)
             return nullptr;
         if (uFormat == CF_TEXT || uFormat == CF_OEMTEXT) {
+            ForgetClipboardText();
             size_t len = strnlen(data, size);
             wxString text = ToWx(data, static_cast<int>(len));
             text.Replace("\r\n", "\n");
@@ -1391,6 +1433,13 @@ HANDLE GetClipboardData(UINT uFormat) {
             if (!wxTheClipboard->GetData(obj))
                 return nullptr;
             wxString text = obj.GetText();
+            if (uFormat != CF_UNICODETEXT && RememberedMatches(text)) {
+                std::string a = Clip().remembered;
+                a.resize(std::max(a.size(), Clip().rememberedMin) + 1, '\0');
+                HGLOBAL h = GlobalFromData(a.data(), a.size());
+                Clip().owned.push_back(h);
+                return h;
+            }
             text.Replace("\r\n", "\n");
             text.Replace("\n", "\r\n");
             std::string a = FromWx(text);

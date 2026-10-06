@@ -431,6 +431,12 @@ std::string FetchString(SciData& d, UINT msg, WPARAM wp, bool sizeIncludesNul) {
     return AnsiFromUtf8(buf.data(), static_cast<size_t>(n));
 }
 
+void RememberCopied(std::string ansiBytes, size_t minSize = 0) {
+    if (ansiBytes.empty())
+        return;
+    RememberClipboardText(std::move(ansiBytes), minSize);
+}
+
 void RebuildAlphabet(SciData& d) {
     const std::string& a = d.props["cryptool.alphabet"];
     std::fill(std::begin(d.alphabet), std::end(d.alphabet), false);
@@ -1008,9 +1014,16 @@ LRESULT Proc(wxWindow* w, SciData& d, UINT msg, WPARAM wp, LPARAM lp, bool& hand
         return B2A(d, Pass(d, msg, PosW(A2B(d, PosArg(wp))), lp));
     case SCI_SETSEL:
     case SCI_BRACEHIGHLIGHT:
-    case SCI_COPYRANGE:
     case SCI_COLOURISE:
         return Pass(d, msg, PosW(A2B(d, PosArg(wp))), PosL(A2B(d, PosArg(lp))));
+    case SCI_COPYRANGE: {
+        int a = PosArg(wp);
+        int b = PosArg(lp);
+        if (a > b)
+            std::swap(a, b);
+        RememberCopied(AnsiRange(d, a, b));
+        return Pass(d, msg, PosW(A2B(d, PosArg(wp))), PosL(A2B(d, PosArg(lp))));
+    }
     case SCI_POINTXFROMPOSITION:
     case SCI_POINTYFROMPOSITION:
     case SCI_INDICATORVALUEAT:
@@ -1056,6 +1069,8 @@ LRESULT Proc(wxWindow* w, SciData& d, UINT msg, WPARAM wp, LPARAM lp, bool& hand
     case SCI_COPYTEXT: {
         if (!lp || static_cast<intptr_t>(wp) < 0)
             return 0;
+        if (msg == SCI_COPYTEXT)
+            RememberCopied(std::string(reinterpret_cast<const char*>(lp), static_cast<size_t>(wp)));
         std::string u = Utf8FromAnsi(reinterpret_cast<const char*>(lp), static_cast<size_t>(wp));
         return Pass(d, msg, u.size(), Ptr(u));
     }
@@ -1280,6 +1295,17 @@ LRESULT Proc(wxWindow* w, SciData& d, UINT msg, WPARAM wp, LPARAM lp, bool& hand
             return lp;
         std::string k = Utf8FromAnsi(key);
         return Pass(d, msg, reinterpret_cast<WPARAM>(k.c_str()), lp);
+    }
+
+    case SCI_COPY:
+    case SCI_CUT: {
+        int b0 = static_cast<int>(Pass(d, SCI_GETSELECTIONSTART, 0, 0));
+        int b1 = static_cast<int>(Pass(d, SCI_GETSELECTIONEND, 0, 0));
+        size_t ansiLen = static_cast<size_t>(std::max(B2A(d, b1) - B2A(d, b0), 0));
+        // SCI_GETSELTEXT replaces NUL bytes, so a stream selection is read from the document
+        bool rect = Pass(d, SCI_SELECTIONISRECTANGLE, 0, 0) != 0;
+        RememberCopied(rect ? FetchString(d, SCI_GETSELTEXT, 0, true) : AnsiOfBytes(d, b0, b1), ansiLen);
+        return Pass(d, msg, wp, lp);
     }
 
     case SCI_PASTE: {
