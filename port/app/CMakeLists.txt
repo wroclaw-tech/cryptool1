@@ -51,3 +51,67 @@ add_custom_target(cryptool_data ALL
     COMMENT "Assembling the CrypTool data directory"
     VERBATIM)
 add_dependencies(CrypTool cryptool_data)
+
+# ---------------------------------------------------------------------------------------------
+# Installation and packages
+
+include(GNUInstallDirs)
+if(APPLE)
+    set(MACOSX_BUNDLE_ICON ${CMAKE_CURRENT_SOURCE_DIR}/icons/CrypTool.icns)
+    set_source_files_properties(${MACOSX_BUNDLE_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    target_sources(CrypTool PRIVATE ${MACOSX_BUNDLE_ICON})
+    set_target_properties(CrypTool PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in)
+    set(CRYPTOOL_DATA_DEST CrypTool.app/Contents/Resources)
+    install(TARGETS CrypTool BUNDLE DESTINATION .)
+else()
+    set(CRYPTOOL_DATA_DEST ${CMAKE_INSTALL_DATADIR}/CrypTool)
+    install(TARGETS CrypTool RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    install(FILES cryptool.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+    install(FILES icons/cryptool-256.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256/apps RENAME cryptool.png)
+    install(FILES icons/cryptool-48.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/48x48/apps RENAME cryptool.png)
+endif()
+
+mfcwx_install_rc_files(CrypTool DESTINATION ${CRYPTOOL_DATA_DEST})
+foreach(help hlp_en hlp_de)
+    install(DIRECTORY ${CT_SRC}/${help} DESTINATION ${CRYPTOOL_DATA_DEST}
+            PATTERN "*.vcproj" EXCLUDE PATTERN "*.vcxproj*" EXCLUDE PATTERN "*.hhp" EXCLUDE)
+endforeach()
+file(GLOB CT_TEMPLATE_ENTRIES RELATIVE ${REPO_ROOT}/setup/template ${REPO_ROOT}/setup/template/*)
+foreach(entry IN LISTS CT_TEMPLATE_ENTRIES)
+    string(TOLOWER "${entry}" lower)
+    if(lower MATCHES "\\.(dll|manifest)$" OR lower STREQUAL "pse")
+        continue()
+    endif()
+    if(IS_DIRECTORY ${REPO_ROOT}/setup/template/${entry})
+        install(DIRECTORY ${REPO_ROOT}/setup/template/${entry} DESTINATION ${CRYPTOOL_DATA_DEST})
+    else()
+        install(FILES ${REPO_ROOT}/setup/template/${entry} DESTINATION ${CRYPTOOL_DATA_DEST})
+    endif()
+endforeach()
+install(DIRECTORY ${CRYPTOOL_DEV_DATA_DIR}/PSE DESTINATION ${CRYPTOOL_DATA_DEST} OPTIONAL)
+
+if(APPLE)
+    # Copies the Homebrew dylibs (wxWidgets, OpenSSL, GMP) into the bundle so it runs on other Macs.
+    install(CODE "
+        include(BundleUtilities)
+        fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/CrypTool.app\" \"\" \"\")
+    ")
+endif()
+
+set(CPACK_PACKAGE_NAME CrypTool)
+set(CPACK_PACKAGE_VENDOR "CrypTool project")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "CrypTool 1 - learn and try out cryptography and cryptanalysis")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_RESOURCE_FILE_LICENSE ${REPO_ROOT}/COPYING)
+if(APPLE)
+    set(CPACK_GENERATOR DragNDrop)
+    set(CPACK_DMG_VOLUME_NAME "CrypTool ${PROJECT_VERSION}")
+else()
+    set(CPACK_GENERATOR TGZ DEB)
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "CrypTool project")
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+    set(CPACK_DEBIAN_PACKAGE_SECTION education)
+endif()
+include(CPack)
