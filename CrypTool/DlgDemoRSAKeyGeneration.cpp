@@ -241,7 +241,8 @@ void CDlgDemoRSAKeyGeneration::OnOK()
 	}
 	if( (m_sPrime_p != m_sPrime_p_OLD) || (m_sPrime_q != m_sPrime_q_OLD) || (m_sKeyPublic != m_sKeyPublic_OLD) )
 	{
-		m_Cert->SetName(static_cast<CString>(""), static_cast<CString>(""), static_cast<CString>(""));
+		CString emptyName, emptyFirstName, emptyKeyId;
+		m_Cert->SetName(emptyName, emptyFirstName, emptyKeyId);
 		m_Cert->SetTime(0);
 		m_Cert->SetPIN(static_cast<CString>(""));
 		CDialog::OnOK();

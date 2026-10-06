@@ -258,9 +258,9 @@ void CDlgSignatureAttack::batchAttack()
 
 					ifstr_Harmless.open(m_file_harmless, ios::in | ios::binary);
 					ifstr_Dangerous.open(m_file_dangerous, ios::in | ios::binary);
-					_snprintf(FilePath, sizeof(FilePath) - 1, "%s\\%d%s", LogPath, StartTime, _SIG_ATT_HARMLESS);
+					_snprintf(FilePath, sizeof(FilePath) - 1, "%s\\%d%s", (LPCTSTR)LogPath, StartTime, _SIG_ATT_HARMLESS);
 					ofstr_Harmless.open(FilePath, ios::out | ios::binary);
-					_snprintf(FilePath, sizeof(FilePath) - 1, "%s\\%d%s", LogPath, StartTime, _SIG_ATT_DANGEROUS);
+					_snprintf(FilePath, sizeof(FilePath) - 1, "%s\\%d%s", (LPCTSTR)LogPath, StartTime, _SIG_ATT_DANGEROUS);
 					ofstr_Dangerous.open(FilePath, ios::out | ios::binary);
 					if (!ifstr_Harmless || !ifstr_Dangerous || !ofstr_Harmless || !ofstr_Dangerous)
 					{
@@ -299,7 +299,7 @@ void CDlgSignatureAttack::batchAttack()
 					delete []HarmlessText;
 					delete []DangerousText;
 					
-					_snprintf(FilePath, sizeof(FilePath) - 1, "%s\\%d%s", LogPath, StartTime, _SIG_ATT_HEADER);
+					_snprintf(FilePath, sizeof(FilePath) - 1, "%s\\%d%s", (LPCTSTR)LogPath, StartTime, _SIG_ATT_HEADER);
 					SigAttTest = fopen(FilePath, "w+");
 					if (NULL == SigAttTest)
 					{
@@ -318,7 +318,7 @@ void CDlgSignatureAttack::batchAttack()
 							"LogPath=%s\\\n", 
 							l_SignificantBitLengthMIN , l_SignificantBitLengthMAX, l_SignificantBitLengthJump,
 							l_HashAlgorithmIDMIN, l_HashAlgorithmIDMAX, l_Attempts,
-							m_file_harmless, m_file_dangerous, LogPath);
+							(LPCTSTR)m_file_harmless, (LPCTSTR)m_file_dangerous, (LPCTSTR)LogPath);
 
 					unsigned long u_SignatureAttackModificationMethod = 0;
 					CT_OPEN_REGISTRY_SETTINGS( KEY_ALL_ACCESS, IDS_REGISTRY_SETTINGS, "SignatureAttack" );
@@ -326,8 +326,8 @@ void CDlgSignatureAttack::batchAttack()
 					fprintf(SigAttTest,
 						"\n\nInternal Information\n\nModificationMethod=%d\nHarmlessFile=%s\\%d%s\nHarmlessFileLength=%d\nDangerousFile=%s\\%d%s\nDangerousFileLength=%d",
 						u_SignatureAttackModificationMethod,
-						LogPath, StartTime, _SIG_ATT_HARMLESS, HarmlessDocLength,
-						LogPath, StartTime,	_SIG_ATT_DANGEROUS, DangerousDocLength);
+						(LPCTSTR)LogPath, StartTime, _SIG_ATT_HARMLESS, HarmlessDocLength,
+						(LPCTSTR)LogPath, StartTime,	_SIG_ATT_DANGEROUS, DangerousDocLength);
 
 #ifdef _SIG_ATT_SPEED_INCREMENT
 					fprintf(SigAttTest, "\nModifyOriginalDocumentBeforeRun=1");
@@ -355,7 +355,7 @@ void CDlgSignatureAttack::batchAttack()
 					fprintf(SigAttTest, "\nComments=%s", tmpStr);
 					fclose(SigAttTest);
 
-					_snprintf(FilePath, sizeof(FilePath) - 1, "%s\\%d%s", LogPath, StartTime, _SIG_ATT_LOG);
+					_snprintf(FilePath, sizeof(FilePath) - 1, "%s\\%d%s", (LPCTSTR)LogPath, StartTime, _SIG_ATT_LOG);
 					SigAttTest = fopen(FilePath, "w+");
 					if (NULL == SigAttTest)
 					{
@@ -500,7 +500,7 @@ void CDlgSignatureAttack::OnCompute()
 					hashhex[strlen - 1] = '\0';
 
 			_snprintf(doctitle, sizeof(doctitle) - 1, "%s%s, <%s>",
-				msg, OFSA.GetHashOp()->GetHashAlgorithmName(), hashhex);
+				(LPCTSTR)msg, OFSA.GetHashOp()->GetHashAlgorithmName(), hashhex);
 			NewHarmlessDocument->SetTitle(doctitle);
 
 			GetTmpName(outfile,"cry",".tmp");
@@ -519,7 +519,7 @@ void CDlgSignatureAttack::OnCompute()
 			// Dokumenttitel für 2. Dokument erstellen:
 			msg.Format(IDS_STRING_SIG_ATT_DOCUMENT_TITLE_DANGEROUS);
 			_snprintf(doctitle, sizeof(doctitle) - 1, "%s%s, <%s>",
-				msg, OFSA.GetHashOp()->GetHashAlgorithmName(), hashhex);
+				(LPCTSTR)msg, OFSA.GetHashOp()->GetHashAlgorithmName(), hashhex);
 			NewDangerousDocument->SetTitle(doctitle);
 			
 			HIDE_HOUR_GLASS

@@ -340,7 +340,7 @@ bool CDlgCrtTransformation::testeteilerfremd()
 				
 				CString planetall;
 				planetall.LoadString(IDS_CRT_TRANSFORMATION_PLANETALL);
-				ausgabe.Format(planetall,planet1,modul1,planet2,modul2);
+				ausgabe.Format(planetall,(LPCTSTR)planet1,(LPCTSTR)modul1,(LPCTSTR)planet2,(LPCTSTR)modul2);
 				text=text+ausgabe;
 				prim=false;
 				}
@@ -455,10 +455,10 @@ void CDlgCrtTransformation::OnBnClickedCrtTransformationButtonsolve()
 			CString anzeige;
 			if (((a-b)<0)&&(m_radio==2)) {
 				text.LoadString(IDS_CRT_TRANSFORMATION_NOTINRANGE2);
-				anzeige.Format(text,ergtext);
+				anzeige.Format(text,(LPCTSTR)ergtext);
 			}
 			else {text.LoadString(IDS_CRT_TRANSFORMATION_NOTINRANGE);
-				  anzeige.Format(text,m_bereich,ergtext);
+				  anzeige.Format(text,(LPCTSTR)m_bereich,(LPCTSTR)ergtext);
 			}
 		AfxMessageBox(anzeige, MB_ICONINFORMATION | MB_OK);
 		}

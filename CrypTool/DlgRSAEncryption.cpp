@@ -115,7 +115,7 @@ BOOL CDlgRSAEncryption::OnInitDialog()
 	m_listview.InsertColumn( 5, pc_str, LVCFMT_LEFT, colWidth-20 , 5); // Interne ID-Nr.
 
 	CString tmpStr;
-	tmpStr.Format(IDS_TITLE_DLG_RSAENCRYPTION, oldTitle);
+	tmpStr.Format(IDS_TITLE_DLG_RSAENCRYPTION, (LPCTSTR)oldTitle);
 	this->SetWindowText(tmpStr);
 
 

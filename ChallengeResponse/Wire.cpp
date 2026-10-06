@@ -137,7 +137,7 @@ void CWire::draw(CClientDC& dc)
 		}
 	}
 
-	dc.SelectObject(&originalPen);
+	dc.SelectObject(originalPen);
 	
 }
 

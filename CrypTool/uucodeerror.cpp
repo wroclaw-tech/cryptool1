@@ -41,11 +41,11 @@ void uucodeerror(std::string text, char errchar,ssize_t errcode, ssize_t positio
 			AfxMessageBox(result, MB_OK);
 			break;
 		case -3:
-			result.Format(IDS_UU_DECODE_MISSING_CHAR, chlb,text);
+			result.Format(IDS_UU_DECODE_MISSING_CHAR, chlb,text.c_str());
 			AfxMessageBox(result, MB_OK);
 			break;
 		case -4:		
-			result.Format(IDS_UU_FILE_WRITE_ERROR,text);
+			result.Format(IDS_UU_FILE_WRITE_ERROR,text.c_str());
 			AfxMessageBox(result, MB_OK);
 			break;
 		case -5:

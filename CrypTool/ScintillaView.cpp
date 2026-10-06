@@ -124,9 +124,9 @@ BEGIN_MESSAGE_MAP(CScintillaView, CCrypToolView)
 	ON_COMMAND(ID_EDIT_FIND, &CScintillaView::OnEditFind)
 	//}}AFX_MSG_MAP
 	// Standard-Druckbefehle
-	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_DIRECT, CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CView::OnFilePrintPreview)
+	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	ON_COMMAND(ID_FILE_PAGE_SETUP, &CScintillaView::OnFilePageSetup)
 	ON_COMMAND(ID_TOHEX, &CScintillaView::OnTohex)
 	ON_UPDATE_COMMAND_UI(ID_ZEICHENFORMAT_ARIAL08, &CScintillaView::OnUpdateZeichenformatArial08)

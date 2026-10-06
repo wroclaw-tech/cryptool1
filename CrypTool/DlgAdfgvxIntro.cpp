@@ -61,7 +61,7 @@ void DlgAdfgvxIntro::OnBnClickedCheck1()
 
 	if ( CT_OPEN_REGISTRY_SETTINGS( KEY_WRITE, IDS_REGISTRY_SETTINGS, "ADFGVX" ) == ERROR_SUCCESS )
 	{
-		CT_WRITE_REGISTRY(unsigned long(noIntro), "ShowIntro");
+		CT_WRITE_REGISTRY((unsigned long)(noIntro), "ShowIntro");
 		CT_CLOSE_REGISTRY();
 	}
 	else

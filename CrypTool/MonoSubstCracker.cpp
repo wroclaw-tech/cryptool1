@@ -455,7 +455,7 @@ UINT AutoAnaSubst(PVOID p)
 				AfxMessageBox(message, MB_ICONINFORMATION|MB_OK);
 				return 0;
 			}
-			fprintf(file, "%s", Dialog.getText());
+			fprintf(file, "%s", (LPCTSTR)Dialog.getText());
 			fclose(file);
 
 			// Start manual analysis if requested and possible

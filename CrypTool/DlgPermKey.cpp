@@ -92,7 +92,7 @@ void CDlgPermKey::OnBnClickedCopyKey()
 	LoadString(AfxGetInstanceHandle(),IDS_CRYPT_PERMUTATION,pc_str,STR_LAENGE_STRING_TABLE);
 	CString strKey;
 	strKey.Format("%s %s%s%i,%i,%i,%i,%i,%i", 
-		m_permKey1, PARAM_TOKEN, (m_dataType) ? TEXT_TOKEN : BINARY_TOKEN, inDir1, permDir1, outDir1, inDir2, permDir2, outDir2);
+		(LPCTSTR)m_permKey1, PARAM_TOKEN, (m_dataType) ? TEXT_TOKEN : BINARY_TOKEN, inDir1, permDir1, outDir1, inDir2, permDir2, outDir2);
 	CopyKey ( pc_str, strKey );
 	// TODO: Add your control notification handler code here
 }

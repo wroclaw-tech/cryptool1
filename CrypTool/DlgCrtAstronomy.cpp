@@ -217,7 +217,7 @@ bool CDlgCrtAstronomy::testeteilerfremd()
 				
 				CString planetall;
 				planetall.LoadString(IDS_CRT_ASTRONOMY_PLANETALL);
-				ausgabe.Format(planetall,planet1,modul1,planet2,modul2);
+				ausgabe.Format(planetall,(LPCTSTR)planet1,(LPCTSTR)modul1,(LPCTSTR)planet2,(LPCTSTR)modul2);
 				text=text+ausgabe;
 				prim=false;
 				}

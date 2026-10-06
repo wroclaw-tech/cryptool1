@@ -180,7 +180,7 @@ BOOL CPSEDemo::CreatePSE()
 
 	// PSE-File erzeugen und öffnen
 	m_sUserKeyId = CreateUserKeyID();
-	m_sPseName.Format(IDS_CREATE_PSE, PseVerzeichnis, m_sUserKeyId);
+	m_sPseName.Format(IDS_CREATE_PSE, PseVerzeichnis, (LPCTSTR)m_sUserKeyId);
 	m_hPSE = theApp.SecudeLib.af_create(const_cast<char*>(LPCTSTR(m_sPseName)), NULL, const_cast<char*>(LPCTSTR(m_sPIN)), NULL, TRUE);
 	if(!m_hPSE)
 	{
@@ -442,7 +442,7 @@ CString CPSEDemo::CreateUserKeyID(const CString& sName, const CString& sFirstNam
 	FirstName.TrimRight();
 	KeyID.TrimLeft();
 	KeyID.TrimRight();
-	sUserKeyId.Format(KeyID.IsEmpty()? IDS_CREATE_USER_KEY_ID1: IDS_CREATE_USER_KEY_ID2, Name, FirstName, TUTORIAL_ALG_NAME, GetBitLength(), lTime, sKeyID);
+	sUserKeyId.Format(KeyID.IsEmpty()? IDS_CREATE_USER_KEY_ID1: IDS_CREATE_USER_KEY_ID2, (LPCTSTR)Name, (LPCTSTR)FirstName, TUTORIAL_ALG_NAME, GetBitLength(), lTime, (LPCTSTR)sKeyID);
 	return sUserKeyId;
 }
 
@@ -455,7 +455,7 @@ CString CPSEDemo::CreateDisName(const CString& sName, const CString& sFirstName,
 	Name.TrimRight();
 	FirstName.TrimLeft();
 	FirstName.TrimRight();
-	sDisName.Format("CN=%s %s [%I64i], %s", FirstName, Name, lTime, DN_SUFFIX);
+	sDisName.Format("CN=%s %s [%I64i], %s", (LPCTSTR)FirstName, (LPCTSTR)Name, lTime, DN_SUFFIX);
 	return sDisName;
 }
 
@@ -678,7 +678,7 @@ BOOL CPSEDemo::AccessPSE_DLG()
 		SetTime(DlgPSE.CreatTime);
 		SetPIN(DlgPSE.m_PinCode);
 		m_sUserKeyId = DlgPSE.UserKeyId;
-		m_sPseName.Format(IDS_CREATE_PSE, PseVerzeichnis, m_sUserKeyId);
+		m_sPseName.Format(IDS_CREATE_PSE, PseVerzeichnis, (LPCTSTR)m_sUserKeyId);
 		return TestAccess() && AccessPSE();
 	}
 	return FALSE;

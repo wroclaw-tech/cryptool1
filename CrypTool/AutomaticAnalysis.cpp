@@ -76,7 +76,7 @@ void CaesarAuto(const char *infile, const char *OldTitle)
 		HistogramASCII(theApp.TextOptions.getReferenceFilePath(), theApp.TextOptions.getReferenceFileName());
 		HistogramASCII(infile, OldTitle);
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_MSG_CMP_CIPHER_REFERENCE,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(line, pc_str, theApp.TextOptions.getReferenceFileName());
+		sprintf(line, pc_str, (LPCTSTR)theApp.TextOptions.getReferenceFileName());
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_ANALYSE_CAESAR,pc_str1,STR_LAENGE_STRING_TABLE);
 		theApp.m_MainWnd->MessageBox(line, pc_str1, MB_OK);
 	}
@@ -308,7 +308,7 @@ UINT VigenereAuto(PVOID p)
 			// Ausgabe der Korrelation zwischen deutschem Text und dem Chiffrat
 			GetTmpName(name,"cry",".plt");
 			LoadString(AfxGetInstanceHandle(),IDS_STRING_MSG_CORRELATION_CAESAR_REFERENCE,pc_str,STR_LAENGE_STRING_TABLE);
-			sprintf(line,pc_str,i+1, theApp.TextOptions.getReferenceFileName());
+			sprintf(line,pc_str,i+1, (LPCTSTR)theApp.TextOptions.getReferenceFileName());
 			
 			c.Show(OStream(name)<< OStream::Title(0) << OStream::Description(0) << OStream::Summary(0));
 			

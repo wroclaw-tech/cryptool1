@@ -40,15 +40,15 @@ void base64error(std::string text, char errchar,ssize_t errcode, ssize_t positio
 			AfxMessageBox(result, MB_OK);
 			break;
 		case -3:
-			result.Format(IDS_BASE64_DECODE_MISSING_CHARS, chlb,text);
+			result.Format(IDS_BASE64_DECODE_MISSING_CHARS, chlb,text.c_str());
 			AfxMessageBox(result, MB_OK);
 			break;
 		case -4:		
-			result.Format(IDS_BASE64_FILE_WRITE_ERROR,text);
+			result.Format(IDS_BASE64_FILE_WRITE_ERROR,text.c_str());
 			AfxMessageBox(result, MB_OK);
 			break;
 		case -5:
-			result.Format(IDS_BASE64_FILE_OPEN_ERROR,text);
+			result.Format(IDS_BASE64_FILE_OPEN_ERROR,text.c_str());
 			AfxMessageBox(result, MB_OK);
 			break;
 	}

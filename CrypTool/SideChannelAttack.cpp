@@ -717,7 +717,8 @@ Big SCA_Attacker::computeZ(Big N, Big B)
 	char temp[SCA_MAXIMUM_KEY_LENGTH_IN_BYTE+1];
 	temp << N;
 	std::string strModul = temp;
-	double bitLengthModul = ceil(BitLength((CString)strModul.c_str(),10));
+	CString cstrModul = strModul.c_str();
+	double bitLengthModul = ceil(BitLength(cstrModul,10));
 
 	// Bitlänge der bekannten Grenzen berechnen (2^b = B)
 	int b = log2( B );
@@ -1430,7 +1431,8 @@ void generateSCAReport(SCA_Client *_alice, SCA_Server *_bob, SCA_Attacker *_trud
 	LoadString(AfxGetInstanceHandle(), IDS_SCA_REPORT_TRUDYINTERCEPTEDMESSAGE, pc_str, STR_LAENGE_STRING_TABLE);
 	strcat(protocolString, pc_str);
 	// Ausgabe des abgefangenen, verschlüsselten Session Keys
-	convertOctetStringToHexString( &_trudy->getInterceptedSessionKey(), temp);
+	OctetString interceptedSessionKey = _trudy->getInterceptedSessionKey();
+	convertOctetStringToHexString( &interceptedSessionKey, temp);
 	strcat(protocolString, temp);
 
 	// *** ATTACK CYCLE ***

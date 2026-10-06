@@ -89,8 +89,8 @@ void DlgHillOptions::writeRegistry()
 {
 	if ( CT_OPEN_REGISTRY_SETTINGS( KEY_WRITE, IDS_REGISTRY_SETTINGS, "Hill" ) == ERROR_SUCCESS )
 	{
-		CT_WRITE_REGISTRY(unsigned long(m_offset), "OrdChrOffset");
-		CT_WRITE_REGISTRY(unsigned long(useFirstCharFromAlph), "PaddingDefaultChr");
+		CT_WRITE_REGISTRY((unsigned long)(m_offset), "OrdChrOffset");
+		CT_WRITE_REGISTRY((unsigned long)(useFirstCharFromAlph), "PaddingDefaultChr");
 		CT_WRITE_REGISTRY(m_ownCharForPadding,"PaddingOwnChr");
 		CT_CLOSE_REGISTRY();
 	}

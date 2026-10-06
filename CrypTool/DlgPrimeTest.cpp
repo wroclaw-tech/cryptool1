@@ -136,7 +136,7 @@ BEGIN_MESSAGE_MAP(CDlgPrimeTest, CDialog)
   ON_BN_CLICKED(IDC_PRIMETEST_RADIO_SOLOVAY, &CDlgPrimeTest::OnBnClickedPrimetestRadio)
   ON_BN_CLICKED(IDC_PRIMETEST_RADIO_MILLERRABIN, &CDlgPrimeTest::OnBnClickedPrimetestRadio)
   ON_BN_CLICKED(IDC_PRIMETEST_RADIO_AKS, &CDlgPrimeTest::OnBnClickedPrimetestRadio)
-  ON_BN_CLICKED(IDC_BUTTON_JUMP_TO_FACTORIZATION, CDlgPrimeTest::OnBnClickedButtonJumpToFactorization)
+  ON_BN_CLICKED(IDC_BUTTON_JUMP_TO_FACTORIZATION, &CDlgPrimeTest::OnBnClickedButtonJumpToFactorization)
 END_MESSAGE_MAP()
 
 

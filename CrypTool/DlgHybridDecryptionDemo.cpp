@@ -25,7 +25,7 @@
 #include "CrypToolApp.h"
 #include <fstream>
 #include "FileTools.h"
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include "Cryptography.h"
 #include "CryptDoc.h"
 #include "AppDocument.h"

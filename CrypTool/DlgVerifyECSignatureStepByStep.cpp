@@ -715,7 +715,7 @@ int CDlgVerifyECSignatureStepByStep::UpdateDataDisplay()
 			return -1;
 		}
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_DOMAIN_PARAMETER_TO_USE,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, curveID);
+		sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 		m_DataDisplay += (CString) pc_str1 + nl + nl;
 		m_DataDisplay += ( sp2 + ((CString)"a  = ") + DomParamAcString.a + nl );
 		m_DataDisplay += ( sp2 + ((CString)"b  = ") + DomParamAcString.b + nl );

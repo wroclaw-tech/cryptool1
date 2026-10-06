@@ -2370,7 +2370,7 @@ void playfair_liste::init( int msize )
 
 playfair_liste::~playfair_liste(void)
 {
-        if(d) delete[n+2] d;
+        if(d) delete[] d;
 }
 
 playfair_liste::playfair_liste(int msize, int l)

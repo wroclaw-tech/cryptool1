@@ -433,7 +433,7 @@ void CDlgFactorisationDemo::OnButtonFactorisation()
 			int nfactors = 0;
 			for (NumFactor *factor = factorList; factor ; factor = factor->next)
 				nfactors += factor->exponent;
-			m_benoetigte_zeit_global.Format(IDS_FACTORS_FOUND, nfactors, timeStr1);
+			m_benoetigte_zeit_global.Format(IDS_FACTORS_FOUND, nfactors, (LPCTSTR)timeStr1);
 			if ( zeit_condtruct2.day >= 1)
 			{	
 				LoadString(AfxGetInstanceHandle(),IDS_STRING_FMT_DAYS,pc_str,STR_LAENGE_STRING_TABLE);

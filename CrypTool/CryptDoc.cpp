@@ -48,7 +48,7 @@
 #include "DlgStatRandTests.h"
 #include "DlgHybridEncryptionDemo.h"
 #include "DlgHybridDecryptionDemo.h"
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include "DialogeMessage.h"
 #include "ASN1Decoder.h"
 #include "DlgDiffieHellmanVisualization.h"
@@ -1307,7 +1307,7 @@ void CCryptDoc::OnAnalyseZufallstestsFrequencytest()
 		int tempStringLength = strlen(pc_str) + strlen(GetTitle()) + 1;
 		char *tempString = new char[tempStringLength];
 		memset(tempString, 0, tempStringLength);
-        sprintf(tempString, pc_str, GetTitle());
+        sprintf(tempString, pc_str, (LPCTSTR)GetTitle());
         FREQT.SetAlternativeWindowText(tempString);
 		if ( FREQT.LoadAlphaList() )
 			FREQT.DoModal();
@@ -1341,7 +1341,7 @@ void CCryptDoc::OnAnalyseZufallstestsSerialtest()
 		int tempStringLength = strlen(pc_str) + strlen(GetTitle()) + 1;
 		char *tempString = new char[tempStringLength];
 		memset(tempString, 0, tempStringLength);
-		sprintf(tempString, pc_str, GetTitle());
+		sprintf(tempString, pc_str, (LPCTSTR)GetTitle());
 		SERT.SetAlternativeWindowText(tempString);
 		if ( SERT.LoadAlphaList() )
 			SERT.DoModal();
@@ -1371,7 +1371,7 @@ void CCryptDoc::OnAnalyseZufallstestsRuns()
 		int tempStringLength = strlen(pc_str) + strlen(GetTitle()) + 1;
 		char *tempString = new char[tempStringLength];
 		memset(tempString, 0, tempStringLength);
-		sprintf(tempString, pc_str, GetTitle());
+		sprintf(tempString, pc_str, (LPCTSTR)GetTitle());
 
 		LRT.SetAlternativeWindowText( tempString );
 		if ( LRT.LoadAlphaList() )
@@ -1406,7 +1406,7 @@ void CCryptDoc::OnAnalyseZufallstestsPokertest()
 		int tempStringLength = strlen(pc_str) + strlen(GetTitle()) + 1;
 		char *tempString = new char[tempStringLength];
 		memset(tempString, 0, tempStringLength);
-		sprintf(tempString, pc_str, GetTitle());
+		sprintf(tempString, pc_str, (LPCTSTR)GetTitle());
 		
 		POKT.SetAlternativeWindowText(tempString);
 		if ( POKT.LoadAlphaList() )
@@ -1448,7 +1448,7 @@ void CCryptDoc::OnAnalyseZufallstestsFipspub1401()
 		int tempStringLength = strlen(pc_str) + strlen(GetTitle()) + 1;
 		char *tempString = new char[tempStringLength];
 		memset(tempString, 0, tempStringLength);
-		sprintf(tempString, pc_str, GetTitle());
+		sprintf(tempString, pc_str, (LPCTSTR)GetTitle());
 		FIPS.SetAlternativeWindowText(tempString);
 		FIPS.DoModal();
 		delete tempString;
@@ -1460,7 +1460,7 @@ void CCryptDoc::OnAesSelfextract()
 {
     UpdateContent();
 	CString str_m_Selfextract_EXE_Quoted = CString("\"") + CString(theApp.m_Selfextract_EXE) + CString("\"");
-	_spawnl(_P_NOWAIT, theApp.m_Selfextract_EXE, str_m_Selfextract_EXE_Quoted, ContentName, NULL); 
+	_spawnl(_P_NOWAIT, theApp.m_Selfextract_EXE, (LPCTSTR)str_m_Selfextract_EXE_Quoted, ContentName, NULL); 
 	// FIXME: Interpret return value of _spawnl
 }
 
@@ -1760,7 +1760,7 @@ void CCryptDoc::OnAnalysisRandom3dVisualization()
 	f.Close();
 
 	LoadString(AfxGetInstanceHandle(), IDS_TITLE_3D_VISUALISATION, pc_str, STR_LAENGE_STRING_TABLE);
-	sprintf(title, pc_str, GetTitle());
+	sprintf(title, pc_str, (LPCTSTR)GetTitle());
     theApp.ThreadOpenDocumentFileNoMRU(name,title);
 }
 

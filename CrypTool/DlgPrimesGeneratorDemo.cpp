@@ -365,7 +365,7 @@ void CDlgPrimesGeneratorDemo::OnButtonGenerate()
 		// display value range in progress dialog
 		char temp[1024];
 		LoadString(AfxGetInstanceHandle(), IDS_STRING_MULTIPLE_PRIME_NUMBERS_GENERATION_TEXT, pc_str, STR_LAENGE_STRING_TABLE);
-		sprintf(temp, pc_str, m_edit1, m_edit2);
+		sprintf(temp, pc_str, (LPCTSTR)m_edit1, (LPCTSTR)m_edit2);
 		theApp.fs.setFormat(temp);
 		// start the prime number generation thread
 		AfxBeginThread(singleThreadGenerateMultiplePrimeNumbers, PVOID(this));
@@ -408,7 +408,7 @@ void CDlgPrimesGeneratorDemo::OnButtonGenerate()
 		// either way, reset the abortion flag (otherwise we'll get weird errors)
 		generationMultiplePrimeNumbersAborted = false;
 		// build the notification message
-		sprintf(temp, pc_str, m_edit1, m_edit2, mapGeneratedPrimeNumbers.size());
+		sprintf(temp, pc_str, (LPCTSTR)m_edit1, (LPCTSTR)m_edit2, mapGeneratedPrimeNumbers.size());
 		message.Append(temp);
 		MessageBox(message, "CrypTool", MB_ICONINFORMATION);
 		// write the separator to the registry
@@ -447,11 +447,11 @@ void CDlgPrimesGeneratorDemo::OnButtonGenerate()
 			char temp[1024];
 			if(m_radio4 == 0) {
 				LoadString(AfxGetInstanceHandle(), IDS_STRING_PRIME_NUMBERS_GENERATION_TEXT2, pc_str, STR_LAENGE_STRING_TABLE);
-				sprintf(temp, pc_str, m_edit1, m_edit2, m_edit3, m_edit4);
+				sprintf(temp, pc_str, (LPCTSTR)m_edit1, (LPCTSTR)m_edit2, (LPCTSTR)m_edit3, (LPCTSTR)m_edit4);
 			}
 			else {
 				LoadString(AfxGetInstanceHandle(), IDS_STRING_PRIME_NUMBERS_GENERATION_TEXT1, pc_str, STR_LAENGE_STRING_TABLE);
-				sprintf(temp, pc_str, m_edit1, m_edit2);
+				sprintf(temp, pc_str, (LPCTSTR)m_edit1, (LPCTSTR)m_edit2);
 			}
 			theApp.fs.setFormat(temp);
 			// start the prime number generation thread

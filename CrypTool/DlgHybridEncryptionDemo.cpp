@@ -28,7 +28,7 @@
 #include "DialogeMessage.h"
 #include <fstream>
 #include "FileTools.h"
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include "DlgRSAEncryption.h"
 #include "DlgKeyHexAnalysis.h"
 #include "Cryptography.h"
@@ -370,7 +370,7 @@ void CDlgHybridEncryptionDemo::OnButtonEncDocumentSym()
 			LoadString(AfxGetInstanceHandle(),IDS_SCA_KEYWORDPROBLEM,pc_str,STR_LAENGE_STRING_TABLE);
 			char temp[STR_LAENGE_STRING_TABLE+1];
 			memset(temp, 0, STR_LAENGE_STRING_TABLE+1);
-			sprintf(temp, pc_str, keyword);
+			sprintf(temp, pc_str, (LPCTSTR)keyword);
 
 			if(AfxMessageBox(temp, MB_YESNO) == IDYES)
 			{

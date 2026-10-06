@@ -300,21 +300,24 @@ void CDlgRandomGenerator::OnSelGenParam()
 	case 1: {
 				if (IDOK == m_pPara->DRPXN.DoModal() )
 				{																		
-					m_pPara->rnd_x2modN.setModul( m_pPara->DRPXN.GetModul() );
+					CString strModul = m_pPara->DRPXN.GetModul();
+					m_pPara->rnd_x2modN.setModul( strModul );
 				}
 			}
 		break;
 	case 2: {
 				if (IDOK == m_pPara->DRP_LCG.DoModal() )
 				{
-					m_pPara->DLCG.SetParameter(m_pPara->DRP_LCG.Get_a(), m_pPara->DRP_LCG.Get_b(), m_pPara->DRP_LCG.Get_N());
+					CString strA = m_pPara->DRP_LCG.Get_a(), strB = m_pPara->DRP_LCG.Get_b(), strN = m_pPara->DRP_LCG.Get_N();
+					m_pPara->DLCG.SetParameter(strA, strB, strN);
 				}
 			}
 		break;
 	case 3: {
 				if (IDOK == m_pPara->DRP_ICG.DoModal() )
 				{
-					m_pPara->DICG.SetParameter(m_pPara->DRP_ICG.Get_a(), m_pPara->DRP_ICG.Get_b(), m_pPara->DRP_ICG.Get_N());
+					CString strA = m_pPara->DRP_ICG.Get_a(), strB = m_pPara->DRP_ICG.Get_b(), strN = m_pPara->DRP_ICG.Get_N();
+					m_pPara->DICG.SetParameter(strA, strB, strN);
 				}
 
 		break;

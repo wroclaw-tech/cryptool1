@@ -440,7 +440,7 @@ void CDlgKeyAsymGeneration::UpdateEcListBox(EcDomParam_ac_ptr curveParameter, Ec
 	{
 		UpdateData(TRUE);
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_EC_DOMAIN_PARAMETER,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, curveID);
+		sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 		m_ec_dom_par_description = (CString) pc_str1;
 		UpdateData(FALSE);
 		
@@ -1074,7 +1074,7 @@ void CDlgKeyAsymGeneration::CreateAsymKeys()
 
 	// user-information: key pair succesfully created.
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_ASYMKEY_MSG_STORE_KEYPAIR,pc_str,STR_LAENGE_STRING_TABLE);
-	sprintf(pc_str1, pc_str, UserKeyId);
+	sprintf(pc_str1, pc_str, (LPCTSTR)UserKeyId);
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_MSG_KEY_GENERATION_TIME,pc_str,STR_LAENGE_STRING_TABLE);
 	char temp[256];
 	char strDuration[20];

@@ -97,8 +97,8 @@ void CDlgOptionsStartoptions::OnOK()
 	UpdateData(true);
 	if ( CT_OPEN_REGISTRY_SETTINGS( KEY_WRITE, IDS_REGISTRY_SETTINGS_OPTIONS, "StartingOptions" ) == ERROR_SUCCESS )
 	{
-		CT_WRITE_REGISTRY(unsigned long(!m_how_to_start), "NoTipps");
-		CT_WRITE_REGISTRY(unsigned long(m_sample_text_file), "SampleTextFile");
+		CT_WRITE_REGISTRY((unsigned long)(!m_how_to_start), "NoTipps");
+		CT_WRITE_REGISTRY((unsigned long)(m_sample_text_file), "SampleTextFile");
 
 		CT_CLOSE_REGISTRY();
 	}

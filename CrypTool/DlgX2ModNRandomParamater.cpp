@@ -64,7 +64,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // Behandlungsroutinen für Nachrichten CDlgX2ModNRandomParamater 
 
-void CDlgX2ModNRandomParamater::SetModul(CString &NStr)
+void CDlgX2ModNRandomParamater::SetModul(const CString &NStr)
 {
 	m_EditModul_N = NStr;
 }

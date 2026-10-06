@@ -210,7 +210,7 @@ void CDlgSigAttModificDemo::OnModify()
 	NewDocument = theApp.OpenDocumentFileNoMRU(outfile);
 	
 	char title[1024];
-	_snprintf(title, sizeof(title) - 1, "Modifikation von <%s>", m_Title);
+	_snprintf(title, sizeof(title) - 1, "Modifikation von <%s>", (LPCTSTR)m_Title);
 	NewDocument->SetTitle(title);
 
 	delete m_Document;

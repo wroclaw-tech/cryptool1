@@ -53,11 +53,13 @@ void CEditorDialog::Create()
 	CDialog::ShowWindow(SW_SHOW);
 }
 
+#ifdef _WIN32
 BEGIN_EVENTSINK_MAP(CEditorDialog, CDialog)
     //{{AFX_EVENTSINK_MAP(CEditorDialog)
 	ON_EVENT(CEditorDialog, IDC_GTTRAPEZEDITORCTRL1, 1 /* ColorTableChanged */, OnColorTableChanged, VTS_NONE)
 	//}}AFX_EVENTSINK_MAP
 END_EVENTSINK_MAP()
+#endif
 
 /*void CEditorDialog::OnTransferFunctionChanged(LPUNKNOWN colortable) 
 {

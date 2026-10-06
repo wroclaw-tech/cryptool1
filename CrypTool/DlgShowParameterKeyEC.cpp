@@ -97,7 +97,7 @@ BOOL CDlgShowParameterKeyEC::OnInitDialog()
 	// m_dom_param_listview aufbauen
 	UpdateData(TRUE);
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_EC_DOMAIN_PARAMETER,pc_str,STR_LAENGE_STRING_TABLE);
-	sprintf(pc_str1, pc_str, curveID);
+	sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 	m_ec_dom_par_editbox = (CString) pc_str1;
 	UpdateData(FALSE);
 

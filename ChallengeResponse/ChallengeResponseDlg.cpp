@@ -85,7 +85,7 @@ BEGIN_MESSAGE_MAP(CChallengeResponseDlg, CDialog)
 	ON_BN_CLICKED(IDC_CHECK_MASK, &CChallengeResponseDlg::OnCheckMask)
 	ON_BN_CLICKED(IDC_SCENARIO_HELP_BUTTON, &CChallengeResponseDlg::OnScenarioHelpButton)
 	ON_BN_CLICKED(IDC_RESET_BUTTON, &CChallengeResponseDlg::OnResetButton)
-	ON_BN_CLICKED(IDC_HELP, &CChallengeResponseDlg::OnHelp)
+	ON_BN_CLICKED((UINT)(UINT_PTR)IDC_HELP, &CChallengeResponseDlg::OnHelp)
 	ON_BN_CLICKED(IDC_EINFUEHRUNG_RADIO, &CChallengeResponseDlg::OnModeRadioButtons)
 	ON_BN_CLICKED(IDC_PASSWORT_RADIO, &CChallengeResponseDlg::OnModeRadioButtons)
 	ON_BN_CLICKED(IDC_EINMALPASSWOERTER, &CChallengeResponseDlg::OnModeRadioButtons)
@@ -234,9 +234,9 @@ void CChallengeResponseDlg::OnMouseMove(UINT nFlags, CPoint point)
 	
 	if (scenario.isMouseOverObject(m_action,point)){	
 		
-		::SetClassLong(m_hWnd,GCL_HCURSOR,(LONG)hCmark);
+		::SetClassLongPtr(m_hWnd,GCLP_HCURSOR,(LONG_PTR)hCmark);
 	}else{
-		::SetClassLong(m_hWnd,GCL_HCURSOR,(LONG)hCstandard);
+		::SetClassLongPtr(m_hWnd,GCLP_HCURSOR,(LONG_PTR)hCstandard);
 	}
 	CDialog::OnMouseMove(nFlags, point);
 }

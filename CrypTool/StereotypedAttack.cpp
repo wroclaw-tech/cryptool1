@@ -248,7 +248,7 @@ bool StereotypedAttack::FindRoots(ZZX f, vec_ZZ& r){
 }
 
 // Getters and setters
-void StereotypedAttack::setN(ZZ& N){
+void StereotypedAttack::setN(const ZZ& N){
 	this->N=N;
 	updateX();
 }
@@ -257,7 +257,7 @@ ZZ& StereotypedAttack::getN(){
 	return N;
 }
 
-void StereotypedAttack::setE(ZZ& e){
+void StereotypedAttack::setE(const ZZ& e){
 	this->e=e;
 	updateX();
 }
@@ -266,7 +266,7 @@ ZZ& StereotypedAttack::getE(){
 	return e;
 }
 
-void StereotypedAttack::setH(ZZ& h){
+void StereotypedAttack::setH(const ZZ& h){
 	this->h=h;
 	updateX();
 }
@@ -275,15 +275,15 @@ ZZ& StereotypedAttack::getH(){
 	return h;
 }
 
-void StereotypedAttack::setLeftText(ZZ& leftText){
+void StereotypedAttack::setLeftText(const ZZ& leftText){
 	this->leftText=leftText;
 }
 
-void StereotypedAttack::setRightText(ZZ& rightText){
+void StereotypedAttack::setRightText(const ZZ& rightText){
 	this->rightText=rightText;
 }
 
-void StereotypedAttack::setCiphertext(ZZ& ciphertext){
+void StereotypedAttack::setCiphertext(const ZZ& ciphertext){
 	this->ciphertext=ciphertext;
 }
 

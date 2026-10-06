@@ -381,7 +381,7 @@ bool copy_perm_key::copy_key(long ndx)
 	
 	LoadString(AfxGetInstanceHandle(),IDS_CRYPT_PERMUTATION,pc_str,STR_LAENGE_STRING_TABLE);
 	strKey.Format("%s %s%s%i,%i,%i,%i,%i,%i", 
-		str, PARAM_TOKEN, (m_dataType) ? TEXT_TOKEN : BINARY_TOKEN, p->dirPlain, p->dirPerm, p->dirCipher, 0, 0, 0);
+		(LPCTSTR)str, PARAM_TOKEN, (m_dataType) ? TEXT_TOKEN : BINARY_TOKEN, p->dirPlain, p->dirPerm, p->dirCipher, 0, 0, 0);
 	CopyKey ( pc_str, strKey );
 
 	return true;

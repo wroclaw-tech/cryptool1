@@ -221,7 +221,12 @@ extern "C" {
 typedef long             longint;
 typedef unsigned short   UWORD;
 #ifndef OS2
+#ifdef _WIN32
 typedef unsigned long    ULONG;
+#else
+#include <stdint.h>
+typedef uint32_t         ULONG;  /* 32 bits as on Windows (and as mfcwx defines it) */
+#endif
 #endif
 
 /*************************/

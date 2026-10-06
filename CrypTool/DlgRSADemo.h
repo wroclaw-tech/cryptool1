@@ -233,7 +233,7 @@ private:
 	void HeadingEncryption(BOOL decryptText);
 	void RequestForInput( BOOL clearInput = FALSE );
 	void SetHeadLine( CString &mHeader, int IDS_STRING_ID, int base = 0, int BlockLength = 0 );	
-	void SetHeadLine( CString &mHeader, int IDS_STRING_ID, CString &Str, const char *str2 = 0);	
+	void SetHeadLine( CString &mHeader, int IDS_STRING_ID, const CString &Str, const char *str2 = 0);	
 	int  GetBase();
 
 	bool KeyStatusPublicKeyOnly() { return (s_publicKeyOnly == (m_RSAKeyStatus & s_publicKeyOnly) ); }

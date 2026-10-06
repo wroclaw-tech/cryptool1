@@ -167,7 +167,8 @@ void CDlgICGRandomParamater::OnOK()
 	if ( Modul_N_IsOK  && Multiplikator_a_IsOK && Inkrement_b_IsOK)
 	{
 		GeneratePrimes P;
-		P.SetP(Get_N());
+		CString strN = Get_N();
+		P.SetP(strN);
 		BOOL test=FALSE;
 		test = P.MillerRabinTest(100);
 		test = P.SolvayStrassenTest(100);

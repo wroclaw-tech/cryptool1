@@ -1607,13 +1607,13 @@ CTutorialFactorisation::~CTutorialFactorisation()
 	}
 	set_mip(mip);
 	if(ww)
-		delete[mlf] ww;
+		delete[] ww;
 	if(xx)
-		delete[mmm] xx;
+		delete[] xx;
 	if(yy)
-		delete[mmm] yy;
+		delete[] yy;
 	if(zz)
-		delete[mlf] zz;
+		delete[] zz;
 	ww = xx = yy = zz = NULL;
 }
 

@@ -604,7 +604,7 @@ void CDlgRSADemo::InitPrivateRSAParameter()
 			// an invalid parameter e, we present two options to the user: either going 
 			// with e=2^16+1 (the default) or computing e with regards to p and q
 			CString message;
-			message.Format(IDS_STRING_RSATUT_WRONG_PUBLICKEY, m_edit_e, m_edit_phi_of_N);
+			message.Format(IDS_STRING_RSATUT_WRONG_PUBLICKEY, (LPCTSTR)m_edit_e, (LPCTSTR)m_edit_phi_of_N);
 			if(AfxMessageBox(message, MB_ICONINFORMATION | MB_YESNO) == IDYES) {
 				if(!calculateSmallestE(m_edit_e, m_edit_p, m_edit_q)) {
 					CString message;
@@ -1194,14 +1194,14 @@ void CDlgRSADemo::SetHeadLine(CString &mHeader, int IDS_STRING_ID, int base, int
 	mHeader = line;
 }
 
-void CDlgRSADemo::SetHeadLine(CString &mHeader, int IDS_STRING_ID, CString &Str, const char *str2)
+void CDlgRSADemo::SetHeadLine(CString &mHeader, int IDS_STRING_ID, const CString &Str, const char *str2)
 {
 	char line[IDS_STRINGLENGTH];
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_ID,pc_str,STR_LAENGE_STRING_TABLE);
 	if ( !str2 )
-		sprintf( line, pc_str, Str );
+		sprintf( line, pc_str, (LPCTSTR)Str );
 	else
-		sprintf( line, pc_str, Str, str2 );
+		sprintf( line, pc_str, (LPCTSTR)Str, str2 );
 	mHeader = line;
 }
 

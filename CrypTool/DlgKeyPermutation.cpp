@@ -490,16 +490,18 @@ void CDlgKeyPermutation::OnPasteKey()
 		if( k < 0 )
 		{
 			int t = readKeyParam( buffer );
-			if ( t > 0 ) m_Perm1 = makeASCII(buffer.Left(t));
+			CString part = buffer.Left(t);
+			if ( t > 0 ) m_Perm1 = makeASCII(part);
 			else         m_Perm1 = makeASCII(buffer);
 			m_Perm2.Empty();
 		}
 		else
 		{
-			m_Perm1 = makeASCII(buffer.Left(k));
+			CString part1 = buffer.Left(k);
+			m_Perm1 = makeASCII(part1);
 			int t = readKeyParam( buffer );
-			if ( t > 0 ) m_Perm2 = makeASCII(buffer.Mid(k+1,(t-k)-1));
-			else		 m_Perm2 = makeASCII(buffer.Right(buffer.GetLength()-k-1));
+			CString part2 = ( t > 0 ) ? buffer.Mid(k+1,(t-k)-1) : buffer.Right(buffer.GetLength()-k-1);
+			m_Perm2 = makeASCII(part2);
 		}
 		UpdateData(FALSE);
 		OnChangeEdit1();

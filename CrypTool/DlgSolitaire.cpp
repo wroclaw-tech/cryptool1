@@ -270,7 +270,8 @@ void CDlgSolitaire::ChangeConfiguration()
 						char str[256];
 						fin.read(str,255);
 						fin.close();
-						if ( deck.set_deck(CString(str)) )
+						CString deckString(str);
+						if ( deck.set_deck(deckString) )
 						{
 							InitialDeck = str;
 							UpdateData(false);
@@ -800,7 +801,8 @@ void CDlgSolitaire::OnPasteKey()
 	LoadString(AfxGetInstanceHandle(),IDS_CRYPT_SOLITAIRE,pc_str,STR_LAENGE_STRING_TABLE);
 	if(PasteKey(pc_str, buffer))
 	{
-		if ( deck.set_deck(CString(buffer)) )
+		CString deckString(buffer);
+		if ( deck.set_deck(deckString) )
 		{
 			InitialDeck = buffer;
 			UpdateData(false);

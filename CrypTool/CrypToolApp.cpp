@@ -199,14 +199,14 @@ BEGIN_MESSAGE_MAP(CCrypToolApp, CWinApp)
 
 	//ON_COMMAND(ID_VERENTSCHLSSELN_HYBRIDVERFAHREN_HYBRIDVERSCHLSSELUNG, OnVerentschlsselnHybridverfahrenHybridverschlsselung)
 	ON_COMMAND(ID_FILE_NEW, &CCrypToolApp::OnFileNew)			     // file commands...
-	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
-	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
+	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
 // BEGINN Fuer Hilfe-Funktionalitaet eingefuegt
 	// Globale Hilfebefehle
-	ON_COMMAND(ID_HELP_FINDER, CWinApp::OnHelpFinder)
-	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
-	ON_COMMAND(ID_CONTEXT_HELP, CWinApp::OnContextHelp)
-	ON_COMMAND(ID_DEFAULT_HELP, CWinApp::OnHelpFinder)
+	ON_COMMAND(ID_HELP_FINDER, &CWinApp::OnHelpFinder)
+	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+	ON_COMMAND(ID_CONTEXT_HELP, &CWinApp::OnContextHelp)
+	ON_COMMAND(ID_DEFAULT_HELP, &CWinApp::OnHelpFinder)
 
 // ENDE
 	ON_COMMAND(ID_PRIMENUMBER_TEST, &CCrypToolApp::OnPrimenumberTest)
@@ -410,7 +410,7 @@ BOOL CCrypToolApp::InitInstance()
 	char buffer[1024], *p;
 	int n;
 
-	#if !defined(_MSC_VER) || _MSC_VER <= 1200  
+	#if defined(_MSC_VER) && _MSC_VER <= 1200  
 // HTML Help for VC++ 6.0
 // ...
 	#else
@@ -1143,7 +1143,7 @@ void CCrypToolApp::OnEinzelverfahrenTutorialSignaturerzeugung()
 }
 
 
-#if !defined(_MSC_VER) || _MSC_VER <= 1200		
+#if defined(_MSC_VER) && _MSC_VER <= 1200		
 // HTML Help for VC++ 6.0
 void CCrypToolApp::WinHelp( DWORD dwData, UINT nCmd)
 #else											
@@ -1159,8 +1159,8 @@ void CCrypToolApp::WinHelpInternal( DWORD_PTR dwData, UINT nCmd)
 		for (it = m_menuItemStack.begin(); it != m_menuItemStack.end(); it++) {
 			WCHAR mi[sizeof alinkid] = L"";
 			TCHAR mo[sizeof alinkid];
-			GetMenuStringW((*it).hmenu,(*it).index,mi,sizeof(mi)-1,MF_BYPOSITION);
-			mi[sizeof mi - 1] = '\0';
+			GetMenuStringW((*it).hmenu,(*it).index,mi,sizeof(mi)/sizeof(mi[0])-1,MF_BYPOSITION);
+			mi[sizeof(mi)/sizeof(mi[0]) - 1] = '\0';
 			int i = 0, j = 0;
 			WCHAR c;
 			// remove from mi
@@ -1200,7 +1200,7 @@ void CCrypToolApp::WinHelpInternal( DWORD_PTR dwData, UINT nCmd)
 		link.pszWindow =    NULL;
 		link.fIndexOnFail = FALSE ;
 
-		callHtmlHelp(HH_ALINK_LOOKUP, (DWORD) &link);
+		callHtmlHelp(HH_ALINK_LOOKUP, (DWORD_PTR) &link);
 
 
 	} else
@@ -1319,7 +1319,7 @@ void CCrypToolApp::OnScript()
 	//HINSTANCE hInst = ShellExecute(0, "open", readmePath, NULL, 0, SW_SHOW ); // does not work for BE - .NET 3.0 issue?
 	HINSTANCE hInst = ShellExecute(0, NULL, readmePath, NULL, 0, SW_SHOW );
 
-	if ( reinterpret_cast<int>(hInst) <= 32 )
+	if ( reinterpret_cast<INT_PTR>(hInst) <= 32 )
 		Message(IDS_ERROPEN_SCRIPT, MB_ICONSTOP);
 }
 
@@ -1332,7 +1332,7 @@ void CCrypToolApp::OnPresentation()
 	sprintf(presentationPath, pc_str, Pfad);
 	HINSTANCE hInst = ShellExecute(0, NULL, presentationPath, NULL, 0, SW_SHOW);
 	delete []presentationPath;
-	if(reinterpret_cast<int>(hInst) <= 32)
+	if(reinterpret_cast<INT_PTR>(hInst) <= 32)
 		Message(IDS_ERROR_OPENING_PRESENTATION, MB_ICONSTOP);
 }
 
@@ -1416,7 +1416,7 @@ void CCrypToolApp::execAnimalVisualization(int _animalFileIdentifier) {
 	animalPath = CString(Pfad) + animalPath;
 	animalPath.Replace("/","\\");
 	HINSTANCE hInst = ShellExecute(NULL, NULL, animalExecutable, animalFile, animalPath, SW_HIDE);
-	if(reinterpret_cast<int>(hInst) <= 32) {
+	if(reinterpret_cast<INT_PTR>(hInst) <= 32) {
 		Message(IDS_ERROPEN_ANIM, MB_ICONSTOP);
 	}
 }
@@ -1467,9 +1467,9 @@ void CCrypToolApp::OnGenerationTAdicNAFKeys() {
 	generationTAdicNAFKeysPath.Replace("/", "\\");
 	// try to open the executable, otherwise dump an error
 	HINSTANCE hInst=ShellExecute(NULL, NULL, generationTAdicNAFKeysExecutable, NULL, generationTAdicNAFKeysPath, SW_HIDE);
-	if(reinterpret_cast<int>(hInst) <= 32) {
+	if(reinterpret_cast<INT_PTR>(hInst) <= 32) {
 		CString message;
-		message.Format(IDS_GENERATION_TADIC_NAF_KEYS_ERROR_EXECUTION, generationTAdicNAFKeysExecutable, generationTAdicNAFKeysPath);
+		message.Format(IDS_GENERATION_TADIC_NAF_KEYS_ERROR_EXECUTION, (LPCTSTR)generationTAdicNAFKeysExecutable, (LPCTSTR)generationTAdicNAFKeysPath);
 		AfxMessageBox(message, MB_ICONSTOP);
 	}
 }
@@ -1478,7 +1478,7 @@ void CCrypToolApp::OnNumberShark()
 {
 	// zahlenhai aufrufen
 	CString str_m_NumberShark_Selfextract_EXE_Quoted = CString("\"") + CString(theApp.m_NumberShark_Selfextract_EXE) + CString("\"");
-	_spawnl(_P_NOWAIT, theApp.m_NumberShark_Selfextract_EXE, str_m_NumberShark_Selfextract_EXE_Quoted, NULL);
+	_spawnl(_P_NOWAIT, theApp.m_NumberShark_Selfextract_EXE, (LPCTSTR)str_m_NumberShark_Selfextract_EXE_Quoted, NULL);
 	// FIXME: Interpret return value of _spawnl
 }
 
@@ -1501,9 +1501,9 @@ BOOL CCrypToolApp::OnDDECommand(LPTSTR lpszCommand)
 }
 
 
-void CCrypToolApp::callHtmlHelp(UINT uCommand, DWORD dwData)
+void CCrypToolApp::callHtmlHelp(UINT uCommand, DWORD_PTR dwData)
 {
-#if !defined(_MSC_VER) || _MSC_VER <= 1200 // HTML Help for VC++ 6.0
+#if defined(_MSC_VER) && _MSC_VER <= 1200 // HTML Help for VC++ 6.0
 // creating the path to the help
 		CString html_help_path = CString(m_pszHelpFilePath) + CString(">MainWindow");
 		
@@ -1562,7 +1562,7 @@ void CCrypToolApp::OnAesSelfextract()
 {
 	CString str_m_Selfextract_EXE_Quoted = CString("\"") + CString(theApp.m_Selfextract_EXE) + CString("\"");
 //	int intptr_t = _spawnl(_P_NOWAIT, strmod, strmod, NULL, NULL);
-	int intptr_t = _spawnl(_P_NOWAIT, theApp.m_Selfextract_EXE, str_m_Selfextract_EXE_Quoted, NULL, NULL);
+	int intptr_t = _spawnl(_P_NOWAIT, theApp.m_Selfextract_EXE, (LPCTSTR)str_m_Selfextract_EXE_Quoted, NULL, NULL);
 	// FIXME: Interpret return value of _spawnl
 }
 
@@ -1591,7 +1591,7 @@ void CCrypToolApp::OnFlashAesdemo()
 
   	
 	HINSTANCE hInst = ShellExecute(NULL,NULL, AESDemoExecStr, " ", Pfad, SW_SHOW);
-	if ( reinterpret_cast<int>(hInst) <= 32 ) {
+	if ( reinterpret_cast<INT_PTR>(hInst) <= 32 ) {
 		// display error message stating where the desired executable is expected
 		CString message;
 		message.Format(IDS_ERROR_OPEN_FLASHAESDEMO, Pfad);
@@ -1606,7 +1606,7 @@ void CCrypToolApp::OnFlashRijndaelInspector()
 
 
 	HINSTANCE hInst = ShellExecute(NULL,NULL, RijndaelInspectorExecStr, " ", Pfad, SW_SHOW);
-	if ( reinterpret_cast<int>(hInst) <= 32 ) {
+	if ( reinterpret_cast<INT_PTR>(hInst) <= 32 ) {
 		// display error message stating where the desired executable is expected
 		CString message;
 		message.Format(IDS_ERROR_OPEN_RIJNDAELINSPECTOR, Pfad);
@@ -1621,7 +1621,7 @@ void CCrypToolApp::OnInteractiveNumberTheory()
 
 
 	HINSTANCE hInst = ShellExecute(NULL,NULL, InteractiveNTExecStr, " ", Pfad, SW_SHOW);
-	if ( reinterpret_cast<int>(hInst) <= 32 ) {
+	if ( reinterpret_cast<INT_PTR>(hInst) <= 32 ) {
 		// display error message stating where the desired executable is expected
 		CString message;
 		message.Format(IDS_ERROPEN_INTERACTIVE_NUMBER_THEORY, Pfad);
@@ -1636,7 +1636,7 @@ void CCrypToolApp::OnFlashEnigmademo()
 
 
 	HINSTANCE hInst = ShellExecute(NULL,NULL, EnigmaFlashExecStr, " ", Pfad, SW_SHOW);
-	if ( reinterpret_cast<int>(hInst) <= 32 ) {
+	if ( reinterpret_cast<INT_PTR>(hInst) <= 32 ) {
 		// display error message stating where the desired executable is expected
 		CString message;
 		message.Format(IDS_ERROPEN_ENIGMA_FLASH, Pfad);

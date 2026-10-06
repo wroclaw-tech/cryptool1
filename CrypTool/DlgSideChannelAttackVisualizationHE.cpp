@@ -1238,7 +1238,7 @@ void CDlgSideChannelAttackVisualizationHE::OnCheckDisablehelp()
 
 	if ( CT_OPEN_REGISTRY_SETTINGS( KEY_WRITE, IDS_REGISTRY_SETTINGS ) == ERROR_SUCCESS )
 	{
-		CT_WRITE_REGISTRY(unsigned long(this->m_bShowInfoDialogues), "SCA_InfoDialogues");
+		CT_WRITE_REGISTRY((unsigned long)(this->m_bShowInfoDialogues), "SCA_InfoDialogues");
 		CT_CLOSE_REGISTRY();
 	}
 	else

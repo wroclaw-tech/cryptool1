@@ -35,7 +35,7 @@ class CDlgX2ModNRandomParamater : public CDialog
 // Konstruktion
 public:
 	CString GetModul(void);
-	void SetModul(CString &NStr);
+	void SetModul(const CString &NStr);
 	CDlgX2ModNRandomParamater(CWnd* pParent = NULL);   // Standardkonstruktor
 
 // Dialogfelddaten

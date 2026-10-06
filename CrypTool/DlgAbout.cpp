@@ -148,10 +148,16 @@ BOOL CDlgAbout::OnInitDialog()
 		CString buildDate;
 		buildDate.Format(theApp.getBuildTime());
 		CString buildVersion;
+#if defined(_MSC_VER)
 		buildVersion.Format("MSC %d.%02d",_MSC_VER/100,_MSC_VER%100);
+#elif defined(__clang__)
+		buildVersion.Format("clang %d.%d.%d",__clang_major__,__clang_minor__,__clang_patchlevel__);
+#elif defined(__GNUC__)
+		buildVersion.Format("GCC %d.%d.%d",__GNUC__,__GNUC_MINOR__,__GNUC_PATCHLEVEL__);
+#endif
 		// construct release information
 		CString stringReleaseInformation;
-		stringReleaseInformation.Format(IDS_CRYPTOOL_RELEASE_INFORMATION, stringCrypToolVersion, buildSvnRevision, buildDate, buildVersion);
+		stringReleaseInformation.Format(IDS_CRYPTOOL_RELEASE_INFORMATION, (LPCTSTR)stringCrypToolVersion, (LPCTSTR)buildSvnRevision, (LPCTSTR)buildDate, (LPCTSTR)buildVersion);
 		stringReleaseInformation.Append(strVersionApfloat); stringReleaseInformation.Append(", ");
 		stringReleaseInformation.Append(strVersionCracklib); stringReleaseInformation.Append(", ");
 		stringReleaseInformation.Append(strVersionCryptovision); stringReleaseInformation.Append(", ");
@@ -237,7 +243,11 @@ void CDlgAbout::determineLibraryVersions()
 
 	// GMP (dynamisch)
 	CString StrGMPWindowText;
+#ifdef __MPIR_VERSION
 	StrGMPWindowText.Format("MPIR %s", mpir_version);
+#else
+	StrGMPWindowText.Format("GMP %s", gmp_version);
+#endif
 	this->strVersionGMP = StrGMPWindowText;
 
 	// CRACKLIB (statisch)

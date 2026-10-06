@@ -36,13 +36,13 @@ CArcBall::~CArcBall()
 	
 }
 
-void CArcBall::place(CPosition &vec2Center, double dRadius)
+void CArcBall::place(const CPosition &vec2Center, double dRadius)
 {
 	m_vec2Center = vec2Center;
 	m_dRadius = dRadius;
 }
 
-void CArcBall::setMouse(CPosition &vec2Now)
+void CArcBall::setMouse(const CPosition &vec2Now)
 {
 	m_vec2Now = vec2Now;
 }

@@ -222,7 +222,7 @@ BOOL CDlgBruteForceAES::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	CString titel;
-	titel.Format(IDS_STRING_ANALYSE_ON,m_alg);
+	titel.Format(IDS_STRING_ANALYSE_ON,(LPCTSTR)m_alg);
 	SetWindowText(titel);
 	m_font.CreatePointFont(100,"Courier New");
 	m_text_ctl.SetFont(&m_font);

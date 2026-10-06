@@ -71,7 +71,7 @@ BOOL CDlgEntropyInfo::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	CString title;
-	title.Format(IDS_ENTROPY_TITLE,m_oldtitle);
+	title.Format(IDS_ENTROPY_TITLE,(LPCTSTR)m_oldtitle);
 	SetWindowText((LPCTSTR)title);
 
 	LOGFONT logFont;

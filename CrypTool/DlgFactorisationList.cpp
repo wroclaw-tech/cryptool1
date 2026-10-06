@@ -125,8 +125,8 @@ void CDlgFactorisationList::Init_ListBox()
 	UpdateData(FALSE);
 }
 
-void CDlgFactorisationList::InsertFactDetail(CString &Num, CString &Factor1, 
-		                                        CString &Factor2, CString &Method , CString &Time,
+void CDlgFactorisationList::InsertFactDetail(const CString &Num, const CString &Factor1, 
+		                                        const CString &Factor2, const CString &Method , const CString &Time,
 												int PrimeMask, int BitlengthF1, int BitlengthF2)
 {
 	struct DFItem *Last = new (struct DFItem);

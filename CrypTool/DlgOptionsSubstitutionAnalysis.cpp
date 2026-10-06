@@ -119,13 +119,13 @@ BOOL CDlgOptionsSubstitutionAnalysis::OnInitDialog()
 	CFileStatus wordlistFileStatus;
 	if(!CFile::GetStatus(m_editWordlistGerman, wordlistFileStatus)) {
 		CString message; 
-		message.Format(IDS_STRING_SUBSTITUTION_ANALYSIS_MISSING_WORDLIST_GERMAN, m_editWordlistGerman);
+		message.Format(IDS_STRING_SUBSTITUTION_ANALYSIS_MISSING_WORDLIST_GERMAN, (LPCTSTR)m_editWordlistGerman);
 		AfxMessageBox(message, MB_ICONWARNING);
 
 	}
 	if(!CFile::GetStatus(m_editWordlistEnglish, wordlistFileStatus)) {
 		CString message; 
-		message.Format(IDS_STRING_SUBSTITUTION_ANALYSIS_MISSING_WORDLIST_ENGLISH, m_editWordlistEnglish);
+		message.Format(IDS_STRING_SUBSTITUTION_ANALYSIS_MISSING_WORDLIST_ENGLISH, (LPCTSTR)m_editWordlistEnglish);
 		AfxMessageBox(message, MB_ICONWARNING);
 	}
 

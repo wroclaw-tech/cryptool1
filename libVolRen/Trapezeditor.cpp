@@ -15,6 +15,7 @@ IMPLEMENT_DYNCREATE(CTrapezEditor, CWnd)
 /////////////////////////////////////////////////////////////////////////////
 // CTrapezEditor properties
 
+#ifdef _WIN32
 BOOL CTrapezEditor::GetDisplayColorTable()
 {
 	BOOL result;
@@ -98,6 +99,23 @@ void CTrapezEditor::SetDisplayHistogram(BOOL propVal)
 {
 	SetProperty(0x3, VT_BOOL, propVal);
 }
+#else
+// no ActiveX control behind the wrapper: properties read as 0, writes are ignored
+BOOL CTrapezEditor::GetDisplayColorTable() { return FALSE; }
+void CTrapezEditor::SetDisplayColorTable(BOOL) {}
+LPUNKNOWN CTrapezEditor::GetColortable() { return NULL; }
+void CTrapezEditor::SetColortable(LPUNKNOWN) {}
+long CTrapezEditor::GetResolution() { return 0; }
+void CTrapezEditor::SetResolution(long) {}
+float CTrapezEditor::GetHistScale() { return 0.0f; }
+void CTrapezEditor::SetHistScale(float) {}
+LPUNKNOWN CTrapezEditor::GetHistogram() { return NULL; }
+void CTrapezEditor::SetHistogram(LPUNKNOWN) {}
+short CTrapezEditor::GetDrawstyle() { return 0; }
+void CTrapezEditor::SetDrawstyle(short) {}
+BOOL CTrapezEditor::GetDisplayHistogram() { return FALSE; }
+void CTrapezEditor::SetDisplayHistogram(BOOL) {}
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 // CTrapezEditor operations

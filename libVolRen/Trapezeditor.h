@@ -23,6 +23,7 @@ public:
 			= { 0x90393a34, 0x2f31, 0x48a4, { 0x93, 0x23, 0x8c, 0xec, 0x42, 0xc7, 0x39, 0x54 } };
 		return clsid;
 	}
+#ifdef _WIN32
 	virtual BOOL Create(LPCTSTR lpszClassName,
 		LPCTSTR lpszWindowName, DWORD dwStyle,
 		const RECT& rect,
@@ -36,6 +37,14 @@ public:
 		BSTR bstrLicKey = NULL)
 	{ return CreateControl(GetClsid(), lpszWindowName, dwStyle, rect, pParentWnd, nID,
 		pPersist, bStorage, bstrLicKey); }
+#else
+	// ActiveX controls are not available: the transfer function editor cannot be created
+	virtual BOOL Create(LPCTSTR, LPCTSTR, DWORD, const RECT&, CWnd*, UINT, CCreateContext* = NULL)
+	{ return FALSE; }
+
+    BOOL Create(LPCTSTR, DWORD, const RECT&, CWnd*, UINT, CFile* = NULL, BOOL = FALSE, BSTR = NULL)
+	{ return FALSE; }
+#endif
 
 // Attributes
 public:

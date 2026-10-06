@@ -171,15 +171,15 @@ void CDlgStatisticsSignatureAttack::PrintStatistics()
 
 	HashingOperations HO(m_ResSigAtt->GetHashAlgorithmID());
 	msg.Format(IDS_SIGATT_STAT_HEADER, HO.GetHashAlgorithmName());
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) -1, "%s\n\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) -1, "%s\n\n", (LPCTSTR)msg);
 	
 	msg.Format(IDS_SIGATT_STAT_ORIGINAL_FILE, m_ResSigAtt->getStrFilenameOriginal());
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) -1, "%s\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) -1, "%s\n", (LPCTSTR)msg);
 	msg.Format(IDS_SIGATT_STAT_FAKE_FILE, m_ResSigAtt->getStrFilenameFake());
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) -1, "%s\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) -1, "%s\n", (LPCTSTR)msg);
 
 	msg.Format(IDS_STRING_SIG_ATT_STA_EXPENSE);
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "\n%s\n\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "\n%s\n\n", (LPCTSTR)msg);
 
 	msg.Format(IDS_STRING_SIG_ATT_STA_CALCTIME);
 
@@ -187,23 +187,23 @@ void CDlgStatisticsSignatureAttack::PrintStatistics()
 	double_fmt( ExpectedTC.GetSeconds(), strDuration, 2 );
 	Time.Format(IDS_STRING_SIG_ATT_STA_TIME, ExpectedTC.GetYears(),
 		ExpectedTC.GetDays(), ExpectedTC.GetHours(), ExpectedTC.GetMinutes(), strDuration);
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s:  %s\n", msg, Time);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s:  %s\n", (LPCTSTR)msg, (LPCTSTR)Time);
 	msg.Format(IDS_STRING_SIG_ATT_STA_STEPS, itoa_fmt((__int64)m_ResSigAtt->GetExpectedSteps()));
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n\n\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n\n\n", (LPCTSTR)msg);
 
 	msg.Format(IDS_STRING_SIG_ATT_STA_EFFEXPENSE);
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n\n", (LPCTSTR)msg);
 	msg.Format(IDS_STRING_SIG_ATT_STA_CALCTIME);
 	double_fmt( EffectiveTC.GetSeconds(), strDuration, 2 );
 	Time.Format(IDS_STRING_SIG_ATT_STA_TIME, EffectiveTC.GetYears(),
 		EffectiveTC.GetDays(), EffectiveTC.GetHours(), EffectiveTC.GetMinutes(), strDuration);
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s:  %s\n", msg, Time);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s:  %s\n", (LPCTSTR)msg, (LPCTSTR)Time);
 	msg.Format(IDS_STRING_SIG_ATT_STA_STEPS, itoa_fmt((__int64)m_ResSigAtt->GetTotalSteps()));
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n",msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n",(LPCTSTR)msg);
 	msg.Format(IDS_STRING_SIG_ATT_STA_PERFORMED, itoa_fmt((__int64)m_ResSigAtt->GetHashOperationsPerformed()));
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n\n", (LPCTSTR)msg);
 	msg.Format(IDS_STRING_SIG_ATT_STA_TITLE);
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s", (LPCTSTR)msg);
 
 	for (ii = 0; ii < m_ResSigAtt->GetRuns(); ii ++)
 	{
@@ -216,18 +216,18 @@ void CDlgStatisticsSignatureAttack::PrintStatistics()
 	}
 
 	msg.Format(IDS_STRING_SIG_ATT_STA_ADDEDBYTES);
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "\n\n\n%s\n\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "\n\n\n%s\n\n", (LPCTSTR)msg);
 	msg.Format(IDS_STRING_SIG_ATT_STA_HARMLESS, m_ModifiedBytesHarmless);
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s\n", (LPCTSTR)msg);
 	msg.Format(IDS_STRING_SIG_ATT_STA_DANGEROUS, m_ModifiedBytesDangerous);
-	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s", msg);
+	strlen += _snprintf(doctext + strlen, sizeof(doctext) - 1, "%s", (LPCTSTR)msg);
 
 	StatisticsFile.write(doctext, strlen);
 	StatisticsFile.close();
 	Statistics = theApp.OpenDocumentFileNoMRU(outfile);
 
 	msg.Format(IDS_STRING_SIG_ATT_STA_DOCTITLE);
-	_snprintf(doctitle, sizeof(doctitle) - 1, "%s", msg);
+	_snprintf(doctitle, sizeof(doctitle) - 1, "%s", (LPCTSTR)msg);
 	Statistics->SetTitle(doctitle);
 	HIDE_HOUR_GLASS
 }

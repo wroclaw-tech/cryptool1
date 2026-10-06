@@ -908,7 +908,7 @@ void CDlgVerifySignature::OnButtonSearchKey()
 		// Info: Schlüsselbezeichner signKey nicht in Liste vorhanden,
 		// obwohl alle Schlüsseltypen durchsucht wurden
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_MSG_KEY_IDENTIFIER_NOT_FOUND,pc_str1,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str, pc_str1, signKey);
+		sprintf(pc_str, pc_str1, (LPCTSTR)signKey);
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_ERR_UNKNOWN_SIGNATURE,pc_str1,STR_LAENGE_STRING_TABLE);
 		MessageBox(pc_str,pc_str1,MB_ICONWARNING|MB_OK);
 		return; // no selection
@@ -931,7 +931,7 @@ void CDlgVerifySignature::OnButtonSearchKey()
 			// Info: Schlüsselbezeichner nicht in Liste vorhanden, obwohl alle Schlüsseltypen
 			// durchsucht wurden
 			LoadString(AfxGetInstanceHandle(),IDS_STRING_MSG_KEY_IDENTIFIER_NOT_FOUND,pc_str1,STR_LAENGE_STRING_TABLE);
-			sprintf(pc_str, pc_str1, signKey);
+			sprintf(pc_str, pc_str1, (LPCTSTR)signKey);
 			LoadString(AfxGetInstanceHandle(),IDS_STRING_ERR_UNKNOWN_SIGNATURE,pc_str1,STR_LAENGE_STRING_TABLE);
 			MessageBox(pc_str,pc_str1,MB_ICONWARNING|MB_OK);
 			return; // no selection

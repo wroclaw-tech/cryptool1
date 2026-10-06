@@ -58,7 +58,7 @@ bool CComputer::isMouseOverObject(CPoint &point)
 }
 
 
-void CComputer::setParameters(int x1, int y1, int x2, int y2, int borderWidth, CString &name, int textPosition, int dataPosition, bool isAttacker)
+void CComputer::setParameters(int x1, int y1, int x2, int y2, int borderWidth, const CString &name, int textPosition, int dataPosition, bool isAttacker)
 {
 	setParametersSO(x1,y1,x2,y2,borderWidth);
 	this->name=name;
@@ -95,8 +95,8 @@ void CComputer::draw(CClientDC &dc)
 	
 	drawDataText(dc);
 
-	dc.SelectObject(&originalFont);
-	dc.SelectObject(&originalPen);
+	dc.SelectObject(originalFont);
+	dc.SelectObject(originalPen);
 }
 
 void CComputer::drawDataText(CClientDC &dc)
@@ -123,7 +123,7 @@ void CComputer::eraseDataText(CClientDC &dc)
 	dc.SetTextColor(white);
 	originalFont = dc.SelectObject(&dataFont);
 	drawDataText(dc);
-	dc.SelectObject(&originalFont);
+	dc.SelectObject(originalFont);
 }
 
 int CComputer::getX1()

@@ -798,7 +798,7 @@ void CRSAStereotypedMSGDlg::OnChangeEditplainfull()
 		MaxChars = to_ZZ(floor(log(N+255)/log(256.0)));
 	else
 		MaxChars = 0;
-	chars.Format("%d (%s)",tmp.GetLength(),toString(MaxChars,10,0));
+	chars.Format("%d (%s)",tmp.GetLength(),(LPCTSTR)toString(MaxChars,10,0));
 	SetDlgItemText(IDC_EDITPLAINLENGTH,chars);
 	SetDlgItemText(IDC_EDITCIPHER,"");
 	UpdateSliders();

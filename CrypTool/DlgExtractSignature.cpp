@@ -238,7 +238,7 @@ BOOL CDlgExtractSignature::OnInitDialog()
 
 		// Infos über Schlüssel
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_SIGNATURE_DATE,pc_str1,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str, pc_str1,((CString)keyType)+kInfo,((CString)creattime));
+		sprintf(pc_str, pc_str1,(LPCTSTR)(((CString)keyType)+kInfo),(LPCTSTR)((CString)creattime));
 		m_KeyInfo = (CString) pc_str; // Benutzter Schlüssel:
 	}
 	else
@@ -269,7 +269,7 @@ BOOL CDlgExtractSignature::OnInitDialog()
 
 	// Benutzter Signaturalgorithmus
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_SIGNATURE_HASH_FUNCTION,pc_str1,STR_LAENGE_STRING_TABLE);
-	sprintf(pc_str, pc_str1, SigAlg, HashAlg);
+	sprintf(pc_str, pc_str1, (LPCTSTR)SigAlg, (LPCTSTR)HashAlg);
 	m_SigHashAlg = (CString) pc_str;
 
 	UpdateData(FALSE);
@@ -302,7 +302,7 @@ BOOL CDlgExtractSignature::OnInitDialog()
 	char buffer[30];
 	_itoa( message.noctets, buffer, 10 );
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_SIGNATURE_MESSAGE_LENGTH,pc_str1,STR_LAENGE_STRING_TABLE);
-	sprintf(pc_str, pc_str1,((CString)buffer));
+	sprintf(pc_str, pc_str1,(LPCTSTR)((CString)buffer));
 	m_MessageLength = (CString) pc_str;
 	UpdateData(FALSE);
 
@@ -317,7 +317,7 @@ BOOL CDlgExtractSignature::OnInitDialog()
 		char buffer[30];
 		_itoa( signlength, buffer, 10 );
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_SIGNATURE_LENGTH,pc_str1,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str, pc_str1,((CString)buffer));
+		sprintf(pc_str, pc_str1,(LPCTSTR)((CString)buffer));
 		m_SignatureLength = (CString) pc_str;
 		UpdateData(FALSE);
 
@@ -348,7 +348,7 @@ BOOL CDlgExtractSignature::OnInitDialog()
 		char buffer[30];
 		_itoa( Signatur.signature.nbits, buffer, 10 );
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_SIGNATURE_LENGTH,pc_str1,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str, pc_str1,((CString)buffer));
+		sprintf(pc_str, pc_str1,(LPCTSTR)((CString)buffer));
 		m_SignatureLength = (CString) pc_str;
 		UpdateData(FALSE);
 	}
@@ -522,7 +522,7 @@ int CDlgExtractSignature::UpdateSigEditBox()
 			char buffer[30];
 			_itoa( Signatur.signature.nbits, buffer, 10 );
 			LoadString(AfxGetInstanceHandle(),IDS_STRING_SIGNATURE_LENGTH,pc_str1,STR_LAENGE_STRING_TABLE);
-			sprintf(pc_str, pc_str1,((CString)buffer));
+			sprintf(pc_str, pc_str1,(LPCTSTR)((CString)buffer));
 			m_SignatureLength = (CString) pc_str;
 			UpdateData(FALSE);
 			free(sigdata);
