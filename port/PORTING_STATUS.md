@@ -44,7 +44,13 @@ Build: `cmake -S . -B build -G Ninja && ninja -C build -k 0 CrypTool`
 - Cross-thread `SendMessage` is marshalled to the main thread like on Windows.
 
 ## Remaining work (in order)
-1. mfcwx implementation still missing: non-GUI runtime (files, archives, threads, registry/INI, CRT compat), GDI (CDC on wxDC), `DefaultWindowProc` + Win32 HWND functions (winapi.cpp), dialogs + DDX (dialog.cpp), menus, CWinApp/main loop/help, doc/view + MDI frames, Scintilla proxy (ANSI↔UTF-8 positions), WGL on wxGLCanvas.
-2. Finish SECUDE replacement and its tests; recreate sample PSE keys.
-3. Remaining ~680 compile errors in app sources (MSVC-isms: CString through varargs, temporaries bound to non-const refs, PictureEx/IPicture, OpenGL/libVolRen NV extensions, ActiveX editor).
-4. Link, run, visually tune dialog units/fonts, then packaging (.app/DMG, AppImage/.deb).
+1. Finish the partially written mfcwx parts: non-GUI runtime (`kernel.cpp` and files/archives/CRT),
+   GDI (`gdi.cpp`), control classes (`ctrlclasses.cpp`), Scintilla proxy (`scintilla.cpp`), help
+   (`help.cpp`), WGL on wxGLCanvas.
+2. Fix the remaining compile errors in the app sources (see the port-status badge).
+3. Link, run, visually tune dialog units and fonts.
+4. Packaging (.app/DMG, AppImage/.deb).
+
+Done so far: resource compiler, third-party libraries, SECUDE replacement (10/10 tests),
+message dispatch and controls, dialogs and DDX, menus, document/view with tabbed MDI,
+CWinApp and startup glue.
