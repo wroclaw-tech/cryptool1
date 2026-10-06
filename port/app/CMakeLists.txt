@@ -19,7 +19,8 @@ file(GLOB CT_EXTRA_SOURCES CONFIGURE_DEPENDS
     ${REPO_ROOT}/libVolRen/VolumeUtilities.cpp ${REPO_ROOT}/ChallengeResponse/*.cpp)
 
 add_executable(CrypTool ${CT_SOURCES} ${CT_EXTRA_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/platform.cpp)
-mfcwx_add_rc(CrypTool RC ${CT_SRC}/CrypTool.rc MODULE CrypTool HEADERS ${CT_SRC}/resource.h)
+mfcwx_add_rc(CrypTool RC ${CT_SRC}/CrypTool.rc MODULE CrypTool HEADERS ${CT_SRC}/resource.h
+             REPLACE "[CRYPTOOL_VERSION_FULL]=CrypTool ${PROJECT_VERSION}" "[CRYPTOOL_VERSION]=${PROJECT_VERSION}")
 
 set_target_properties(CrypTool PROPERTIES CXX_STANDARD 14 CXX_EXTENSIONS ON)
 # Quoted includes only: <monty.h> etc. must resolve to the libraries, as on Windows.
@@ -53,6 +54,30 @@ add_custom_target(cryptool_data ALL
 add_dependencies(CrypTool cryptool_data)
 
 # ---------------------------------------------------------------------------------------------
+# Help: the HTML Help sources are mirrored into the data directory with the index the mfcwx
+# HtmlHelp replacement reads (context ids, ALinks, keywords) and the generated readme page.
+
+set(CT_HELP_LANGUAGES en de)
+set(CT_HELP_GENERATED CrypTool.helpindex hid_load_readme.html)
+set(CT_HELP_OUTPUTS)
+foreach(lang IN LISTS CT_HELP_LANGUAGES)
+    set(help_src ${CT_SRC}/hlp_${lang})
+    set(help_out ${CRYPTOOL_DEV_DATA_DIR}/hlp_${lang})
+    set(readme ${REPO_ROOT}/setup/template-${lang}/ReadMe-${lang}.txt)
+    file(GLOB help_inputs CONFIGURE_DEPENDS LIST_DIRECTORIES false ${help_src}/*)
+    list(TRANSFORM CT_HELP_GENERATED PREPEND ${help_out}/ OUTPUT_VARIABLE outputs)
+    add_custom_command(OUTPUT ${outputs}
+        COMMAND ${Python3_EXECUTABLE} ${REPO_ROOT}/port/tools/build_help_index.py --mirror --help-dir ${help_src}
+                --resource-header ${CT_SRC}/resource.h --readme ${readme} --out-dir ${help_out}
+        DEPENDS ${REPO_ROOT}/port/tools/build_help_index.py ${CT_SRC}/resource.h ${readme} ${help_inputs}
+        COMMENT "Generating the help index for hlp_${lang}"
+        VERBATIM)
+    list(APPEND CT_HELP_OUTPUTS ${outputs})
+endforeach()
+add_custom_target(cryptool_help ALL DEPENDS ${CT_HELP_OUTPUTS})
+add_dependencies(CrypTool cryptool_help)
+
+# ---------------------------------------------------------------------------------------------
 # Installation and packages
 
 include(GNUInstallDirs)
@@ -77,6 +102,10 @@ mfcwx_install_rc_files(CrypTool DESTINATION ${CRYPTOOL_DATA_DEST})
 foreach(help hlp_en hlp_de)
     install(DIRECTORY ${CT_SRC}/${help} DESTINATION ${CRYPTOOL_DATA_DEST}
             PATTERN "*.vcproj" EXCLUDE PATTERN "*.vcxproj*" EXCLUDE PATTERN "*.hhp" EXCLUDE)
+endforeach()
+foreach(lang IN LISTS CT_HELP_LANGUAGES)
+    list(TRANSFORM CT_HELP_GENERATED PREPEND ${CRYPTOOL_DEV_DATA_DIR}/hlp_${lang}/ OUTPUT_VARIABLE outputs)
+    install(FILES ${outputs} DESTINATION ${CRYPTOOL_DATA_DEST}/hlp_${lang})
 endforeach()
 file(GLOB CT_TEMPLATE_ENTRIES RELATIVE ${REPO_ROOT}/setup/template ${REPO_ROOT}/setup/template/*)
 foreach(entry IN LISTS CT_TEMPLATE_ENTRIES)

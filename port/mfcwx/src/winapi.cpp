@@ -494,7 +494,13 @@ HWND GetWindow(HWND hWnd, UINT uCmd) {
 
 HWND GetNextWindow(HWND hWnd, UINT wCmd) { return GetWindow(hWnd, wCmd); }
 HWND GetTopWindow(HWND hWnd) { return GetWindow(hWnd, GW_CHILD); }
-HWND GetDesktopWindow() { return nullptr; }
+namespace {
+
+HWND DesktopHwnd() { return reinterpret_cast<HWND>(static_cast<intptr_t>(-16)); }
+
+} // namespace
+
+HWND GetDesktopWindow() { return DesktopHwnd(); }
 
 HWND GetActiveWindow() {
     return OnMain([]() -> HWND { return ToHwnd(ManagedAncestor(wxGetActiveWindow())); });
@@ -718,6 +724,10 @@ void ToRect(const wxRect& r, LPRECT out) {
 } // namespace
 
 BOOL GetWindowRect(HWND hWnd, LPRECT lpRect) {
+    if (hWnd == DesktopHwnd() && lpRect) {
+        OnMain([&] { ToRect(wxRect(wxGetDisplaySize()), lpRect); });
+        return TRUE;
+    }
     if (!IsWindow(hWnd) || !lpRect)
         return FALSE;
     OnMain([&] { ToRect(ToWx(hWnd)->GetScreenRect(), lpRect); });
@@ -725,6 +735,10 @@ BOOL GetWindowRect(HWND hWnd, LPRECT lpRect) {
 }
 
 BOOL GetClientRect(HWND hWnd, LPRECT lpRect) {
+    if (hWnd == DesktopHwnd() && lpRect) {
+        OnMain([&] { ToRect(wxRect(wxGetDisplaySize()), lpRect); });
+        return TRUE;
+    }
     if (!IsWindow(hWnd) || !lpRect)
         return FALSE;
     OnMain([&] { ToRect(wxRect(ToWx(hWnd)->GetClientSize()), lpRect); });

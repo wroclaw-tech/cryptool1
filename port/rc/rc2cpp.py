@@ -914,6 +914,7 @@ def kw(t):
 
 class RcParser:
     def __init__(self, pp, rc_path, diag, dirs):
+        self.replacements = []
         self.pp = pp
         self.ev = pp.ev
         self.diag = diag
@@ -1006,6 +1007,8 @@ class RcParser:
 
     def text(self, t):
         s = decode_rc_string(t.v, t.cp, t.x)
+        for old, new in self.replacements:
+            s = s.replace(old, new)
         if '�' in s:
             self.decode_errors += 1
             self.diag.warn(self.loc(t), 'string contains bytes undefined in code page %d' % t.cp)
@@ -1872,6 +1875,8 @@ def main(argv=None):
     ap.add_argument('-U', dest='undefines', action='append', default=[], metavar='NAME')
     ap.add_argument('--header', action='append', default=[], help='header read for #defines before the .rc')
     ap.add_argument('--no-default-headers', action='store_true', help='do not pre-include mfcwx/winconst.h')
+    ap.add_argument('--replace', action='append', default=[], metavar='TEXT=VALUE',
+                    help='replace TEXT in every string literal (like the Windows pre-build step)')
     ap.add_argument('--codepage', type=int, default=1252, help='code page before the first #pragma code_page')
     ap.add_argument('--stats', action='store_true', help='print per-language resource counts')
     ap.add_argument('--list-outputs', action='store_true', help='print the files that would be generated and exit')
@@ -1919,6 +1924,12 @@ def main(argv=None):
     pp.ev.freeze()
 
     parser = RcParser(pp, rc_path, diag, dirs)
+    for r in args.replace:
+        old, sep, new = r.partition('=')
+        if not sep or not old:
+            print('rc2cpp: error: --replace expects TEXT=VALUE, got %r' % r, file=sys.stderr)
+            return 1
+        parser.replacements.append((old, new))
     parser.parse()
     langs = list(parser.langs.values())
     outs = output_names(module, langs)
