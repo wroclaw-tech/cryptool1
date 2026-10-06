@@ -1,17 +1,20 @@
-#include <string>
-
 #import <Cocoa/Cocoa.h>
 
-#include "afxwin.h"
+#include <wx/window.h>
 
-bool SnapshotWindow(HWND hWnd, const std::string& pngPath) {
-    CWnd* wnd = CWnd::FromHandle(hWnd);
-    if (!wnd)
+#include <string>
+
+namespace mfcwx {
+
+bool SnapshotWxWindow(wxWindow* w, const std::string& pngPath) {
+    if (!w)
         return false;
-    NSView* view = (NSView*)wnd->GetWx()->GetHandle();
+    NSView* view = (NSView*)w->GetHandle();
     NSView* content = [[view window] contentView];
     if (!content)
         content = view;
+    if (!content)
+        return false;
     [content displayIfNeeded];
     NSBitmapImageRep* rep = [content bitmapImageRepForCachingDisplayInRect:content.bounds];
     if (!rep)
@@ -20,3 +23,5 @@ bool SnapshotWindow(HWND hWnd, const std::string& pngPath) {
     NSData* png = [rep representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
     return [png writeToFile:[NSString stringWithUTF8String:pngPath.c_str()] atomically:YES];
 }
+
+} // namespace mfcwx

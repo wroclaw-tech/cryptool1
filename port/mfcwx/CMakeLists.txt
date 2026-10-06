@@ -1,4 +1,8 @@
 file(GLOB MFCWX_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+if(APPLE)
+    enable_language(OBJCXX)
+    list(APPEND MFCWX_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/snapshot_mac.mm)
+endif()
 
 add_library(mfcwx STATIC ${MFCWX_SOURCES})
 target_include_directories(mfcwx PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -9,7 +13,7 @@ target_compile_definitions(mfcwx PUBLIC ${wxWidgets_DEFINITIONS} MFCWX=1)
 target_compile_options(mfcwx PUBLIC ${wxWidgets_CXX_FLAGS})
 target_link_libraries(mfcwx PUBLIC ${wxWidgets_LIBRARIES} OpenGL::GL Threads::Threads ${CMAKE_DL_LIBS})
 if(APPLE)
-    target_link_libraries(mfcwx PUBLIC "-framework OpenGL")
+    target_link_libraries(mfcwx PUBLIC "-framework OpenGL" "-framework Cocoa")
 endif()
 
 option(MFCWX_TESTS "Build the mfcwx runtime tests" OFF)

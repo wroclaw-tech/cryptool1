@@ -10,7 +10,10 @@
 #include <string>
 
 extern const mfcwx::rc::Module g_rcModule_CrypTool;
-bool SnapshotWindow(HWND hWnd, const std::string& pngPath);
+class wxWindow;
+namespace mfcwx {
+bool SnapshotWxWindow(wxWindow* w, const std::string& pngPath);
+}
 
 namespace {
 
@@ -77,7 +80,7 @@ BOOL GalleryApp::InitInstance() {
             PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE);
         char path[1024];
         snprintf(path, sizeof path, "%s/%s_%05d_%s.png", out.c_str(), lang.c_str(), d.id, d.name ? d.name : "");
-        if (SnapshotWindow(dlg.m_hWnd, path))
+        if (mfcwx::SnapshotWxWindow(dlg.GetWx(), path))
             ++saved;
         dlg.DestroyWindow();
     }

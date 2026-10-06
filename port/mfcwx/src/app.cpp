@@ -123,6 +123,7 @@ bool MfcWxApp::OnInit() {
     app->m_lpCmdLine = &cmdLine[0];
     app->m_nCmdShow = SW_SHOWNORMAL;
     Bind(wxEVT_IDLE, &MfcWxApp::OnIdle, this);
+    StartSnapshotTimerFromEnvironment();
     if (!app->InitApplication() || !app->InitInstance()) {
         app->ExitInstance();
         return false;

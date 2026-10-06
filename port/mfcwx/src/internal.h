@@ -225,4 +225,6 @@ wxWindow* MainWxWindow();
 // Shows a message box; nType is the MB_* combination. Returns IDOK, IDCANCEL, ...
 int ShowMessageBox(wxWindow* parent, const char* text, const char* caption, UINT nType);
 
+void StartSnapshotTimerFromEnvironment();
+
 } // namespace mfcwx

@@ -2,8 +2,11 @@ include_guard(GLOBAL)
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 
-set(MFCWX_RC2CPP_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/rc2cpp.py")
-get_filename_component(MFCWX_RC_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../mfcwx/include" ABSOLUTE)
+# Cached so the function also works in directories other than the one that included this file first.
+set(MFCWX_RC_PYTHON "${Python3_EXECUTABLE}" CACHE INTERNAL "")
+set(MFCWX_RC2CPP_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/rc2cpp.py" CACHE INTERNAL "")
+get_filename_component(rc_include_dir "${CMAKE_CURRENT_LIST_DIR}/../mfcwx/include" ABSOLUTE)
+set(MFCWX_RC_INCLUDE_DIR "${rc_include_dir}" CACHE INTERNAL "")
 
 # mfcwx_add_rc(<target> RC <rc> [MODULE <name>] [HEADERS <h>...] [OUTPUT_DIR <dir>] [INCLUDE_DIRS <dir>...] [DEFINES <d>...] [CODEPAGE <cp>])
 function(mfcwx_add_rc target)
@@ -48,7 +51,7 @@ function(mfcwx_add_rc target)
   # Output names depend on the language set; the build rewrites outputs_file when it changes, which re-runs CMake.
   set(outputs_file "${out_dir}/${module}_outputs.txt")
   execute_process(
-    COMMAND "${Python3_EXECUTABLE}" "${MFCWX_RC2CPP_SCRIPT}" ${args} --list-outputs --outputs-file "${outputs_file}"
+    COMMAND "${MFCWX_RC_PYTHON}" "${MFCWX_RC2CPP_SCRIPT}" ${args} --list-outputs --outputs-file "${outputs_file}"
     OUTPUT_VARIABLE listed
     ERROR_VARIABLE errors
     RESULT_VARIABLE result)
@@ -71,7 +74,7 @@ function(mfcwx_add_rc target)
 
   add_custom_command(
     OUTPUT ${sources} "${files_list}"
-    COMMAND "${Python3_EXECUTABLE}" "${MFCWX_RC2CPP_SCRIPT}" ${args} --quiet --outputs-file "${outputs_file}" ${depfile_cli}
+    COMMAND "${MFCWX_RC_PYTHON}" "${MFCWX_RC2CPP_SCRIPT}" ${args} --quiet --outputs-file "${outputs_file}" ${depfile_cli}
     DEPENDS
       "${rc}" ${headers} "${MFCWX_RC2CPP_SCRIPT}"
       "${MFCWX_RC_INCLUDE_DIR}/mfcwx/winconst.h" "${MFCWX_RC_INCLUDE_DIR}/afxres.h"
