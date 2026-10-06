@@ -2116,194 +2116,215 @@ LRESULT RangeProc(wxWindow* w, WindowState& st, UINT msg, WPARAM wParam, LPARAM 
         gauge->SetRange(range);
         gauge->SetValue(std::max(0, std::min(range, r.pos - r.minValue)));
     };
-    switch (msg) {
-    case PBM_SETRANGE: {
-        LRESULT old = MAKELRESULT(r.minValue, r.maxValue);
-        r.minValue = LOWORD(lParam);
-        r.maxValue = HIWORD(lParam);
-        applyGauge();
-        return old;
-    }
-    case PBM_SETRANGE32: {
-        LRESULT old = MAKELRESULT(r.minValue, r.maxValue);
-        r.minValue = static_cast<int>(wParam);
-        r.maxValue = static_cast<int>(lParam);
-        applyGauge();
-        return old;
-    }
-    case PBM_GETRANGE: {
-        auto* range = reinterpret_cast<int*>(lParam);
-        if (range) {
-            range[0] = r.minValue;
-            range[1] = r.maxValue;
+    if (st.kind == ControlKind::Progress) {
+        switch (msg) {
+        case PBM_SETRANGE: {
+            LRESULT old = MAKELRESULT(r.minValue, r.maxValue);
+            r.minValue = LOWORD(lParam);
+            r.maxValue = HIWORD(lParam);
+            applyGauge();
+            return old;
         }
-        return wParam ? r.minValue : r.maxValue;
-    }
-    case PBM_SETPOS: {
-        int old = r.pos;
-        r.pos = static_cast<int>(wParam);
-        applyGauge();
-        return old;
-    }
-    case PBM_DELTAPOS: {
-        int old = r.pos;
-        r.pos += static_cast<int>(wParam);
-        applyGauge();
-        return old;
-    }
-    case PBM_SETSTEP: {
-        int old = r.step;
-        r.step = static_cast<int>(wParam);
-        return old;
-    }
-    case PBM_STEPIT: {
-        int old = r.pos;
-        r.pos += r.step;
-        if (r.pos > r.maxValue)
-            r.pos = r.minValue + (r.pos - r.maxValue);
-        applyGauge();
-        return old;
-    }
-    case PBM_GETPOS:
-        return r.pos;
-    case PBM_SETBARCOLOR:
-    case PBM_SETBKCOLOR:
-        return CLR_DEFAULT;
-    case PBM_SETMARQUEE:
-        if (gauge && wParam)
-            gauge->Pulse();
-        return TRUE;
-    case TBM_GETPOS:
-        return slider ? slider->GetValue() : r.pos;
-    case TBM_SETPOS:
-        r.pos = static_cast<int>(lParam);
-        if (slider)
-            slider->SetValue(r.pos);
-        return 0;
-    case TBM_SETRANGE:
-        r.minValue = LOWORD(lParam);
-        r.maxValue = HIWORD(lParam);
-        if (slider)
-            slider->SetRange(r.minValue, std::max(r.minValue, r.maxValue));
-        return 0;
-    case TBM_SETRANGEMIN:
-        r.minValue = static_cast<int>(lParam);
-        if (slider)
-            slider->SetRange(r.minValue, std::max(r.minValue, r.maxValue));
-        return 0;
-    case TBM_SETRANGEMAX:
-        r.maxValue = static_cast<int>(lParam);
-        if (slider)
-            slider->SetRange(r.minValue, std::max(r.minValue, r.maxValue));
-        return 0;
-    case TBM_GETRANGEMIN:
-        return slider ? slider->GetMin() : r.minValue;
-    case TBM_GETRANGEMAX:
-        return slider ? slider->GetMax() : r.maxValue;
-    case TBM_SETTICFREQ:
-        if (slider)
-            slider->SetTickFreq(std::max(1, static_cast<int>(wParam)));
-        return 0;
-    case TBM_SETPAGESIZE: {
-        int old = slider ? slider->GetPageSize() : 0;
-        if (slider)
-            slider->SetPageSize(static_cast<int>(lParam));
-        return old;
-    }
-    case TBM_GETPAGESIZE:
-        return slider ? slider->GetPageSize() : 0;
-    case TBM_SETLINESIZE: {
-        int old = slider ? slider->GetLineSize() : 0;
-        if (slider)
-            slider->SetLineSize(static_cast<int>(lParam));
-        return old;
-    }
-    case TBM_GETLINESIZE:
-        return slider ? slider->GetLineSize() : 1;
-    case TBM_SETTIC:
-        if (slider)
-            slider->SetTick(static_cast<int>(lParam));
-        return TRUE;
-    case TBM_CLEARTICS:
-        if (slider)
-            slider->ClearTicks();
-        return 0;
-    case TBM_GETNUMTICS:
-        return 2;
-    case TBM_SETSEL:
-    case TBM_SETSELSTART:
-    case TBM_SETSELEND:
-    case TBM_CLEARSEL:
-        return 0;
-    case UDM_SETRANGE:
-        r.maxValue = static_cast<short>(LOWORD(lParam));
-        r.minValue = static_cast<short>(HIWORD(lParam));
-        return 0;
-    case UDM_SETRANGE32:
-        r.minValue = static_cast<int>(wParam);
-        r.maxValue = static_cast<int>(lParam);
-        return 0;
-    case UDM_GETRANGE:
-        return MAKELRESULT(r.maxValue, r.minValue);
-    case UDM_GETRANGE32:
-        if (wParam)
-            *reinterpret_cast<int*>(wParam) = r.minValue;
-        if (lParam)
-            *reinterpret_cast<int*>(lParam) = r.maxValue;
-        return 0;
-    case UDM_SETPOS:
-    case UDM_SETPOS32: {
-        int old = r.pos;
-        r.pos = msg == UDM_SETPOS ? static_cast<short>(LOWORD(lParam)) : static_cast<int>(lParam);
-        UpdateSpinBuddy(w, st);
-        return old;
-    }
-    case UDM_GETPOS:
-        return MAKELRESULT(ReadSpinBuddy(st), 0);
-    case UDM_GETPOS32:
-        if (lParam)
-            *reinterpret_cast<BOOL*>(lParam) = FALSE;
-        return ReadSpinBuddy(st);
-    case UDM_SETBUDDY: {
-        CWnd* old = st.buddy;
-        st.buddy = CWnd::FromHandle(reinterpret_cast<HWND>(wParam));
-        return reinterpret_cast<LRESULT>(old ? old->m_hWnd : nullptr);
-    }
-    case UDM_GETBUDDY:
-        return reinterpret_cast<LRESULT>(st.buddy ? st.buddy->m_hWnd : nullptr);
-    case UDM_SETBASE:
-    case UDM_SETACCEL:
-        return TRUE;
-    case UDM_GETBASE:
-        return 10;
-    case SBM_SETPOS:
-        if (auto* sb = wxDynamicCast(w, wxScrollBar)) {
-            int old = sb->GetThumbPosition();
-            sb->SetThumbPosition(static_cast<int>(wParam) - r.minValue);
-            return old + r.minValue;
-        }
-        return 0;
-    case SBM_GETPOS:
-        if (auto* sb = wxDynamicCast(w, wxScrollBar))
-            return sb->GetThumbPosition() + r.minValue;
-        return 0;
-    case SBM_SETRANGE:
-        if (auto* sb = wxDynamicCast(w, wxScrollBar)) {
+        case PBM_SETRANGE32: {
+            LRESULT old = MAKELRESULT(r.minValue, r.maxValue);
             r.minValue = static_cast<int>(wParam);
             r.maxValue = static_cast<int>(lParam);
-            sb->SetScrollbar(sb->GetThumbPosition(), 1, std::max(1, r.maxValue - r.minValue + 1), std::max(1, (r.maxValue - r.minValue) / 10));
+            applyGauge();
+            return old;
         }
-        return 0;
-    case SBM_GETRANGE:
-        if (wParam)
-            *reinterpret_cast<int*>(wParam) = r.minValue;
-        if (lParam)
-            *reinterpret_cast<int*>(lParam) = r.maxValue;
-        return 0;
-    default:
-        handled = false;
-        return 0;
+        case PBM_GETRANGE: {
+            auto* range = reinterpret_cast<int*>(lParam);
+            if (range) {
+                range[0] = r.minValue;
+                range[1] = r.maxValue;
+            }
+            return wParam ? r.minValue : r.maxValue;
+        }
+        case PBM_SETPOS: {
+            int old = r.pos;
+            r.pos = static_cast<int>(wParam);
+            applyGauge();
+            return old;
+        }
+        case PBM_DELTAPOS: {
+            int old = r.pos;
+            r.pos += static_cast<int>(wParam);
+            applyGauge();
+            return old;
+        }
+        case PBM_SETSTEP: {
+            int old = r.step;
+            r.step = static_cast<int>(wParam);
+            return old;
+        }
+        case PBM_STEPIT: {
+            int old = r.pos;
+            r.pos += r.step;
+            if (r.pos > r.maxValue)
+                r.pos = r.minValue + (r.pos - r.maxValue);
+            applyGauge();
+            return old;
+        }
+        case PBM_GETPOS:
+            return r.pos;
+        case PBM_SETBARCOLOR:
+        case PBM_SETBKCOLOR:
+            return CLR_DEFAULT;
+        case PBM_SETMARQUEE:
+            if (gauge && wParam)
+                gauge->Pulse();
+            return TRUE;
+        default:
+            break;
+        }
     }
+    if (st.kind == ControlKind::Slider) {
+        switch (msg) {
+        case TBM_GETPOS:
+            return slider ? slider->GetValue() : r.pos;
+        case TBM_SETPOS:
+            r.pos = static_cast<int>(lParam);
+            if (slider)
+                slider->SetValue(r.pos);
+            return 0;
+        case TBM_SETRANGE:
+            r.minValue = LOWORD(lParam);
+            r.maxValue = HIWORD(lParam);
+            if (slider)
+                slider->SetRange(r.minValue, std::max(r.minValue, r.maxValue));
+            return 0;
+        case TBM_SETRANGEMIN:
+            r.minValue = static_cast<int>(lParam);
+            if (slider)
+                slider->SetRange(r.minValue, std::max(r.minValue, r.maxValue));
+            return 0;
+        case TBM_SETRANGEMAX:
+            r.maxValue = static_cast<int>(lParam);
+            if (slider)
+                slider->SetRange(r.minValue, std::max(r.minValue, r.maxValue));
+            return 0;
+        case TBM_GETRANGEMIN:
+            return slider ? slider->GetMin() : r.minValue;
+        case TBM_GETRANGEMAX:
+            return slider ? slider->GetMax() : r.maxValue;
+        case TBM_SETTICFREQ:
+            if (slider)
+                slider->SetTickFreq(std::max(1, static_cast<int>(wParam)));
+            return 0;
+        case TBM_SETPAGESIZE: {
+            int old = slider ? slider->GetPageSize() : 0;
+            if (slider)
+                slider->SetPageSize(static_cast<int>(lParam));
+            return old;
+        }
+        case TBM_GETPAGESIZE:
+            return slider ? slider->GetPageSize() : 0;
+        case TBM_SETLINESIZE: {
+            int old = slider ? slider->GetLineSize() : 0;
+            if (slider)
+                slider->SetLineSize(static_cast<int>(lParam));
+            return old;
+        }
+        case TBM_GETLINESIZE:
+            return slider ? slider->GetLineSize() : 1;
+        case TBM_SETTIC:
+            if (slider)
+                slider->SetTick(static_cast<int>(lParam));
+            return TRUE;
+        case TBM_CLEARTICS:
+            if (slider)
+                slider->ClearTicks();
+            return 0;
+        case TBM_GETNUMTICS:
+            return 2;
+        case TBM_SETSEL:
+        case TBM_SETSELSTART:
+        case TBM_SETSELEND:
+        case TBM_CLEARSEL:
+            return 0;
+        default:
+            break;
+        }
+    }
+    if (st.kind == ControlKind::Spin) {
+        switch (msg) {
+        case UDM_SETRANGE:
+            r.maxValue = static_cast<short>(LOWORD(lParam));
+            r.minValue = static_cast<short>(HIWORD(lParam));
+            return 0;
+        case UDM_SETRANGE32:
+            r.minValue = static_cast<int>(wParam);
+            r.maxValue = static_cast<int>(lParam);
+            return 0;
+        case UDM_GETRANGE:
+            return MAKELRESULT(r.maxValue, r.minValue);
+        case UDM_GETRANGE32:
+            if (wParam)
+                *reinterpret_cast<int*>(wParam) = r.minValue;
+            if (lParam)
+                *reinterpret_cast<int*>(lParam) = r.maxValue;
+            return 0;
+        case UDM_SETPOS:
+        case UDM_SETPOS32: {
+            int old = r.pos;
+            r.pos = msg == UDM_SETPOS ? static_cast<short>(LOWORD(lParam)) : static_cast<int>(lParam);
+            UpdateSpinBuddy(w, st);
+            return old;
+        }
+        case UDM_GETPOS:
+            return MAKELRESULT(ReadSpinBuddy(st), 0);
+        case UDM_GETPOS32:
+            if (lParam)
+                *reinterpret_cast<BOOL*>(lParam) = FALSE;
+            return ReadSpinBuddy(st);
+        case UDM_SETBUDDY: {
+            CWnd* old = st.buddy;
+            st.buddy = CWnd::FromHandle(reinterpret_cast<HWND>(wParam));
+            return reinterpret_cast<LRESULT>(old ? old->m_hWnd : nullptr);
+        }
+        case UDM_GETBUDDY:
+            return reinterpret_cast<LRESULT>(st.buddy ? st.buddy->m_hWnd : nullptr);
+        case UDM_SETBASE:
+        case UDM_SETACCEL:
+            return TRUE;
+        case UDM_GETBASE:
+            return 10;
+        default:
+            break;
+        }
+    }
+    if (st.kind == ControlKind::ScrollBar) {
+        switch (msg) {
+        case SBM_SETPOS:
+            if (auto* sb = wxDynamicCast(w, wxScrollBar)) {
+                int old = sb->GetThumbPosition();
+                sb->SetThumbPosition(static_cast<int>(wParam) - r.minValue);
+                return old + r.minValue;
+            }
+            return 0;
+        case SBM_GETPOS:
+            if (auto* sb = wxDynamicCast(w, wxScrollBar))
+                return sb->GetThumbPosition() + r.minValue;
+            return 0;
+        case SBM_SETRANGE:
+            if (auto* sb = wxDynamicCast(w, wxScrollBar)) {
+                r.minValue = static_cast<int>(wParam);
+                r.maxValue = static_cast<int>(lParam);
+                sb->SetScrollbar(sb->GetThumbPosition(), 1, std::max(1, r.maxValue - r.minValue + 1), std::max(1, (r.maxValue - r.minValue) / 10));
+            }
+            return 0;
+        case SBM_GETRANGE:
+            if (wParam)
+                *reinterpret_cast<int*>(wParam) = r.minValue;
+            if (lParam)
+                *reinterpret_cast<int*>(lParam) = r.maxValue;
+            return 0;
+        default:
+            break;
+        }
+    }
+    handled = false;
+    return 0;
 }
 
 LRESULT TabProc(wxWindow* w, WindowState& st, UINT msg, WPARAM wParam, LPARAM lParam, bool& handled) {

@@ -109,8 +109,11 @@ struct WindowState {
     bool destroying = false;
     bool destroyNotified = false;
     bool hooked = false;
+    bool dropBound = false;
     bool settingText = false;      // suppresses change notifications for programmatic updates
     int defaultButtonId = 0;       // dialogs: DM_SETDEFID
+    int checkState = 0;            // BM_SETCHECK state of buttons
+    void* image = nullptr;         // STM_SETIMAGE / STM_SETICON handle
     wxString text;                 // caption of custom-drawn windows
     std::function<void(wxPaintEvent&)> customPaint;
     std::vector<std::pair<DWORD_PTR, wxString>> itemData; // unused by most kinds

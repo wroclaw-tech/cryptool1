@@ -1,6 +1,7 @@
 #include "internal.h"
 #include "windows_impl.h"
 
+#include <wx/display.h>
 #include <wx/evtloop.h>
 #include <wx/tooltip.h>
 
@@ -1678,13 +1679,12 @@ int CWnd::GetScrollLimit(int nBar) {
 
 void CWnd::ShowScrollBar(UINT nBar, BOOL bShow) {
     OnMain([&] {
-        if (!m_hWnd)
+        if (!m_hWnd || bShow)
             return;
-        wxWindow* w = GetWx();
         if (nBar == SB_HORZ || nBar == SB_BOTH)
-            w->ShowScrollbars(bShow ? wxSHOW_SB_ALWAYS : wxSHOW_SB_NEVER, w->HasScrollbar(wxVERTICAL) ? wxSHOW_SB_DEFAULT : wxSHOW_SB_NEVER);
+            GetWx()->SetScrollbar(wxHORIZONTAL, 0, 0, 0);
         if (nBar == SB_VERT || nBar == SB_BOTH)
-            w->ShowScrollbars(w->HasScrollbar(wxHORIZONTAL) ? wxSHOW_SB_DEFAULT : wxSHOW_SB_NEVER, bShow ? wxSHOW_SB_ALWAYS : wxSHOW_SB_NEVER);
+            GetWx()->SetScrollbar(wxVERTICAL, 0, 0, 0);
     });
 }
 

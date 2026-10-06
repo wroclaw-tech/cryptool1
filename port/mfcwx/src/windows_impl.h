@@ -71,6 +71,13 @@ void ApplyCtlColor(wxWindow* control);
 wxString GetControlText(wxWindow* window);
 void SetControlText(wxWindow* window, const wxString& text);
 
+// scintilla.cpp: wxStyledTextCtrl behind the Scintilla message API (ANSI text, ANSI positions)
+void BindScintillaEvents(wxWindow* window);
+LRESULT ScintillaWindowProc(wxWindow* window, UINT msg, WPARAM wParam, LPARAM lParam, bool& handled);
+
+// gdi.cpp: an HBITMAP owning a copy of bmp
+HBITMAP CreateBitmapHandle(const wxBitmap& bmp);
+
 // wnd.cpp / winapi.cpp
 void DestroyWxWindow(wxWindow* window);
 // The parent in the Win32 sense (skips internal wx containers).
