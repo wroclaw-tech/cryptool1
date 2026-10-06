@@ -263,8 +263,9 @@ public:
     afx_msg void OnWindowTile();
     afx_msg void OnUpdateMDIWindowCmd(CCmdUI* pCmdUI);
 
-    // implementation: all MDI children in creation order
+    // implementation: all MDI children in creation order; notifies children and menus of tab switches
     std::vector<CMDIChildWnd*> m_children;
+    void OnChildActivated();
 
 protected:
     DECLARE_MESSAGE_MAP()
@@ -295,6 +296,7 @@ public:
 
     HMENU m_hMenuShared;
     CMDIFrameWnd* m_pMDIFrame;
+    bool m_bActive;
 
 protected:
     DECLARE_MESSAGE_MAP()
