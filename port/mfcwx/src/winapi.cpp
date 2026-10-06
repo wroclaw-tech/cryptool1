@@ -145,7 +145,7 @@ LRESULT DefaultWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         return 0;
     }
     case WM_GETFONT:
-        return reinterpret_cast<LRESULT>(st->font ? st->font : DefaultGuiFont());
+        return reinterpret_cast<LRESULT>(st->font ? st->font : FontHandleFor(w->GetFont()));
     case WM_SETREDRAW:
         if (wParam) {
             if (w->IsFrozen())
@@ -827,8 +827,10 @@ BOOL InvalidateRect(HWND hWnd, const RECT* lpRect, BOOL bErase) {
         wxWindow* w = ToWx(hWnd);
         if (lpRect) {
             wxRect r(lpRect->left, lpRect->top, lpRect->right - lpRect->left, lpRect->bottom - lpRect->top);
+            ClearClientDCOverlay(w, &r);
             w->RefreshRect(r, bErase != FALSE);
         } else {
+            ClearClientDCOverlay(w);
             w->Refresh(bErase != FALSE);
         }
         if (!w->IsTopLevel())

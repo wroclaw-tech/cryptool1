@@ -1,6 +1,6 @@
 #pragma once
 
-// Win32 user/gdi functions operating on HWND/HDC handles (HWND is a wxWindow*, HDC a CDC*).
+// Win32 user/gdi functions operating on HWND/HDC handles (HWND is a wxWindow*, HDC an opaque handle to an internal DC state).
 
 LRESULT SendMessage(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 LRESULT SendMessageA(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);

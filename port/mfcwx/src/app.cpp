@@ -122,6 +122,7 @@ int MfcWxApp::OnExit() {
 
 void MfcWxApp::OnIdle(wxIdleEvent& e) {
     e.Skip();
+    PurgeTemporaryGdiWrappers();
     CWinApp* app = AppInstance();
     if (app && app->OnIdle(m_idleCount++))
         e.RequestMore();

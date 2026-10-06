@@ -429,11 +429,19 @@ void OnPaint(wxPaintEvent& e) {
         return;
     }
     if (!HasMessageHandler(pWnd, WM_PAINT)) {
+        if (HasClientDCOverlay(w)) {
+            wxPaintDC dc(w);
+            PaintClientDCOverlay(w, dc);
+        }
         e.Skip();
         return;
     }
     bool def = false;
+    wxPaintDC dc(w);
+    CDC* c = WrapDC(&dc, w);
     SendFromEvent(w, WM_PAINT, 0, 0, e, &def);
+    PaintClientDCOverlay(w, dc);
+    UnwrapDC(c);
     if (def)
         e.Skip();
 }
@@ -456,6 +464,7 @@ void OnEraseBackground(wxEraseEvent& e) {
 void OnSize(wxSizeEvent& e) {
     wxWindow* w = static_cast<wxWindow*>(e.GetEventObject());
     e.Skip();
+    ClearClientDCOverlay(w);
     CWnd* pWnd = PermanentWnd(w);
     if (!HasMessageHandler(pWnd, WM_SIZE))
         return;
