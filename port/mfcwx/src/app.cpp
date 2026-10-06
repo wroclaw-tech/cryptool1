@@ -661,3 +661,5 @@ CWaitCursor::~CWaitCursor() {
     if (CWinApp* app = AfxGetApp())
         app->DoWaitCursor(-1);
 }
+
+BOOL CWinApp::OnDDECommand(LPTSTR) { return FALSE; }
