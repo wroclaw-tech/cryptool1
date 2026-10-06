@@ -1,5 +1,10 @@
 #include "windows_impl.h"
 
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
+#include <GL/gl.h>
+#endif
 #include <wx/glcanvas.h>
 
 #include <dlfcn.h>
