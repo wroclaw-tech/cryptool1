@@ -33,6 +33,19 @@ if(TARGET secude_compat)
     set_property(TARGET secude_compat PROPERTY INTERFACE_COMPILE_FEATURES "")
 endif()
 add_subdirectory(port/mfcwx)
+# These libraries open files by paths CrypTool passes in Windows form; the app links mfcwx, which
+# converts them, and the library tests use plain stubs.
+foreach(target cryptool_analyse cryptool_cracklib)
+    target_compile_options(${target} PRIVATE "SHELL:-iquote ${CMAKE_SOURCE_DIR}/port/mfcwx/include"
+                           "SHELL:-include ${CMAKE_SOURCE_DIR}/port/mfcwx/include/mfcwx/pathcompat.h")
+endforeach()
+add_library(mfcwx_path_stubs STATIC port/mfcwx/tests/path_stubs.cpp)
+target_include_directories(mfcwx_path_stubs PRIVATE port/mfcwx/include)
+foreach(test test_analyse test_cracklib)
+    if(TARGET ${test})
+        target_link_libraries(${test} PRIVATE mfcwx_path_stubs)
+    endif()
+endforeach()
 add_subdirectory(port/app)
 
 option(CRYPTOOL_DIALOG_GALLERY "Build the dialog snapshot tool" OFF)

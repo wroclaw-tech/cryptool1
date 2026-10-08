@@ -7,6 +7,9 @@
 #include <wx/toplevel.h>
 
 #include <cstdlib>
+#include <fstream>
+#include <sstream>
+#include <vector>
 
 namespace mfcwx {
 
@@ -78,9 +81,109 @@ private:
     int m_round = 0;
 };
 
+std::string SafeName(const wxString& title) {
+    std::string name;
+    for (wxUniChar c : title)
+        name += (c.IsAscii() && isalnum(static_cast<int>(c.GetValue()))) ? static_cast<char>(c.GetValue()) : '_';
+    return name.substr(0, 40);
+}
+
+wxWindow* ActiveDialog() {
+    wxWindow* found = nullptr;
+    for (wxWindow* w : wxTopLevelWindows) {
+        auto* d = wxDynamicCast(w, wxDialog);
+        if (d && d->IsShown())
+            found = d;
+    }
+    return found;
+}
+
+// Development aid: MFCWX_AUTOMATION=file runs one step per line on a timer, for UI tests:
+//   command <id>        WM_COMMAND to the main window
+//   button <id>         WM_COMMAND (BN_CLICKED) to the topmost dialog
+//   text <id> <text>    sets the text of a control of the topmost dialog
+//   wait <ms>
+//   snapshot <label>    PNGs of all shown top-level windows into MFCWX_SNAPSHOT_DIR (or .)
+//   quit
+class AutomationTimer : public wxTimer {
+public:
+    AutomationTimer(std::vector<std::string> steps, std::string dir) : m_steps(std::move(steps)), m_dir(std::move(dir)) {}
+
+    void Notify() override {
+        if (m_waitUntil != 0 && wxGetLocalTimeMillis() < m_waitUntil)
+            return;
+        m_waitUntil = 0;
+        if (m_next >= m_steps.size()) {
+            fprintf(stderr, "mfcwx automation: done\n");
+            fflush(stderr);
+            _exit(0);
+        }
+        std::string line = m_steps[m_next++];
+        std::istringstream in(line);
+        std::string op;
+        in >> op;
+        fprintf(stderr, "mfcwx automation: %s\n", line.c_str());
+        if (op == "command" || op == "button") {
+            int id = 0;
+            in >> id;
+            CWnd* target = op == "command" ? AfxGetMainWnd() : WrapperFor(ActiveDialog());
+            if (target && target->m_hWnd)
+                target->PostMessage(WM_COMMAND, MAKEWPARAM(id, BN_CLICKED), 0);
+            else
+                fprintf(stderr, "mfcwx automation: no target window\n");
+        } else if (op == "text") {
+            int id = 0;
+            in >> id;
+            std::string text;
+            std::getline(in, text);
+            if (!text.empty() && text[0] == ' ')
+                text.erase(0, 1);
+            CWnd* dlg = WrapperFor(ActiveDialog());
+            if (dlg && dlg->m_hWnd)
+                ::SetDlgItemText(dlg->m_hWnd, id, text.c_str());
+        } else if (op == "wait") {
+            long ms = 0;
+            in >> ms;
+            m_waitUntil = wxGetLocalTimeMillis() + ms;
+        } else if (op == "snapshot") {
+            std::string label;
+            in >> label;
+            int index = 0;
+            for (wxWindow* w : wxTopLevelWindows) {
+                if (!w->IsShown())
+                    continue;
+                char path[1024];
+                snprintf(path, sizeof path, "%s/%s_%d_%s.png", m_dir.c_str(), label.c_str(), index++,
+                         SafeName(w->GetLabel()).c_str());
+                bool ok = SnapshotWxWindow(w, path);
+                fprintf(stderr, "mfcwx snapshot %s %s\n", ok ? "saved" : "FAILED", path);
+            }
+        } else if (op == "quit") {
+            m_next = m_steps.size();
+        }
+    }
+
+private:
+    std::vector<std::string> m_steps;
+    std::string m_dir;
+    size_t m_next = 0;
+    wxLongLong m_waitUntil = 0;
+};
+
 } // namespace
 
 void StartSnapshotTimerFromEnvironment() {
+    if (const char* script = getenv("MFCWX_AUTOMATION")) {
+        std::ifstream f(script);
+        std::vector<std::string> steps;
+        for (std::string line; std::getline(f, line);)
+            if (!line.empty() && line[0] != '#')
+                steps.push_back(line);
+        const char* outDir = getenv("MFCWX_SNAPSHOT_DIR");
+        static AutomationTimer automation(steps, outDir && *outDir ? outDir : ".");
+        automation.Start(200);
+        return;
+    }
     const char* dir = getenv("MFCWX_SNAPSHOT_DIR");
     if (!dir || !*dir)
         return;
