@@ -2,17 +2,8 @@ name: Release
 
 on:
   push:
-    tags: ['v*']
-  pull_request:
-    paths:
-      - .github/workflows/release.yml
-      - port/app/**
-      - CMakeLists.txt
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      tag:
-        description: Tag to create the release for (created from the selected ref if it does not exist)
-        required: true
 
 permissions:
   contents: write
@@ -73,22 +64,23 @@ jobs:
 
   release:
     needs: [macos, linux]
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/download-artifact@v8
         with:
           path: dist
           merge-multiple: true
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: CMakeLists.txt
+          sparse-checkout-cone-mode: false
+          path: src
       - name: Create the release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
         run: |
+          version=$(sed -n 's/^project([^ ]* VERSION \([0-9.]*\).*/\1/p' src/CMakeLists.txt)
+          tag="v${version}-build.${GITHUB_RUN_NUMBER}"
           ls -la dist
-          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY"
-          else
-            gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
-              --title "CrypTool $TAG" --generate-notes --prerelease
-          fi
+          gh release create "$tag" dist/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "CrypTool ${version} (build ${GITHUB_RUN_NUMBER})" --generate-notes
