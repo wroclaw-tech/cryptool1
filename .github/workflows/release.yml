@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -64,6 +65,7 @@ jobs:
 
   release:
     needs: [macos, linux]
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/download-artifact@v8
