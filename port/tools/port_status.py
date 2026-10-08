@@ -65,9 +65,9 @@ def main():
                  for p in ('CrypTool', 'CrypTool.app/Contents/MacOS/CrypTool'))
 
     tests = run(['ctest', '--test-dir', BUILD, '--timeout', '300'])
-    m = re.search(r'(\d+)% tests passed, (\d+) tests failed out of (\d+)', tests.stdout)
+    m = re.search(r'(\d+)% tests passed(?:, (\d+) tests? failed)? out of (\d+)', tests.stdout)
     total = int(m.group(3)) if m else 0
-    failed = int(m.group(2)) if m else 0
+    failed = int(m.group(2) or 0) if m else 0
     passed = total - failed
 
     compile_share = compiled / len(units) if units else 0.0

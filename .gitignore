@@ -5,3 +5,4 @@ port/thirdparty/build*/
 port/rc/test/build*/
 __pycache__/
 port/status/
+.DS_Store
