@@ -75,7 +75,7 @@ void flop(_MIPD_ flash x,flash y,int *op,flash z)
         }
     }
     mr_mip->check=ON;
-    round(_MIPP_ mr_mip->w5,mr_mip->w6,z);
+    mround(_MIPP_ mr_mip->w5,mr_mip->w6,z);
     MR_OUT
 }
 
@@ -272,7 +272,7 @@ void fpmul(_MIPD_ flash x,int n,int d,flash y)
     if (fit(mr_mip->w5,mr_mip->w6,mr_mip->nib))
         fpack(_MIPP_ mr_mip->w5,mr_mip->w6,y);
     else
-        round(_MIPP_ mr_mip->w5,mr_mip->w6,y);
+        mround(_MIPP_ mr_mip->w5,mr_mip->w6,y);
     MR_OUT
 }
 
@@ -301,7 +301,7 @@ void fincr(_MIPD_ flash x,int n,int d,flash y)
     if (d==1 && fit(mr_mip->w5,mr_mip->w6,mr_mip->nib))
         fpack(_MIPP_ mr_mip->w5,mr_mip->w6,y);
     else
-        round(_MIPP_ mr_mip->w5,mr_mip->w6,y);
+        mround(_MIPP_ mr_mip->w5,mr_mip->w6,y);
     MR_OUT
 }
 

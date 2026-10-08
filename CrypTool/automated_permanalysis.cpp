@@ -293,6 +293,6 @@ int automated_permanalysis::iterate_key_param()
 				for (it_plain = row_dir; it_plain <= col_dir; it_plain++) if (check(it_plain, rangePlain))
 					analyse(permSize, it_plain, it_perm, it_cipher);
 
-	return (int)(keyList);
+	return keyList != 0;
 }
 

@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgCrtSecretSharing_Info.h"
-#include ".\dlgcrtsecretsharing_info.h"
+#include "DlgCrtSecretSharing_Info.h"
 
 // Aus DH-Intro.cpp eingefügt
 #ifdef _DEBUG

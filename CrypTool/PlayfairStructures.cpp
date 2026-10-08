@@ -68,7 +68,7 @@ CPlayfairAlphabet::CPlayfairAlphabet(char lower_letter/* = A*/, char upper_lette
 CPlayfairLetter CPlayfairAlphabet::addLetter(char let)
 {
 	CPlayfairLetter ret_let;
-	if ((int)&(ret_let = getLetter(let, true)) != NULL)
+	if (&(ret_let = getLetter(let, true)) != NULL)
 		return ret_let;
 
 	if (my_count<my_max_count) {

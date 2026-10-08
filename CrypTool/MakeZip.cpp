@@ -29,9 +29,9 @@
 #include "FileTools.h"
 #include "Cryptography.h"
 #include "MakeZip.h"
-#include "zip\zipup.h"
-#include "zip\zunzip.h"
-#include "zip\zip.h"
+#include "zip/zipup.h"
+#include "zip/zunzip.h"
+#include "zip/zip.h"
 #include "AppDocument.h"
 
 const char MagicZipNumber[4] = "CTZ";

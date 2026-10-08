@@ -19,11 +19,11 @@
 **************************************************************************/
 
 #include "CoreCryptography.h"
-#include "..\AES\mars\mars.h"
-#include "..\AES\RC6\RC6.h"
-#include "..\AES\Rijndael\Rijndael-api-fst.h"
-#include "..\AES\Serpent\Serpent.h"
-#include "..\AES\Twofish\Twofish.h"
+#include "mars.h"
+#include "RC6.h"
+#include "Rijndael-api-fst.h"
+#include "Serpent.h"
+#include "Twofish.h"
 #include "DESXL.h"
 #include "resource.h"
 

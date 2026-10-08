@@ -71,8 +71,9 @@ CDlgDiffieHellmanKeyInformation::CDlgDiffieHellmanKeyInformation(std::string ake
 	// Schlüssellängen berechnen
 	// Die Funktion ceil() rundet die Werte auf einen "glatten" Wert, zumal Bitlängen der Form x.xxx
 	// in der Realität nicht existieren können.
-	this->m_BitLengthAlice = ceil(BitLength((CString)akey.c_str(),10));
-	this->m_BitLengthBob   = ceil(BitLength((CString)bkey.c_str(),10));
+	CString strAKey = akey.c_str(), strBKey = bkey.c_str();
+	this->m_BitLengthAlice = ceil(BitLength(strAKey,10));
+	this->m_BitLengthBob   = ceil(BitLength(strBKey,10));
 
 	// Für a=1 oder b=1 gibt die Funktion BitLength() das falsche Ergebnis NULL zurück!
 	if(a == 1) this->m_BitLengthAlice = 1;
@@ -99,7 +100,7 @@ void CDlgDiffieHellmanKeyInformation::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgDiffieHellmanKeyInformation, CDialog)
 	//{{AFX_MSG_MAP(CDlgDiffieHellmanKeyInformation)
-	ON_BN_CLICKED(IDC_SHOWLOGTEXT, OnShowlogtext)
+	ON_BN_CLICKED(IDC_SHOWLOGTEXT, &CDlgDiffieHellmanKeyInformation::OnShowlogtext)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

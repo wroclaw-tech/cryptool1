@@ -74,15 +74,15 @@ void CDlgOptionsSubstitutionAnalysis::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgOptionsSubstitutionAnalysis, CDialog)
-	ON_BN_CLICKED(IDC_RADIO_ANALYSIS_AUTOMATIC, OnRadioAnalysisAutomatic)
-	ON_BN_CLICKED(IDC_RADIO_ANALYSIS_MANUAL, OnRadioAnalysisManual)
-	ON_BN_CLICKED(IDC_RADIO_ANALYSIS_AUTOMATIC_GERMAN, OnRadioAnalysisAutomaticGerman)
-	ON_BN_CLICKED(IDC_RADIO_ANALYSIS_AUTOMATIC_ENGLISH, OnRadioAnalysisAutomaticEnglish)
-	ON_BN_CLICKED(IDC_BUTTON_SELECT_WORDLIST_GERMAN, OnButtonSelectWordlistGerman)
-	ON_BN_CLICKED(IDC_BUTTON_SELECT_WORDLIST_ENGLISH, OnButtonSelectWordlistEnglish)
-	ON_BN_CLICKED(IDC_CHECK_ANALYSIS_AUTOMATIC_OPTION1, OnCheckAnalysisAutomaticOption1)
-	ON_BN_CLICKED(IDC_CHECK_ANALYSIS_AUTOMATIC_OPTION2, OnCheckAnalysisAutomaticOption2)
-	ON_BN_CLICKED(IDC_CHECK_ANALYSIS_MANUAL_OPTION1, OnCheckAnalysisManualOption1)
+	ON_BN_CLICKED(IDC_RADIO_ANALYSIS_AUTOMATIC, &CDlgOptionsSubstitutionAnalysis::OnRadioAnalysisAutomatic)
+	ON_BN_CLICKED(IDC_RADIO_ANALYSIS_MANUAL, &CDlgOptionsSubstitutionAnalysis::OnRadioAnalysisManual)
+	ON_BN_CLICKED(IDC_RADIO_ANALYSIS_AUTOMATIC_GERMAN, &CDlgOptionsSubstitutionAnalysis::OnRadioAnalysisAutomaticGerman)
+	ON_BN_CLICKED(IDC_RADIO_ANALYSIS_AUTOMATIC_ENGLISH, &CDlgOptionsSubstitutionAnalysis::OnRadioAnalysisAutomaticEnglish)
+	ON_BN_CLICKED(IDC_BUTTON_SELECT_WORDLIST_GERMAN, &CDlgOptionsSubstitutionAnalysis::OnButtonSelectWordlistGerman)
+	ON_BN_CLICKED(IDC_BUTTON_SELECT_WORDLIST_ENGLISH, &CDlgOptionsSubstitutionAnalysis::OnButtonSelectWordlistEnglish)
+	ON_BN_CLICKED(IDC_CHECK_ANALYSIS_AUTOMATIC_OPTION1, &CDlgOptionsSubstitutionAnalysis::OnCheckAnalysisAutomaticOption1)
+	ON_BN_CLICKED(IDC_CHECK_ANALYSIS_AUTOMATIC_OPTION2, &CDlgOptionsSubstitutionAnalysis::OnCheckAnalysisAutomaticOption2)
+	ON_BN_CLICKED(IDC_CHECK_ANALYSIS_MANUAL_OPTION1, &CDlgOptionsSubstitutionAnalysis::OnCheckAnalysisManualOption1)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -119,13 +119,13 @@ BOOL CDlgOptionsSubstitutionAnalysis::OnInitDialog()
 	CFileStatus wordlistFileStatus;
 	if(!CFile::GetStatus(m_editWordlistGerman, wordlistFileStatus)) {
 		CString message; 
-		message.Format(IDS_STRING_SUBSTITUTION_ANALYSIS_MISSING_WORDLIST_GERMAN, m_editWordlistGerman);
+		message.Format(IDS_STRING_SUBSTITUTION_ANALYSIS_MISSING_WORDLIST_GERMAN, (LPCTSTR)m_editWordlistGerman);
 		AfxMessageBox(message, MB_ICONWARNING);
 
 	}
 	if(!CFile::GetStatus(m_editWordlistEnglish, wordlistFileStatus)) {
 		CString message; 
-		message.Format(IDS_STRING_SUBSTITUTION_ANALYSIS_MISSING_WORDLIST_ENGLISH, m_editWordlistEnglish);
+		message.Format(IDS_STRING_SUBSTITUTION_ANALYSIS_MISSING_WORDLIST_ENGLISH, (LPCTSTR)m_editWordlistEnglish);
 		AfxMessageBox(message, MB_ICONWARNING);
 	}
 

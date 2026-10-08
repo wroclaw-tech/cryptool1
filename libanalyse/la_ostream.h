@@ -105,6 +105,11 @@ friend inline OStream& sep(OStream& out) { return out.sep(); }
 
 };
 
+// standard C++ needs the manipulators at namespace scope
+OStream& flush(OStream& out);
+OStream& endl(OStream& out);
+OStream& sep(OStream& out);
+
 extern OStream DefaultOStream;
 
 /////////////////////////////////////////////////////////////////////

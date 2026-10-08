@@ -22,10 +22,10 @@
 //
 
 #include "stdafx.h"
-#include "cryptoolapp.h"
+#include "CrypToolApp.h"
 #include "DlgMonSubst.h"
 #include "KeyRepository.h"
-#include ".\dlgmonsubst.h"
+#include "DlgMonSubst.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -69,14 +69,14 @@ void CDlgMonSubst::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgMonSubst, CDialog)
 	//{{AFX_MSG_MAP(CDlgMonSubst)
-	ON_EN_CHANGE(IDC_KEY, ComputeSubstKeyMapping)
-	ON_EN_CHANGE(IDC_KEY_OFFSET, OnChangedKeyOffset)
-	ON_BN_CLICKED(IDC_PASTE_KEY, OnPasteKey)
-	ON_BN_CLICKED(ID_ENCRYPT, OnEncrypt)
-	ON_BN_CLICKED(ID_DECRYPT, OnDecrypt)	
-	ON_BN_CLICKED(IDC_RADIO1, OnBnClickedRadioSubstFillAscendingOrder)
-	ON_BN_CLICKED(IDC_RADIO2, OnBnClickedRadioSubstFillDescendingOrder)
-	ON_BN_CLICKED(IDC_RADIO3, OnBnClickedRadioAtbash)
+	ON_EN_CHANGE(IDC_KEY, &CDlgMonSubst::ComputeSubstKeyMapping)
+	ON_EN_CHANGE(IDC_KEY_OFFSET, &CDlgMonSubst::OnChangedKeyOffset)
+	ON_BN_CLICKED(IDC_PASTE_KEY, &CDlgMonSubst::OnPasteKey)
+	ON_BN_CLICKED(ID_ENCRYPT, &CDlgMonSubst::OnEncrypt)
+	ON_BN_CLICKED(ID_DECRYPT, &CDlgMonSubst::OnDecrypt)	
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgMonSubst::OnBnClickedRadioSubstFillAscendingOrder)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgMonSubst::OnBnClickedRadioSubstFillDescendingOrder)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgMonSubst::OnBnClickedRadioAtbash)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BUTTON_TEXTOPTIONS, &CDlgMonSubst::OnBnClickedButtonTextoptions)
 END_MESSAGE_MAP()

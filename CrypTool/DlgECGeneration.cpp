@@ -76,10 +76,10 @@ void CDlgECGeneration::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgECGeneration, CDialog)
 	//{{AFX_MSG_MAP(CDlgECGeneration)
 /*
-	ON_BN_CLICKED(IDC_CHECK1, OnCheck1)
-	ON_BN_CLICKED(IDC_BUTTON_GEN, OnButtonGen)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdateEdit1)
-	ON_EN_UPDATE(IDC_EDIT2, OnUpdateEdit2)
+	ON_BN_CLICKED(IDC_CHECK1, &CDlgECGeneration::OnCheck1)
+	ON_BN_CLICKED(IDC_BUTTON_GEN, &CDlgECGeneration::OnButtonGen)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgECGeneration::OnUpdateEdit1)
+	ON_EN_UPDATE(IDC_EDIT2, &CDlgECGeneration::OnUpdateEdit2)
 */
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()

@@ -72,7 +72,7 @@ void CDlgFactorisationList::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgFactorisationList, CDialog)
 	//{{AFX_MSG_MAP(CDlgFactorisationList)
-	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDblclkSelect)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CDlgFactorisationList::OnDblclkSelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -125,8 +125,8 @@ void CDlgFactorisationList::Init_ListBox()
 	UpdateData(FALSE);
 }
 
-void CDlgFactorisationList::InsertFactDetail(CString &Num, CString &Factor1, 
-		                                        CString &Factor2, CString &Method , CString &Time,
+void CDlgFactorisationList::InsertFactDetail(const CString &Num, const CString &Factor1, 
+		                                        const CString &Factor2, const CString &Method , const CString &Time,
 												int PrimeMask, int BitlengthF1, int BitlengthF2)
 {
 	struct DFItem *Last = new (struct DFItem);

@@ -42,10 +42,10 @@ CAlphabetTextEdit::~CAlphabetTextEdit() {
 BEGIN_MESSAGE_MAP(CAlphabetTextEdit, CEdit)
 	ON_WM_CHAR()
 	ON_WM_KEYDOWN()
-	ON_COMMAND(ID_EDIT_CUT, onEditCut)
-	ON_COMMAND(ID_EDIT_COPY, onEditCopy)
-	ON_COMMAND(ID_EDIT_PASTE, onEditPaste)
-	ON_COMMAND(ID_EDIT_SELECT_ALL, onEditSelectAll)
+	ON_COMMAND(ID_EDIT_CUT, &CAlphabetTextEdit::onEditCut)
+	ON_COMMAND(ID_EDIT_COPY, &CAlphabetTextEdit::onEditCopy)
+	ON_COMMAND(ID_EDIT_PASTE, &CAlphabetTextEdit::onEditPaste)
+	ON_COMMAND(ID_EDIT_SELECT_ALL, &CAlphabetTextEdit::onEditSelectAll)
 END_MESSAGE_MAP()
 
 void CAlphabetTextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {

@@ -35,7 +35,7 @@
 
 #include "stdafx.h"
 #include "SizingDialog.h"
-#include ".\SizingDialog.h"
+#include "SizingDialog.h"
 #include "CrypToolTools.h"
 
 ////////////////////////////////////////////////////////////////////////////
@@ -168,7 +168,7 @@ BOOL CCtrlInfo::ExtractOptions(LPCTSTR lpszSection,
 	else
 	{
 		CString strErr;
-		strErr.Format(_T("'%s' is not predefined keyword"), strWord);
+		strErr.Format(_T("'%s' is not predefined keyword"), (LPCTSTR)strWord);
 		MessageBox(NULL, strErr, _T("There is something wrong in the expression describing control position"), 
 			MB_OK | MB_ICONEXCLAMATION);
 		return FALSE;

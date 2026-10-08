@@ -70,11 +70,11 @@ void CDlgICGRandomParamater::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgICGRandomParamater, CDialog)
 	//{{AFX_MSG_MAP(CDlgICGRandomParamater)
-	ON_BN_CLICKED(IDC_STATIC_GPA, OnStaticGp_a)
-	ON_BN_CLICKED(IDC_PRIMBUTTON, OnPrimbutton)
-	ON_BN_CLICKED(IDC_STATIC_GPC, OnStaticGpc)
-	ON_BN_CLICKED(IDC_STATIC_GPP, OnStaticGpp)
-	ON_BN_CLICKED(IDC_STATIC_GPL, OnStaticGpl)
+	ON_BN_CLICKED(IDC_STATIC_GPA, &CDlgICGRandomParamater::OnStaticGp_a)
+	ON_BN_CLICKED(IDC_PRIMBUTTON, &CDlgICGRandomParamater::OnPrimbutton)
+	ON_BN_CLICKED(IDC_STATIC_GPC, &CDlgICGRandomParamater::OnStaticGpc)
+	ON_BN_CLICKED(IDC_STATIC_GPP, &CDlgICGRandomParamater::OnStaticGpp)
+	ON_BN_CLICKED(IDC_STATIC_GPL, &CDlgICGRandomParamater::OnStaticGpl)
 	ON_WM_KEYDOWN()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -167,7 +167,8 @@ void CDlgICGRandomParamater::OnOK()
 	if ( Modul_N_IsOK  && Multiplikator_a_IsOK && Inkrement_b_IsOK)
 	{
 		GeneratePrimes P;
-		P.SetP(Get_N());
+		CString strN = Get_N();
+		P.SetP(strN);
 		BOOL test=FALSE;
 		test = P.MillerRabinTest(100);
 		test = P.SolvayStrassenTest(100);

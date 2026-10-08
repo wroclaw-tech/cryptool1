@@ -43,7 +43,9 @@ protected:
 	// Generated message map functions
 	//{{AFX_MSG(CEditorDialog)
 	afx_msg void OnColorTableChanged();
+#ifdef _WIN32
 	DECLARE_EVENTSINK_MAP()
+#endif
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

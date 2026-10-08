@@ -72,30 +72,30 @@ BEGIN_MESSAGE_MAP(CChallengeResponseDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_CREATE()
-	ON_BN_CLICKED(IDC_EXIT_BUTTON, OnExitButton)
-	ON_BN_CLICKED(IDC_START_RADIO, OnModeRadioButtons)
+	ON_BN_CLICKED(IDC_EXIT_BUTTON, &CChallengeResponseDlg::OnExitButton)
+	ON_BN_CLICKED(IDC_START_RADIO, &CChallengeResponseDlg::OnModeRadioButtons)
 	ON_WM_MOUSEMOVE()
-	ON_BN_CLICKED(IDC_ACTION_ATTACK_RADIO, OnChangeAction)
+	ON_BN_CLICKED(IDC_ACTION_ATTACK_RADIO, &CChallengeResponseDlg::OnChangeAction)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
-	ON_BN_CLICKED(IDC_AUTHENTICATE_CLIENT_BUTTON, OnAuthenticateClientButton)
+	ON_BN_CLICKED(IDC_AUTHENTICATE_CLIENT_BUTTON, &CChallengeResponseDlg::OnAuthenticateClientButton)
 	ON_WM_DESTROY()
 	ON_WM_TIMER()
-	ON_BN_CLICKED(IDC_AUTHENTICATE_ATTACKER_BUTTON, OnAuthenticateAttackerButton)
-	ON_BN_CLICKED(IDC_CHECK_MASK, OnCheckMask)
-	ON_BN_CLICKED(IDC_SCENARIO_HELP_BUTTON, OnScenarioHelpButton)
-	ON_BN_CLICKED(IDC_RESET_BUTTON, OnResetButton)
-	ON_BN_CLICKED(IDC_HELP, OnHelp)
-	ON_BN_CLICKED(IDC_EINFUEHRUNG_RADIO, OnModeRadioButtons)
-	ON_BN_CLICKED(IDC_PASSWORT_RADIO, OnModeRadioButtons)
-	ON_BN_CLICKED(IDC_EINMALPASSWOERTER, OnModeRadioButtons)
-	ON_BN_CLICKED(IDC_CHALLENGERESPONSE1_RADIO, OnModeRadioButtons)
-	ON_BN_CLICKED(IDC_CHALLENGERESPONSE2_RADIO, OnModeRadioButtons)
-	ON_BN_CLICKED(IDC_WECHSELSEITIG_RADIO, OnModeRadioButtons)
-	ON_BN_CLICKED(IDC_ACTION_CONNECT_RADIO, OnChangeAction)
-	ON_BN_CLICKED(IDC_ACTION_DISCONNECT_RADIO, OnChangeAction)
-	ON_BN_CLICKED(IDC_ACTION_NOTHING_RADIO, OnChangeAction)
-	ON_BN_CLICKED(IDC_ACTION_REMOVE_ATTACK_RADIO, OnChangeAction)
+	ON_BN_CLICKED(IDC_AUTHENTICATE_ATTACKER_BUTTON, &CChallengeResponseDlg::OnAuthenticateAttackerButton)
+	ON_BN_CLICKED(IDC_CHECK_MASK, &CChallengeResponseDlg::OnCheckMask)
+	ON_BN_CLICKED(IDC_SCENARIO_HELP_BUTTON, &CChallengeResponseDlg::OnScenarioHelpButton)
+	ON_BN_CLICKED(IDC_RESET_BUTTON, &CChallengeResponseDlg::OnResetButton)
+	ON_BN_CLICKED((UINT)(UINT_PTR)IDC_HELP, &CChallengeResponseDlg::OnHelp)
+	ON_BN_CLICKED(IDC_EINFUEHRUNG_RADIO, &CChallengeResponseDlg::OnModeRadioButtons)
+	ON_BN_CLICKED(IDC_PASSWORT_RADIO, &CChallengeResponseDlg::OnModeRadioButtons)
+	ON_BN_CLICKED(IDC_EINMALPASSWOERTER, &CChallengeResponseDlg::OnModeRadioButtons)
+	ON_BN_CLICKED(IDC_CHALLENGERESPONSE1_RADIO, &CChallengeResponseDlg::OnModeRadioButtons)
+	ON_BN_CLICKED(IDC_CHALLENGERESPONSE2_RADIO, &CChallengeResponseDlg::OnModeRadioButtons)
+	ON_BN_CLICKED(IDC_WECHSELSEITIG_RADIO, &CChallengeResponseDlg::OnModeRadioButtons)
+	ON_BN_CLICKED(IDC_ACTION_CONNECT_RADIO, &CChallengeResponseDlg::OnChangeAction)
+	ON_BN_CLICKED(IDC_ACTION_DISCONNECT_RADIO, &CChallengeResponseDlg::OnChangeAction)
+	ON_BN_CLICKED(IDC_ACTION_NOTHING_RADIO, &CChallengeResponseDlg::OnChangeAction)
+	ON_BN_CLICKED(IDC_ACTION_REMOVE_ATTACK_RADIO, &CChallengeResponseDlg::OnChangeAction)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -234,9 +234,9 @@ void CChallengeResponseDlg::OnMouseMove(UINT nFlags, CPoint point)
 	
 	if (scenario.isMouseOverObject(m_action,point)){	
 		
-		::SetClassLong(m_hWnd,GCL_HCURSOR,(LONG)hCmark);
+		::SetClassLongPtr(m_hWnd,GCLP_HCURSOR,(LONG_PTR)hCmark);
 	}else{
-		::SetClassLong(m_hWnd,GCL_HCURSOR,(LONG)hCstandard);
+		::SetClassLongPtr(m_hWnd,GCLP_HCURSOR,(LONG_PTR)hCstandard);
 	}
 	CDialog::OnMouseMove(nFlags, point);
 }

@@ -116,7 +116,7 @@ ZZXY ZZXY::operator *(ZZX &B)
 	return retval;
 }
 
-ZZXY ZZXY::operator *(ZZ &B)
+ZZXY ZZXY::operator *(const ZZ &B)
 {
 	ZZXY retval;
 	retval.data.SetLength(1);

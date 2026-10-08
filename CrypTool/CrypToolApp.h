@@ -195,9 +195,9 @@ public:
 	virtual void AddToRecentFileList(LPCTSTR lpszPathName);
 
 	// WinHelp set public to get access from Challenge Response Demo
-	#if !defined(_MSC_VER) || _MSC_VER <= 1200  
+	#if defined(_MSC_VER) && _MSC_VER <= 1200  
 	// HTML Help for VC++ 6.0
-	virtual void CCrypToolApp::WinHelp( DWORD dwData, UINT nCmd = HELP_CONTEXT);
+	virtual void WinHelp( DWORD dwData, UINT nCmd = HELP_CONTEXT);
 	#else										// HTML Help for VC++ .NET
 	virtual void WinHelpInternal( DWORD_PTR dwData, UINT nCmd = HELP_CONTEXT ); // overridden to handle F1 on menus with sub menus
 	#endif
@@ -212,7 +212,7 @@ public:
 	void     endLog();
 
 private:
-	void callHtmlHelp(UINT uCommand, DWORD dwData);
+	void callHtmlHelp(UINT uCommand, DWORD_PTR dwData);
 	virtual int ExitInstance();
 	void execAnimalVisualization(int _animalFileIdentifier);
 public:

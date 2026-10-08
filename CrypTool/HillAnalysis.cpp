@@ -5,7 +5,7 @@
 #include "FileTools.h"
 #include "DialogeMessage.h"
 #include "DlgTextOptions.h"
-#include "keyHillBase.h"
+#include "KeyHillBase.h"
 #include "assert.h"
 
 
@@ -67,7 +67,7 @@ int CHillAnalysis::analyze(CString &err_str)
 		err_str.LoadString(IDS_PA_COULDNOTOPEN_CIPHERFILE);
 		return -1;
 	}
-	if ( 0 >= d_plain || 0 >= d_cipher )
+	if ( 0 >= s_plain || 0 >= s_cipher )
 	{
 		err_str.LoadString(IDS_STRING_ERR_INPUT_TEXT_LENGTH);
 		return -1;

@@ -102,8 +102,10 @@ protected:
 	//{{AFX_DISPATCH(CDlgChangePIN)
 		// HINWEIS - Der Klassen-Assistent fügt hier Member-Funktionen ein und entfernt diese.
 	//}}AFX_DISPATCH
+#ifdef _WIN32
 	DECLARE_DISPATCH_MAP()
 	DECLARE_INTERFACE_MAP()
+#endif
 };
 
 //{{AFX_INSERT_LOCATION}}

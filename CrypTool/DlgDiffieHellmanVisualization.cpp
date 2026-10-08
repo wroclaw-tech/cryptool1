@@ -21,7 +21,7 @@
 // DlgDiffieHellmanVisualization.cpp
 
 #include "stdafx.h"
-#include "CryptoolApp.h"
+#include "CrypToolApp.h"
 #include "DlgDiffieHellmanVisualization.h"
 
 #include "DlgDiffieHellmanPublicParameters.h"
@@ -111,20 +111,20 @@ void CDlgDiffieHellmanVisualization::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgDiffieHellmanVisualization, CDialog)
 	//{{AFX_MSG_MAP(CDlgDiffieHellmanVisualization)
-	ON_BN_CLICKED(IDC_SETPUBLICPARAMETERS, OnSetPublicParameters)
-	ON_BN_CLICKED(IDC_SETSECRETS, OnSetsecrets)
-	ON_BN_CLICKED(IDC_CREATESHAREDKEY, OnCreatesharedkey)
-	ON_BN_CLICKED(IDC_EXCHANGESHAREDKEYS, OnExchangesharedkeys)
-	ON_BN_CLICKED(IDC_GENERATEFINALKEY, OnGeneratefinalkey)
-	ON_BN_CLICKED(IDC_BUTTONALICE1, OnButtonalice1)
-	ON_BN_CLICKED(IDC_BUTTONBOB1, OnButtonbob1)
-	ON_BN_CLICKED(IDC_BUTTONALICE2, OnButtonalice2)
-	ON_BN_CLICKED(IDC_BUTTONBOB2, OnButtonbob2)
-	ON_BN_CLICKED(IDC_BUTTONALICE3, OnButtonalice3)
-	ON_BN_CLICKED(IDC_BUTTONBOB3, OnButtonbob3)
-	ON_BN_CLICKED(IDC_CHECK_DISABLEHELP, OnCheckDisablehelp)
-	ON_BN_CLICKED(IDC_CHECK_DISABLEINTRODUCTION, OnCheckDisableIntroDialog)
-	ON_BN_CLICKED(IDC_KEY, OnKey)
+	ON_BN_CLICKED(IDC_SETPUBLICPARAMETERS, &CDlgDiffieHellmanVisualization::OnSetPublicParameters)
+	ON_BN_CLICKED(IDC_SETSECRETS, &CDlgDiffieHellmanVisualization::OnSetsecrets)
+	ON_BN_CLICKED(IDC_CREATESHAREDKEY, &CDlgDiffieHellmanVisualization::OnCreatesharedkey)
+	ON_BN_CLICKED(IDC_EXCHANGESHAREDKEYS, &CDlgDiffieHellmanVisualization::OnExchangesharedkeys)
+	ON_BN_CLICKED(IDC_GENERATEFINALKEY, &CDlgDiffieHellmanVisualization::OnGeneratefinalkey)
+	ON_BN_CLICKED(IDC_BUTTONALICE1, &CDlgDiffieHellmanVisualization::OnButtonalice1)
+	ON_BN_CLICKED(IDC_BUTTONBOB1, &CDlgDiffieHellmanVisualization::OnButtonbob1)
+	ON_BN_CLICKED(IDC_BUTTONALICE2, &CDlgDiffieHellmanVisualization::OnButtonalice2)
+	ON_BN_CLICKED(IDC_BUTTONBOB2, &CDlgDiffieHellmanVisualization::OnButtonbob2)
+	ON_BN_CLICKED(IDC_BUTTONALICE3, &CDlgDiffieHellmanVisualization::OnButtonalice3)
+	ON_BN_CLICKED(IDC_BUTTONBOB3, &CDlgDiffieHellmanVisualization::OnButtonbob3)
+	ON_BN_CLICKED(IDC_CHECK_DISABLEHELP, &CDlgDiffieHellmanVisualization::OnCheckDisablehelp)
+	ON_BN_CLICKED(IDC_CHECK_DISABLEINTRODUCTION, &CDlgDiffieHellmanVisualization::OnCheckDisableIntroDialog)
+	ON_BN_CLICKED(IDC_KEY, &CDlgDiffieHellmanVisualization::OnKey)
 	ON_WM_PAINT()
 	ON_WM_CTLCOLOR()
 	//}}AFX_MSG_MAP

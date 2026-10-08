@@ -34,7 +34,7 @@
 #include "HashingOperations.h"
 #include "OptionsForSignatureAttack.h"
 #include "ResultsOfSignatureAttack.h"
-#include "sys\timeb.h"
+#include <sys/timeb.h>
 
 class SignatureAttack  
 {

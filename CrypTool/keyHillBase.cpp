@@ -326,7 +326,7 @@ int  CKeyHillBase::isInvertable()
 	{
 		CString msg, cs;
 		cs.Format( "%dx%d", dim, dim );
-		msg.Format( IDS_HILL_BAD_KEY_INV, cs, modul);
+		msg.Format( IDS_HILL_BAD_KEY_INV, (LPCTSTR)cs, modul);
 		cs.LoadStringA( IDS_HILL_BAD_KEY );
 		currentDialog->MessageBoxA(msg, cs, MB_ICONWARNING|MB_OK);
 	}
@@ -517,7 +517,7 @@ int CKeyHillBase::strToKey( CString &cs, CString *alphabet )
    else
       theApp.TextOptions.setAlphabet( cs.Mid( laenge, l ) );
    laenge = cs.Find( HILLSTR_ALPHABETOFFSET ) + strlen(HILLSTR_ALPHABETOFFSET) +1;
-	HillOptions.m_offset = unsigned long(cs.GetAt(laenge) - '0');
+	HillOptions.m_offset = (unsigned long)(cs.GetAt(laenge) - '0');
 	laenge = cs.Find(HILLSTR_MULTVARIANT);
 	ASSERT(laenge > 0);
 	laenge += strlen(HILLSTR_MULTVARIANT) +1;
@@ -596,10 +596,10 @@ void CKeyHillBase::writeRegistry()
 {
 	if ( CT_OPEN_REGISTRY_SETTINGS( KEY_WRITE, IDS_REGISTRY_SETTINGS, "Hill" ) == ERROR_SUCCESS )
 	{
-		CT_WRITE_REGISTRY( unsigned long(matType),  "EditKeyChrMatrix" );
+		CT_WRITE_REGISTRY( (unsigned long)(matType),  "EditKeyChrMatrix" );
       CT_WRITE_REGISTRY( dim,                     "MatrixDimension" );
-      CT_WRITE_REGISTRY( unsigned long(verbose),  "ShowExample" );
-      CT_WRITE_REGISTRY( unsigned long(multType), "MultType" );
+      CT_WRITE_REGISTRY( (unsigned long)(verbose),  "ShowExample" );
+      CT_WRITE_REGISTRY( (unsigned long)(multType), "MultType" );
 		CT_CLOSE_REGISTRY();
 	}
    HillOptions.writeRegistry();

@@ -41,7 +41,7 @@ class CDlgSignature : public CDialog
 public:
 	CDlgSignature(CWnd* pParent = NULL);   // Standardkonstruktor
 
-	CDlgSignature::~CDlgSignature();
+	~CDlgSignature();
 
 // Dialogfelddaten
 	//{{AFX_DATA(CDlgSignature)

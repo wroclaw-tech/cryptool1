@@ -56,8 +56,8 @@ public:
 	char outfile[CRYPTOOL_PATH_LENGTH];
 	bool b_SaveFactorList;
 	void ClearFactDetail();
-	void InsertFactDetail( CString & Num, CString &Factor1, 
-		                   CString &Factor2, CString &Method, CString &Time, int PrimeMask,
+	void InsertFactDetail( const CString & Num, const CString &Factor1, 
+		                   const CString &Factor2, const CString &Method, const CString &Time, int PrimeMask,
 						   int BitlengthF1, int BitlengthF2);
 	void Init_ListBox();
 	CDlgFactorisationList(CWnd* pParent = NULL);   // Standardkonstruktor

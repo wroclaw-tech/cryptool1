@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgCrtAstronomy.h"
-#include ".\dlgcrtastronomy.h"
+#include "DlgCrtAstronomy.h"
 #include "big.h"
 #include "crt.h"
 #include "IntegerArithmetic.h"
@@ -120,38 +120,38 @@ void CDlgCrtAstronomy::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CDlgCrtAstronomy, CDialog)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_BUTTONSOLVE, OnBnClickedCrtAstronomyButtonsolve)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_BUTTONRESET, OnBnClickedCrtAstronomyButtonreset)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_BUTTONEND, OnBnClickedCrtAstronomyButtonend)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA0, OnEnChangeCrtAstronomyEdita0)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA1, OnEnChangeCrtAstronomyEdita1)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA2, OnEnChangeCrtAstronomyEdita2)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA3, OnEnChangeCrtAstronomyEdita3)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA4, OnEnChangeCrtAstronomyEdita4)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA5, OnEnChangeCrtAstronomyEdita5)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA6, OnEnChangeCrtAstronomyEdita6)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA7, OnEnChangeCrtAstronomyEdita7)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA8, OnEnChangeCrtAstronomyEdita8)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM0, OnEnChangeCrtAstronomyEditm0)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM1, OnEnChangeCrtAstronomyEditm1)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM2, OnEnChangeCrtAstronomyEditm2)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM3, OnEnChangeCrtAstronomyEditm3)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM4, OnEnChangeCrtAstronomyEditm4)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM5, OnEnChangeCrtAstronomyEditm5)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM6, OnEnChangeCrtAstronomyEditm6)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM7, OnEnChangeCrtAstronomyEditm7)
-	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM8, OnEnChangeCrtAstronomyEditm8)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKMERCURY, OnBnClickedCrtAstronomyCheckmercury)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKVENUS, OnBnClickedCrtAstronomyCheckvenus)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKEARTH, OnBnClickedCrtAstronomyCheckearth)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKMARS, OnBnClickedCrtAstronomyCheckmars)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKJUPITER, OnBnClickedCrtAstronomyCheckjupiter)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKSATURN, OnBnClickedCrtAstronomyChecksaturn)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKURANUS, OnBnClickedCrtAstronomyCheckuranus)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKNEPTUN, OnBnClickedCrtAstronomyCheckneptun)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKPLUTO, OnBnClickedCrtAstronomyCheckpluto)
-	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_BUTTONRESET2, OnBnClickedCrtAstronomyButtonreset2)
-	ON_STN_CLICKED(IDC_Image, OnStnClickedImage)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_BUTTONSOLVE, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyButtonsolve)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_BUTTONRESET, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyButtonreset)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_BUTTONEND, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyButtonend)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA0, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita0)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA1, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita1)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA2, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita2)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA3, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita3)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA4, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita4)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA5, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita5)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA6, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita6)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA7, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita7)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITA8, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEdita8)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM0, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm0)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM1, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm1)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM2, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm2)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM3, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm3)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM4, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm4)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM5, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm5)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM6, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm6)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM7, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm7)
+	ON_EN_CHANGE(IDC_CRT_ASTRONOMY_EDITM8, &CDlgCrtAstronomy::OnEnChangeCrtAstronomyEditm8)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKMERCURY, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyCheckmercury)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKVENUS, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyCheckvenus)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKEARTH, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyCheckearth)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKMARS, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyCheckmars)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKJUPITER, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyCheckjupiter)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKSATURN, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyChecksaturn)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKURANUS, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyCheckuranus)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKNEPTUN, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyCheckneptun)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_CHECKPLUTO, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyCheckpluto)
+	ON_BN_CLICKED(IDC_CRT_ASTRONOMY_BUTTONRESET2, &CDlgCrtAstronomy::OnBnClickedCrtAstronomyButtonreset2)
+	ON_STN_CLICKED(IDC_Image, &CDlgCrtAstronomy::OnStnClickedImage)
 END_MESSAGE_MAP()
 
 
@@ -217,7 +217,7 @@ bool CDlgCrtAstronomy::testeteilerfremd()
 				
 				CString planetall;
 				planetall.LoadString(IDS_CRT_ASTRONOMY_PLANETALL);
-				ausgabe.Format(planetall,planet1,modul1,planet2,modul2);
+				ausgabe.Format(planetall,(LPCTSTR)planet1,(LPCTSTR)modul1,(LPCTSTR)planet2,(LPCTSTR)modul2);
 				text=text+ausgabe;
 				prim=false;
 				}

@@ -6,7 +6,7 @@
 #include <GL/gl.h>
 #include <math.h>
 #include "ArcBall.h"
-#include "Volume.H"
+#include "Volume.h"
 #include "VolumeRenderer.h"
 
 #ifdef _DEBUG

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=CrypTool 1
+GenericName=Cryptography learning tool
+Comment=Learn and try out cryptography and cryptanalysis
+Exec=CrypTool %F
+Icon=cryptool
+Terminal=false
+Categories=Education;Security;Utility;

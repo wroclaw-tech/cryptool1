@@ -52,7 +52,7 @@ void CDlgSecretSharingOptions::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgSecretSharingOptions, CDialog)
 	//{{AFX_MSG_MAP(CDlgSecretSharingOptions)
-	ON_BN_CLICKED(IDOK, OnButtonOk)
+	ON_BN_CLICKED(IDOK, &CDlgSecretSharingOptions::OnButtonOk)
 	//}}AFX_MSG_MAP	
 END_MESSAGE_MAP()
 

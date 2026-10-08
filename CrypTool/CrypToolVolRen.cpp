@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 #include "CrypToolVolRen.h"
-#include <Afxwin.h>
+#include <afxwin.h>
 #include <GL/gl.h>
 #include <math.h>
 

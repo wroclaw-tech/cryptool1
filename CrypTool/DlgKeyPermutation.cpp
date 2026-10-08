@@ -29,7 +29,7 @@
 
 #include "KeyRepository.h"
 #include "DialogeMessage.h"
-#include ".\dlgkeypermutation.h"
+#include "DlgKeyPermutation.h"
 #include "CrypToolTools.h"
 #include "ChrTools.h"
 
@@ -90,14 +90,14 @@ void CDlgKeyPermutation::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgKeyPermutation, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeyPermutation)
-	ON_BN_CLICKED(IDC_BUTTON1, OnDecrypt)
-	ON_BN_CLICKED(IDOK, OnEncrypt)
-	ON_BN_CLICKED(IDC_BUTTON2, OnPasteKey)
-	ON_BN_CLICKED(IDC_BUTTON_TxtOpt, OnTextOptions)
-	ON_EN_CHANGE(IDC_EDIT1, OnChangeEdit1)
-	ON_EN_CHANGE(IDC_EDIT2, OnChangeEdit2)
-	ON_BN_CLICKED(IDC_RADIO9, OnRadioButtonBinaryData)
-	ON_BN_CLICKED(IDC_RADIO14, OnRadioButtonText)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgKeyPermutation::OnDecrypt)
+	ON_BN_CLICKED(IDOK, &CDlgKeyPermutation::OnEncrypt)
+	ON_BN_CLICKED(IDC_BUTTON2, &CDlgKeyPermutation::OnPasteKey)
+	ON_BN_CLICKED(IDC_BUTTON_TxtOpt, &CDlgKeyPermutation::OnTextOptions)
+	ON_EN_CHANGE(IDC_EDIT1, &CDlgKeyPermutation::OnChangeEdit1)
+	ON_EN_CHANGE(IDC_EDIT2, &CDlgKeyPermutation::OnChangeEdit2)
+	ON_BN_CLICKED(IDC_RADIO9, &CDlgKeyPermutation::OnRadioButtonBinaryData)
+	ON_BN_CLICKED(IDC_RADIO14, &CDlgKeyPermutation::OnRadioButtonText)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -490,16 +490,18 @@ void CDlgKeyPermutation::OnPasteKey()
 		if( k < 0 )
 		{
 			int t = readKeyParam( buffer );
-			if ( t > 0 ) m_Perm1 = makeASCII(buffer.Left(t));
+			CString part = buffer.Left(t);
+			if ( t > 0 ) m_Perm1 = makeASCII(part);
 			else         m_Perm1 = makeASCII(buffer);
 			m_Perm2.Empty();
 		}
 		else
 		{
-			m_Perm1 = makeASCII(buffer.Left(k));
+			CString part1 = buffer.Left(k);
+			m_Perm1 = makeASCII(part1);
 			int t = readKeyParam( buffer );
-			if ( t > 0 ) m_Perm2 = makeASCII(buffer.Mid(k+1,(t-k)-1));
-			else		 m_Perm2 = makeASCII(buffer.Right(buffer.GetLength()-k-1));
+			CString part2 = ( t > 0 ) ? buffer.Mid(k+1,(t-k)-1) : buffer.Right(buffer.GetLength()-k-1);
+			m_Perm2 = makeASCII(part2);
 		}
 		UpdateData(FALSE);
 		OnChangeEdit1();

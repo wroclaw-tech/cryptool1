@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgKeyPermutationInfo.h"
-#include ".\dlgkeypermutationinfo.h"
+#include "DlgKeyPermutationInfo.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -64,7 +64,7 @@ void CDlgKeyPermutationInfo::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDlgKeyPermutationInfo, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeyPermutationInfo)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDBACK, OnBnClickedBack)
+	ON_BN_CLICKED(IDBACK, &CDlgKeyPermutationInfo::OnBnClickedBack)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

@@ -71,8 +71,8 @@ inline double sqr(double x) {return x*x;}
 inline long sqr(long x) {return x*x;}
 
 // testbit, setbit
-inline int testbit(unsigned long l, int p) { return (l&(1<<p));}
-inline void setbit(unsigned long &l, int p) {l|=1<<p;}
+inline int testbit(unsigned long l, int p) { return (l&(1UL<<p))!=0;}
+inline void setbit(unsigned long &l, int p) {l|=1UL<<p;}
 
 // RANDOM(max): Zufallszahl r mit 0<=<max
 inline int RANDOM(int max) { // returns: 0<=r<max

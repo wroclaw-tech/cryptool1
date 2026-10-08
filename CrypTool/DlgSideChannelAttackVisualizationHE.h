@@ -30,9 +30,9 @@
 // sub-dialogues
 #include "DlgSideChannelAttackVisualizationHEIntroduction.h"
 #include "DlgSideChannelAttackVisualizationHEPreparations.h"
-#include "DlgSideChannelAttackVisualizationHEMessagetransmission.h"
-#include "DlgSideChannelAttackVisualizationHEMessageinterception.h"
-#include "DlgSideChannelAttackVisualizationHEAttackcycle.h"
+#include "DlgSideChannelAttackVisualizationHEMessageTransmission.h"
+#include "DlgSideChannelAttackVisualizationHEMessageInterception.h"
+#include "DlgSideChannelAttackVisualizationHEAttackCycle.h"
 #include "DlgSideChannelAttackVisualizationHEReport.h"
 #include "DlgSideChannelAttackVisualizationHEPSEPINPrompt.h"
 #include "DlgHybridEncryptionDemo.h"	// Hinzugefügt von der Klassenansicht

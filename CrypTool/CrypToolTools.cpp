@@ -534,7 +534,7 @@ void ShellExecuteJava(const CString &_javaProgram, const CString &_javaProgramCo
 	struct stat javaProgramFileInformation;
 	if(stat(javaProgram.GetBuffer(), &javaProgramFileInformation) != 0) {
 		CString message;
-		message.Format(IDS_STRING_JAVA_PROGRAM_NOT_FOUND, javaProgram);
+		message.Format(IDS_STRING_JAVA_PROGRAM_NOT_FOUND, (LPCTSTR)javaProgram);
 		AfxMessageBox(message, MB_ICONINFORMATION);
 		return;
 	}
@@ -542,7 +542,7 @@ void ShellExecuteJava(const CString &_javaProgram, const CString &_javaProgramCo
 	memset(&si, 0, sizeof(si));
 	memset(&pi, 0, sizeof(pi));
 	CString command;
-	command.Format("java %s", javaProgramCompleteCall);
+	command.Format("java %s", (LPCTSTR)javaProgramCompleteCall);
 	if(!CreateProcess(NULL, (LPSTR)(LPCTSTR)(command), NULL, NULL, false, CREATE_NO_WINDOW, NULL, (LPCTSTR)(path), &si, &pi)) {
 		CString message;
 		message.LoadStringA(IDS_STRING_JAVA_PROGRAM_EXECUTION_FAILED);
@@ -800,7 +800,7 @@ bool copyKeyToClipboard(const int keyTypeIdentifier, const CString &key) {
 	CString stringKeyTypeIdentifier;
 	stringKeyTypeIdentifier.LoadString(keyTypeIdentifier);
 	CString text;
-	text.Format("%s:%s", stringKeyTypeIdentifier, key);
+	text.Format("%s:%s", (LPCTSTR)stringKeyTypeIdentifier, (LPCTSTR)key);
 	return copyTextToClipboard(text);
 }
 

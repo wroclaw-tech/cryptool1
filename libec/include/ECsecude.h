@@ -53,13 +53,13 @@ struct Secude_s
 
 extern struct Secude_s ECSecudeLib;
 
-#define SECUDE(a) ECSecudeLib.##a
-#define SECUDE_DATA_PTR(a) ECSecudeLib.##a
+#define SECUDE(a) ECSecudeLib.a
+#define SECUDE_DATA_PTR(a) ECSecudeLib.a
 
 #else
 
 #define SECUDE(a)	a
-#define SECUDE_DATA_PTR(a) &##a
+#define SECUDE_DATA_PTR(a) &a
 
 #endif //LINK_SECUDE
 

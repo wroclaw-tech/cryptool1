@@ -108,6 +108,7 @@ BEGIN_MESSAGE_MAP(CDlgChangePIN, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
+#ifdef _WIN32
 BEGIN_DISPATCH_MAP(CDlgChangePIN, CDialog)
 	//{{AFX_DISPATCH_MAP(CDlgChangePIN)
 		// HINWEIS - Der Klassen-Assistent fügt hier Zuordnungsmakros ein und entfernt diese.
@@ -125,6 +126,7 @@ static const IID IID_IPinAndNewPinDialog =
 BEGIN_INTERFACE_MAP(CDlgChangePIN, CDialog)
 	INTERFACE_PART(CDlgChangePIN, IID_IPinAndNewPinDialog, Dispatch)
 END_INTERFACE_MAP()
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 // Behandlungsroutinen für Nachrichten CDlgChangePIN 

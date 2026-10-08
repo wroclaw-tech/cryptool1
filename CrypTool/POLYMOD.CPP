@@ -40,7 +40,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "polymod.h"
+#include "POLYMOD.H"
 
 Poly modulus;
   
@@ -98,7 +98,7 @@ static int window(Big x,int i,int *nbs,int * nzs)
 
 PolyMod& PolyMod::operator*=(const PolyMod &b)
 {
-    int i,m,deg,dega,degb,degm=degree(modulus);
+    int i,m,deg,dega,degb,degm=degree(::modulus);
     big *G,*B,*R;
     BOOL squaring;
     term *ptr=p.start;
@@ -164,7 +164,7 @@ PolyMod& PolyMod::operator*=(const PolyMod &b)
 
     if (!mr_poly_rem(deg,G,R))
     {  // reset the modulus - things have changed
-        setmod(modulus);
+        setmod(::modulus);
         mr_poly_rem(deg,G,R);
     }
 
@@ -211,7 +211,7 @@ void reduce(const Poly& p,PolyMod& rem)
     big *G,*R;
     term *ptr,*pos=NULL;
     int n=degree(p);
-    int degm=degree(modulus);
+    int degm=degree(::modulus);
     if (n-degm < FFT_BREAK_EVEN)
     {
         rem=(PolyMod)p;
@@ -230,7 +230,7 @@ void reduce(const Poly& p,PolyMod& rem)
     }
     if (!mr_poly_rem(n,G,R))
     {  // reset the modulus - things have changed
-        setmod(modulus);
+        setmod(::modulus);
         mr_poly_rem(n,G,R);
     }
  
@@ -256,7 +256,7 @@ void setmod(const Poly& p)
     Poly h;
     term *ptr;
     big *f,*rf;
-    modulus=p;
+    ::modulus=p;
     n=degree(p);
     if (n<FFT_BREAK_EVEN) return;
     h=reverse(p);
@@ -288,9 +288,9 @@ void setmod(const Poly& p)
 }
 
 PolyMod operator-(const PolyMod& a,const PolyMod& b)
-                                     {return (a.p-b.p)%modulus;}
+                                     {return (a.p-b.p)% ::modulus;}
 PolyMod operator+(const PolyMod& a,const PolyMod& b)
-                                     {return (a.p+b.p)%modulus;}
+                                     {return (a.p+b.p)% ::modulus;}
 PolyMod operator*(const PolyMod& a,const ZZn& z)
                                      {return (z*a.p);}
 PolyMod operator*(const ZZn& z,const PolyMod& m)
@@ -314,7 +314,7 @@ PolyMod operator/(const PolyMod& a,const ZZn& z)
                                      {return (a.p/z);}
 
 Poly gcd(const PolyMod& m)
-                                     {return gcd(m.p,modulus);}  
+                                     {return gcd(m.p,::modulus);}  
 
 
 //
@@ -330,7 +330,7 @@ PolyMod compose(const PolyMod& q,const PolyMod& p)
     PolyMod C,Q,T; 
     big t; 
     term *xptr,*yptr;
-    int i,j,ik,L,n=degree(modulus);
+    int i,j,ik,L,n=degree(::modulus);
     int k=isqrt(n+1,1);
     if (k*k<n+1) k++;
 

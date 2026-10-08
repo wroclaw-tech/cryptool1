@@ -78,13 +78,13 @@ void CDlgSigAttModificDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgSigAttModificDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgSigAttModificDemo)
-	ON_BN_CLICKED(IDOK, OnModify)
-	ON_BN_CLICKED(IDC_RADIO2, OnAttachment)
-	ON_BN_CLICKED(IDC_METHOD, OnMethod)
-	ON_BN_CLICKED(IDC_RADIO3, OnPrintable)
-	ON_BN_CLICKED(IDC_RADIO4, OnUnprintable)
-	ON_EN_UPDATE(IDC_HASHVALUE, OnUpdateHashvalue)
-	ON_EN_UPDATE(IDC_SIGBIT, OnUpdateSigbit)
+	ON_BN_CLICKED(IDOK, &CDlgSigAttModificDemo::OnModify)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgSigAttModificDemo::OnAttachment)
+	ON_BN_CLICKED(IDC_METHOD, &CDlgSigAttModificDemo::OnMethod)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgSigAttModificDemo::OnPrintable)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgSigAttModificDemo::OnUnprintable)
+	ON_EN_UPDATE(IDC_HASHVALUE, &CDlgSigAttModificDemo::OnUpdateHashvalue)
+	ON_EN_UPDATE(IDC_SIGBIT, &CDlgSigAttModificDemo::OnUpdateSigbit)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -210,7 +210,7 @@ void CDlgSigAttModificDemo::OnModify()
 	NewDocument = theApp.OpenDocumentFileNoMRU(outfile);
 	
 	char title[1024];
-	_snprintf(title, sizeof(title) - 1, "Modifikation von <%s>", m_Title);
+	_snprintf(title, sizeof(title) - 1, "Modifikation von <%s>", (LPCTSTR)m_Title);
 	NewDocument->SetTitle(title);
 
 	delete m_Document;

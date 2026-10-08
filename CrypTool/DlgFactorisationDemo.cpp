@@ -99,12 +99,12 @@ void CDlgFactorisationDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgFactorisationDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgFactorisationDemo)
-	ON_BN_CLICKED(IDC_BUTTON_CANCEL, OnButtonEnd)
-	ON_BN_CLICKED(IDC_BUTTON_Faktorisieren, OnButtonFactorisation)
-	ON_BN_CLICKED(IDC_BUTTON_VOLLSTAENDIG_FAKTORISATION, OnButtonVollstaendigFaktorisation)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdateEditEingabe)
-	ON_BN_CLICKED(IDC_BUTTON1, OnShowFactorisationDetails)
-	ON_BN_CLICKED(IDC_BUTTON_LOAD_NUMBER, OnBnClickedLoadNumber)
+	ON_BN_CLICKED(IDC_BUTTON_CANCEL, &CDlgFactorisationDemo::OnButtonEnd)
+	ON_BN_CLICKED(IDC_BUTTON_Faktorisieren, &CDlgFactorisationDemo::OnButtonFactorisation)
+	ON_BN_CLICKED(IDC_BUTTON_VOLLSTAENDIG_FAKTORISATION, &CDlgFactorisationDemo::OnButtonVollstaendigFaktorisation)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgFactorisationDemo::OnUpdateEditEingabe)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgFactorisationDemo::OnShowFactorisationDetails)
+	ON_BN_CLICKED(IDC_BUTTON_LOAD_NUMBER, &CDlgFactorisationDemo::OnBnClickedLoadNumber)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -433,7 +433,7 @@ void CDlgFactorisationDemo::OnButtonFactorisation()
 			int nfactors = 0;
 			for (NumFactor *factor = factorList; factor ; factor = factor->next)
 				nfactors += factor->exponent;
-			m_benoetigte_zeit_global.Format(IDS_FACTORS_FOUND, nfactors, timeStr1);
+			m_benoetigte_zeit_global.Format(IDS_FACTORS_FOUND, nfactors, (LPCTSTR)timeStr1);
 			if ( zeit_condtruct2.day >= 1)
 			{	
 				LoadString(AfxGetInstanceHandle(),IDS_STRING_FMT_DAYS,pc_str,STR_LAENGE_STRING_TABLE);

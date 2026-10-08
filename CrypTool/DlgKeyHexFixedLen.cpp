@@ -60,10 +60,10 @@ void CDlgKeyHexFixedLen::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgKeyHexFixedLen, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeyHexFixedLen)
-	ON_CBN_SELCHANGE(IDC_KEY_LEN, OnChangeKeyLen)
-	ON_BN_CLICKED(IDC_ENCRYPT, OnEncrypt)
-	ON_BN_CLICKED(IDC_DECRYPT, OnDecrypt)
-	ON_BN_CLICKED(IDC_PASTE_KEY, OnPasteKey)
+	ON_CBN_SELCHANGE(IDC_KEY_LEN, &CDlgKeyHexFixedLen::OnChangeKeyLen)
+	ON_BN_CLICKED(IDC_ENCRYPT, &CDlgKeyHexFixedLen::OnEncrypt)
+	ON_BN_CLICKED(IDC_DECRYPT, &CDlgKeyHexFixedLen::OnDecrypt)
+	ON_BN_CLICKED(IDC_PASTE_KEY, &CDlgKeyHexFixedLen::OnPasteKey)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

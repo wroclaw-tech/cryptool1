@@ -40,10 +40,10 @@ IMPLEMENT_DYNCREATE(CPlotDocument, CAppDocument)
 
 BEGIN_MESSAGE_MAP(CPlotDocument, CAppDocument)
 	//{{AFX_MSG_MAP(CPlotDocument)
-	ON_COMMAND(ID_PLOTBAR, OnPlotbar)
-	ON_UPDATE_COMMAND_UI(ID_PLOTBAR, OnUpdatePlotbar)
-	ON_COMMAND(ID_BARWIDTH, OnBarwidth)
-	ON_UPDATE_COMMAND_UI(ID_GOTO_VATER, OnUpdateGotoVater)
+	ON_COMMAND(ID_PLOTBAR, &CPlotDocument::OnPlotbar)
+	ON_UPDATE_COMMAND_UI(ID_PLOTBAR, &CPlotDocument::OnUpdatePlotbar)
+	ON_COMMAND(ID_BARWIDTH, &CPlotDocument::OnBarwidth)
+	ON_UPDATE_COMMAND_UI(ID_GOTO_VATER, &CPlotDocument::OnUpdateGotoVater)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -426,8 +426,8 @@ void plot_opt_dlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(plot_opt_dlg, CDialog)
 	//{{AFX_MSG_MAP(plot_opt_dlg)
-	ON_EN_KILLFOCUS(IDC_EDIT1, OnChangeEdit1)
-	ON_EN_KILLFOCUS(IDC_EDIT2, OnChangeEdit2)
+	ON_EN_KILLFOCUS(IDC_EDIT1, &plot_opt_dlg::OnChangeEdit1)
+	ON_EN_KILLFOCUS(IDC_EDIT2, &plot_opt_dlg::OnChangeEdit2)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

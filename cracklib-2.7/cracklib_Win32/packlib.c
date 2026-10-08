@@ -10,6 +10,68 @@
 
 static char vers_id[] = "packlib.c : v2.3p2 Alec Muffett 18 May 1993";
 
+/* On-disk fields are 32-bit little-endian regardless of sizeof(int32). */
+#define PI_HEADER_DISK_SIZE 12
+
+static int32 GetU32(const unsigned char *b)
+{
+    return (int32) b[0] | ((int32) b[1] << 8) | ((int32) b[2] << 16) | ((int32) b[3] << 24);
+}
+
+static void PutU32(unsigned char *b, int32 v)
+{
+    b[0] = (unsigned char) (v & 0xff);
+    b[1] = (unsigned char) ((v >> 8) & 0xff);
+    b[2] = (unsigned char) ((v >> 16) & 0xff);
+    b[3] = (unsigned char) ((v >> 24) & 0xff);
+}
+
+static size_t ReadU32(FILE *fp, int32 *out, size_t n)
+{
+    unsigned char b[4];
+    size_t i;
+    for (i = 0; i < n && fread(b, 1, 4, fp) == 4; i++)
+	out[i] = GetU32(b);
+    return i;
+}
+
+static size_t WriteU32(FILE *fp, const int32 *in, size_t n)
+{
+    unsigned char b[4];
+    size_t i;
+    for (i = 0; i < n; i++)
+    {
+	PutU32(b, in[i]);
+	if (fwrite(b, 1, 4, fp) != 4)
+	    break;
+    }
+    return i;
+}
+
+static int ReadHeader(FILE *fp, struct pi_header *h)
+{
+    unsigned char b[PI_HEADER_DISK_SIZE];
+    if (fread(b, 1, sizeof(b), fp) != sizeof(b))
+	return 0;
+    h->pih_magic = GetU32(b);
+    h->pih_numwords = GetU32(b + 4);
+    h->pih_blocklen = (int16) (b[8] | (b[9] << 8));
+    h->pih_pad = (int16) (b[10] | (b[11] << 8));
+    return 1;
+}
+
+static int WriteHeader(FILE *fp, const struct pi_header *h)
+{
+    unsigned char b[PI_HEADER_DISK_SIZE];
+    PutU32(b, h->pih_magic);
+    PutU32(b + 4, h->pih_numwords);
+    b[8] = (unsigned char) (h->pih_blocklen & 0xff);
+    b[9] = (unsigned char) ((h->pih_blocklen >> 8) & 0xff);
+    b[10] = (unsigned char) (h->pih_pad & 0xff);
+    b[11] = (unsigned char) ((h->pih_pad >> 8) & 0xff);
+    return fwrite(b, 1, sizeof(b), fp) == sizeof(b);
+}
+
 PWDICT *
 PWOpen(prefix, mode)
     char *prefix;
@@ -64,12 +126,12 @@ PWOpen(prefix, mode)
 	pdesc.header.pih_blocklen = NUMWORDS;
 	pdesc.header.pih_numwords = 0;
 
-	fwrite((char *) &pdesc.header, sizeof(pdesc.header), 1, ifp);
+	WriteHeader(ifp, &pdesc.header);
     } else
     {
 	pdesc.flags &= ~PFOR_WRITE;
 
-	if (!fread((char *) &pdesc.header, sizeof(pdesc.header), 1, ifp))
+	if (!ReadHeader(ifp, &pdesc.header))
 	{
 	    fprintf(stderr, "%s: error reading header\n", prefix);
 
@@ -101,7 +163,7 @@ PWOpen(prefix, mode)
 
 	if (pdesc.flags & PFOR_USEHWMS)
 	{
-	    if (fread(pdesc.hwms, 1, sizeof(pdesc.hwms), wfp) != sizeof(pdesc.hwms))
+	    if (ReadU32(wfp, pdesc.hwms, 256) != 256)
 	    {
 		pdesc.flags &= ~PFOR_USEHWMS;
 	    }
@@ -132,7 +194,7 @@ PWClose(pwp)
 	    return (-1);
 	}
 
-	if (!fwrite((char *) &pwp->header, sizeof(pwp->header), 1, pwp->ifp))
+	if (!WriteHeader(pwp->ifp, &pwp->header))
 	{
 	    fprintf(stderr, "index magic fwrite failed\n");
 	    return (-1);
@@ -151,7 +213,7 @@ PWClose(pwp)
 	    	printf("hwm[%02x] = %d\n", i, pwp->hwms[i]);
 #endif
 	    }
-	    fwrite(pwp->hwms, 1, sizeof(pwp->hwms), pwp->wfp);
+	    WriteU32(pwp->wfp, pwp->hwms, 256);
 	}
     }
 
@@ -159,7 +221,8 @@ PWClose(pwp)
     fclose(pwp->dfp);
 
 	// TEST
-	fclose(pwp->wfp);
+	if (pwp->wfp)
+		fclose(pwp->wfp);
 
     pwp->header.pih_magic = 0;
 
@@ -199,7 +262,7 @@ PutPW(pwp, string)
 
 	datum = (int32) ftell(pwp->dfp);
 
-	fwrite((char *) &datum, sizeof(datum), 1, pwp->ifp);
+	WriteU32(pwp->ifp, &datum, 1);
 
 	fputs(pwp->data[0], pwp->dfp);
 	putc(0, pwp->dfp);
@@ -250,13 +313,13 @@ GetPW(pwp, number)
     {
 	return (data[number % NUMWORDS]);
     }
-    if (fseek(pwp->ifp, sizeof(struct pi_header) + (thisblock * sizeof(int32)), 0))
+    if (fseek(pwp->ifp, (long) (PI_HEADER_DISK_SIZE + thisblock * 4), 0))
     {
 	perror("(index fseek failed)");
 	return ((char *) 0);
     }
 
-    if (!fread((char *) &datum, sizeof(datum), 1, pwp->ifp))
+    if (!ReadU32(pwp->ifp, &datum, 1))
     {
 	perror("(index fread failed)");
 	if(ferror(pwp->ifp))

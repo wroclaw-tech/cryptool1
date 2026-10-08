@@ -35,7 +35,12 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
+#ifdef _WIN32
 #define DYNAMICSECUDE
+#else
+// SECUDE.DLL is replaced by the statically linked compatibility library (port/secude)
+#include "secude_compat.h"
+#endif
 //////////////////////////////////////////////////////////////////////
 // Konstruktion/Destruktion
 //////////////////////////////////////////////////////////////////////
@@ -89,6 +94,9 @@ int CSecudeLib::OpenSecudeLib()
 #ifdef DYNAMICSECUDE
 #define DoOneFn( a, b, c ,d)	c = (c##_t) GetProcAddress(hDLL,"_"###c##d); if(c==NULL) errcnt++;
 #define DoOneData(a, b) b = (a *) GetProcAddress(hDLL, #b); if(b==NULL) errcnt++;
+#elif !defined(_WIN32)
+#define DoOneFn( a, b, c ,d)	c = (c##_t) secude_compat_symbol(#c); if(c==NULL) errcnt++;
+#define DoOneData(a, b) b = (a *) secude_compat_symbol(#b); if(b==NULL) errcnt++;
 #else
 #define DoOneFn(a,b,c,d) c=(c##_t) ::c;
 #define DoOneData(a,b) b=(a *) &::b;
@@ -98,7 +106,7 @@ int CSecudeLib::OpenSecudeLib()
 #undef DoOneFn
 #undef DoOneData
 
-#ifdef DYNAMICSECUDE
+#if defined(DYNAMICSECUDE) || !defined(_WIN32)
 		if(errcnt > 0) {
 			// MessageBox(NULL,"SECUDE Lib konnte nicht geladen werden!","Test", MB_OK);
 			Message(IDS_SECUDE_COULD_NOT_BE_LOADED, MB_ICONEXCLAMATION);

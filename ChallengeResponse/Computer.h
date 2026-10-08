@@ -43,7 +43,7 @@ public:
 
 
 	void draw(CClientDC& dc);
-	void setParameters(int x1,int y1, int x2, int y2, int borderwidth, CString& name, int textposition, int dataposition, bool isAttacker);
+	void setParameters(int x1,int y1, int x2, int y2, int borderwidth, const CString& name, int textposition, int dataposition, bool isAttacker);
 	bool isMouseOverObject(CPoint &point);
 
 	// eigene Variablen & Methoden

@@ -29,7 +29,7 @@
 
 #include "CrypToolVolRen.h"
 #include "OpenGLDoc.h"
-#include "cryptoolapp.h"
+#include "CrypToolApp.h"
 
 // we need those defines for our dynamic context menu
 #define CM_OPENGL_PROPERTIES						7777

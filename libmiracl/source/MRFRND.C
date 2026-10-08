@@ -30,7 +30,7 @@ void frand(_MIPD_ flash x)
     mr_mip->check=OFF;
     bigrand(_MIPP_ mr_mip->w6,mr_mip->w5);
     mr_mip->check=ON;
-    round(_MIPP_ mr_mip->w5,mr_mip->w6,x);
+    mround(_MIPP_ mr_mip->w5,mr_mip->w6,x);
 
     MR_OUT
 }

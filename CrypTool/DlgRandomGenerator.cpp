@@ -38,7 +38,7 @@ using namespace std;
 #include "DlgPrimesGeneratorDemo.h"
 #include "DlgShowProgress.h"
 #include "CrypToolTools.h"
-#include ".\dlgrandomgenerator.h"
+#include "DlgRandomGenerator.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -275,13 +275,13 @@ void CDlgRandomGenerator::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgRandomGenerator, CDialog)
 	//{{AFX_MSG_MAP(CDlgRandomGenerator)
-	ON_BN_CLICKED(IDC_BUTTON1, OnSelGenParam)
-	ON_BN_CLICKED(IDOK, OnGenRandomData)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgRandomGenerator::OnSelGenParam)
+	ON_BN_CLICKED(IDOK, &CDlgRandomGenerator::OnGenRandomData)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDC_RADIO1, OnBnClickedRadio1)
-	ON_BN_CLICKED(IDC_RADIO2, OnBnClickedRadio2)
-	ON_BN_CLICKED(IDC_RADIO3, OnBnClickedRadio3)
-	ON_BN_CLICKED(IDC_RADIO4, OnBnClickedRadio4)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgRandomGenerator::OnBnClickedRadio1)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgRandomGenerator::OnBnClickedRadio2)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgRandomGenerator::OnBnClickedRadio3)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgRandomGenerator::OnBnClickedRadio4)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -300,21 +300,24 @@ void CDlgRandomGenerator::OnSelGenParam()
 	case 1: {
 				if (IDOK == m_pPara->DRPXN.DoModal() )
 				{																		
-					m_pPara->rnd_x2modN.setModul( m_pPara->DRPXN.GetModul() );
+					CString strModul = m_pPara->DRPXN.GetModul();
+					m_pPara->rnd_x2modN.setModul( strModul );
 				}
 			}
 		break;
 	case 2: {
 				if (IDOK == m_pPara->DRP_LCG.DoModal() )
 				{
-					m_pPara->DLCG.SetParameter(m_pPara->DRP_LCG.Get_a(), m_pPara->DRP_LCG.Get_b(), m_pPara->DRP_LCG.Get_N());
+					CString strA = m_pPara->DRP_LCG.Get_a(), strB = m_pPara->DRP_LCG.Get_b(), strN = m_pPara->DRP_LCG.Get_N();
+					m_pPara->DLCG.SetParameter(strA, strB, strN);
 				}
 			}
 		break;
 	case 3: {
 				if (IDOK == m_pPara->DRP_ICG.DoModal() )
 				{
-					m_pPara->DICG.SetParameter(m_pPara->DRP_ICG.Get_a(), m_pPara->DRP_ICG.Get_b(), m_pPara->DRP_ICG.Get_N());
+					CString strA = m_pPara->DRP_ICG.Get_a(), strB = m_pPara->DRP_ICG.Get_b(), strN = m_pPara->DRP_ICG.Get_N();
+					m_pPara->DICG.SetParameter(strA, strB, strN);
 				}
 
 		break;

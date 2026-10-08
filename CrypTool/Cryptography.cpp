@@ -75,7 +75,7 @@ using namespace std;
 #include "DlgKeyHexFixedLen.h"
 #include "DlgBruteForceAES.h" 
 #include "ListResults.h"
-#include "bruteforceheap.h"
+#include "BruteForceHeap.h"
 
 #include <iostream>
 #include <fstream>
@@ -1152,7 +1152,7 @@ void HistogramASCII(const char *infile, const char *OldTitle)
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_ASCII_HISTOGRAM_OF,pc_str,STR_LAENGE_STRING_TABLE);
     MakeNewName2(line,sizeof(line),pc_str,_itoa(len, numbuff, 10),OldTitle);
 
-	distr.Show(OStream(name)<< OStream::Title(0) << OStream::Description(0) << OStream::Summary(0) << OStream::Percent());
+	{ OStream os(name); distr.Show(os << OStream::Title(0) << OStream::Description(0) << OStream::Summary(0) << OStream::Percent()); }
 	// get the tmp name without file extension
 	strcpy(name2, name);
 	name2[strlen(name)-4] = 0x0;
@@ -1195,7 +1195,7 @@ void HistogramBin(const char *infile, const char *OldTitle)
 	int len = text.GetSize();
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_BINARY_HISTOGRAM_OF,pc_str,STR_LAENGE_STRING_TABLE);
     MakeNewName2(line,sizeof(line),pc_str,_itoa(len, numbuff, 10),OldTitle);
-	distr.Show(OStream(name)<< OStream::Title(0) << OStream::Description(0) << OStream::Summary(0) << OStream::Percent());
+	{ OStream os(name); distr.Show(os << OStream::Title(0) << OStream::Description(0) << OStream::Summary(0) << OStream::Percent()); }
 
 	// get the tmp name without file extension
 	strcpy(name2, name);
@@ -2748,10 +2748,10 @@ void HomophonicSubstitutionAsc(const char *infile, const char *title) {
 			stringTitle = title;
 			stringKey = dlg.getKeyAsString();
 			if(result == IDENCRYPT) {
-				documentTitle.Format(IDS_STRING_ENCRYPTION_OF_USING_KEY, stringAlgorithm, stringTitle, stringKey);
+				documentTitle.Format(IDS_STRING_ENCRYPTION_OF_USING_KEY, (LPCTSTR)stringAlgorithm, (LPCTSTR)stringTitle, (LPCTSTR)stringKey);
 			}
 			if(result == IDDECRYPT) {
-				documentTitle.Format(IDS_STRING_DECRYPTION_OF_USING_KEY, stringAlgorithm, stringTitle, stringKey);
+				documentTitle.Format(IDS_STRING_DECRYPTION_OF_USING_KEY, (LPCTSTR)stringAlgorithm, (LPCTSTR)stringTitle, (LPCTSTR)stringKey);
 			}
 			document->SetTitle(documentTitle);
 		}
@@ -3046,11 +3046,11 @@ void Permutation(const char *infileName, const char *OldTitle, BOOL TEXTMODE)
 			strcpy(dType , (Perm.m_DataType) ? TEXT_TOKEN : BINARY_TOKEN );
 
 			if(Perm.m_P2len)
-				sprintf(key,"%s;%s %s%s%s%i,%i,%i,%i,%i,%i", Perm.m_Perm1, Perm.m_Perm2, PARAM_TOKEN, dType, Invert,
+				sprintf(key,"%s;%s %s%s%s%i,%i,%i,%i,%i,%i", (LPCTSTR)Perm.m_Perm1, (LPCTSTR)Perm.m_Perm2, PARAM_TOKEN, dType, Invert,
 						Perm.m_P1InSeq, Perm.m_P1Perm, Perm.m_P1OutSeq,
 						Perm.m_P2InSeq, Perm.m_P2Perm, Perm.m_P2OutSeq);
 			else
-				sprintf(key,"%s %s%s%s%i,%i,%i,%i,%i,%i", Perm.m_Perm1, PARAM_TOKEN, dType, Invert,
+				sprintf(key,"%s %s%s%s%i,%i,%i,%i,%i,%i", (LPCTSTR)Perm.m_Perm1, PARAM_TOKEN, dType, Invert,
 						Perm.m_P1InSeq, Perm.m_P1Perm, Perm.m_P1OutSeq,
 						Perm.m_P2InSeq, Perm.m_P2Perm, Perm.m_P2OutSeq);
 			CAppDocument *NewDoc;
@@ -3278,7 +3278,7 @@ void SymmetricEncryption(int AlgId, cryptProvider provider,
 	char keybuffhex[256/4+1];
 	unsigned char keybuffbin[256/8];
 
-	Title.Format(IDS_STRING_KEYINPUT_SYMMETRIC, AlgString);
+	Title.Format(IDS_STRING_KEYINPUT_SYMMETRIC, (LPCTSTR)AlgString);
     CDlgKeyHexFixedLen KeyDialog;
 
 	if ( !fixed_keylength ) switch (AlgId)
@@ -3437,7 +3437,7 @@ UINT SymmetricBruteForce(PVOID p)
 
 //  start progress dialog
 	CString title;
-	title.Format(IDS_STRING_ANALYSE_ON,AlgTitle);
+	title.Format(IDS_STRING_ANALYSE_ON,(LPCTSTR)AlgTitle);
 	if(par->flags & CRYPT_DO_PROGRESS)
 	{
 		CString message;
@@ -3794,7 +3794,7 @@ int RailFenceEncryption(const char *infile, const char *oldTitle, int key, int o
 		if(encrypt) LoadString(AfxGetInstanceHandle(), IDS_STRING_RAIL_FENCE_ENCRYPTION_OF, pc_str, STR_LAENGE_STRING_TABLE);
 		else LoadString(AfxGetInstanceHandle(), IDS_STRING_RAIL_FENCE_DECRYPTION_OF, pc_str, STR_LAENGE_STRING_TABLE);
 		// now add the old title and the key into the new title
-		sprintf(title, pc_str, oldTitle, stringCompleteKey);
+		sprintf(title, pc_str, oldTitle, (LPCTSTR)stringCompleteKey);
 		// set the new document title
 		document->SetTitle(title);
 	}
@@ -4007,7 +4007,7 @@ int ScytaleEncryption(const char *infile, const char *oldTitle, int key, int off
 		if(encrypt) LoadString(AfxGetInstanceHandle(), IDS_STRING_SCYTALE_ENCRYPTION_OF, pc_str, STR_LAENGE_STRING_TABLE);
 		else LoadString(AfxGetInstanceHandle(), IDS_STRING_SCYTALE_DECRYPTION_OF, pc_str, STR_LAENGE_STRING_TABLE);
 		// now add the old title and the key into the new title
-		sprintf(title, pc_str, oldTitle, stringCompleteKey);
+		sprintf(title, pc_str, oldTitle, (LPCTSTR)stringCompleteKey);
 		// set the new document title
 		document->SetTitle(title);
 	}
@@ -4026,7 +4026,8 @@ void Solitaire(const char *infile, const char *OldTitle)
 	SHOW_HOUR_GLASS
 	GetTmpName(outfile,"cry",".txt");
 	
-	crypt_solitaire( mySol.sol_action, infile, outfile, CString(mySol.InitialDeck) );
+	CString initialDeck(mySol.InitialDeck);
+	crypt_solitaire( mySol.sol_action, infile, outfile, initialDeck );
 
 // == Open the new document
 	OpenNewDoc( outfile, mySol.InitialDeck, OldTitle, IDS_CRYPT_SOLITAIRE, ( mySol.sol_action ) ? 0 : 1 );

@@ -33,7 +33,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "flash.h"
+#include "FLASH.H"
 
 class Complex
 {

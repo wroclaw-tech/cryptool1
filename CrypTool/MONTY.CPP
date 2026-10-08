@@ -38,7 +38,7 @@
 #include <iostream>
 using namespace std;
 #endif
-#include "monty.h"
+#include "MONTY.H"
 
 BOOL ZZn::iszero() const
 {return fn.iszero(); }

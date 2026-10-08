@@ -135,11 +135,11 @@ void CDlgVerifyECSignatureStepByStep::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgVerifyECSignatureStepByStep, CDialog)
 	//{{AFX_MSG_MAP(CDlgVerifyECSignatureStepByStep)
-	ON_BN_CLICKED(IDC_BUTTON_CONTINUE, OnButtonContinue)
-	ON_BN_CLICKED(IDC_RADIO1, OnRadioOktal)
-	ON_BN_CLICKED(IDC_RADIO2, OnRadioDezimal)
-	ON_BN_CLICKED(IDC_RADIO3, OnRadioHexadezimal)
-	ON_BN_CLICKED(IDC_RADIO4, OnRadioOctets)
+	ON_BN_CLICKED(IDC_BUTTON_CONTINUE, &CDlgVerifyECSignatureStepByStep::OnButtonContinue)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgVerifyECSignatureStepByStep::OnRadioOktal)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgVerifyECSignatureStepByStep::OnRadioDezimal)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgVerifyECSignatureStepByStep::OnRadioHexadezimal)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgVerifyECSignatureStepByStep::OnRadioOctets)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -715,7 +715,7 @@ int CDlgVerifyECSignatureStepByStep::UpdateDataDisplay()
 			return -1;
 		}
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_DOMAIN_PARAMETER_TO_USE,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, curveID);
+		sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 		m_DataDisplay += (CString) pc_str1 + nl + nl;
 		m_DataDisplay += ( sp2 + ((CString)"a  = ") + DomParamAcString.a + nl );
 		m_DataDisplay += ( sp2 + ((CString)"b  = ") + DomParamAcString.b + nl );

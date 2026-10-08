@@ -74,11 +74,11 @@ void CDlgHashDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgHashDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgHashDemo)
-	ON_BN_CLICKED(IDC_RADIO_BIN, OnRadioBin)
-	ON_BN_CLICKED(IDC_RADIO_DEC, OnRadioDec)
-	ON_BN_CLICKED(IDC_RADIO_HEX, OnRadioHex)
-	ON_EN_CHANGE(IDC_EDIT_TEXT, OnChangeEditText)
-	ON_CBN_SELENDOK(IDC_COMBO_SELECT_HASH_FUNCTION, OnSelendokComboSelectHashFunction)
+	ON_BN_CLICKED(IDC_RADIO_BIN, &CDlgHashDemo::OnRadioBin)
+	ON_BN_CLICKED(IDC_RADIO_DEC, &CDlgHashDemo::OnRadioDec)
+	ON_BN_CLICKED(IDC_RADIO_HEX, &CDlgHashDemo::OnRadioHex)
+	ON_EN_CHANGE(IDC_EDIT_TEXT, &CDlgHashDemo::OnChangeEditText)
+	ON_CBN_SELENDOK(IDC_COMBO_SELECT_HASH_FUNCTION, &CDlgHashDemo::OnSelendokComboSelectHashFunction)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -290,7 +290,7 @@ void CDlgHashDemo::SetHashDiff(OctetString &hash1, OctetString &hash2)
 }
 
 
-static DWORD CALLBACK EditStreamCallBack(DWORD dwCookie, LPBYTE pbBuff, LONG cb, 
+static DWORD CALLBACK EditStreamCallBack(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, 
                                                               LONG *pcb)
 {
       CString *pstr = (CString *)dwCookie;
@@ -393,7 +393,7 @@ void CDlgHashDemo::SetRed()
 		b += "\n\\par ";
 		CString ratio;
 		CString percentage = createStringNumberWithDigitGrouping((100.0*one)/(one+zero));
-		ratio.Format(IDS_HASH_DEMO_PERCENT, percentage, one, (one+zero));
+		ratio.Format(IDS_HASH_DEMO_PERCENT, (LPCTSTR)percentage, one, (one+zero));
 		b += ratio;
 				
 		CString sequence;
@@ -409,7 +409,7 @@ void CDlgHashDemo::SetRed()
 
     // The rtfString contains the word Bold in bold font.
     CString rtfString = rtfPrefix + b + rtfPostfix;
-    EDITSTREAM es = {(DWORD)&rtfString, 0, EditStreamCallBack};
+    EDITSTREAM es = {(DWORD_PTR)&rtfString, 0, EditStreamCallBack};
 
 	// richEd is the rich edit control
 	m_ctrlHashDiff.StreamIn(SF_RTF | SFF_SELECTION, es);

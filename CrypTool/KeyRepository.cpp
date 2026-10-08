@@ -25,7 +25,7 @@
 //
 
 #include "KeyRepository.h"
-#include "Resource.h"
+#include "resource.h"
 
 //////////////////////////////////////////////////////////////////////////////
 KeyData keylist[KEYDATA_TABLE_SIZE];

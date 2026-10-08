@@ -21,7 +21,7 @@
 #ifndef _CRYPTDOC_H_
 #define _CRYPTDOC_H_
 
-#include "symEncBase.h"
+#include "SymEncBase.h"
 #include "CrypToolApp.h"
 
 //////////////////////////////////////////////////////////////////
@@ -207,7 +207,7 @@ protected:
 
 // Attributes
 public:
-BOOL CHexDoc::UpdateContent( void );
+BOOL UpdateContent( void );
 
 // Operations
 public:

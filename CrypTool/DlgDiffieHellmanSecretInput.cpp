@@ -22,9 +22,9 @@
 //
 
 #include "stdafx.h"
-#include "CryptoolApp.h"
+#include "CrypToolApp.h"
 #include "DlgDiffieHellmanSecretInput.h"
-#include ".\dlgdiffiehellmansecretinput.h"
+#include "DlgDiffieHellmanSecretInput.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -79,9 +79,9 @@ void CDlgDiffieHellmanSecretInput::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgDiffieHellmanSecretInput, CDialog)
 	//{{AFX_MSG_MAP(CDlgDiffieHellmanSecretInput)
-	ON_BN_CLICKED(IDC_GENERATE_SECRET, OnGenerateSecret)
+	ON_BN_CLICKED(IDC_GENERATE_SECRET, &CDlgDiffieHellmanSecretInput::OnGenerateSecret)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDOK, &CDlgDiffieHellmanSecretInput::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

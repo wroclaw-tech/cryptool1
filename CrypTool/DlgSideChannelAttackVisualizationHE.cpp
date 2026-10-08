@@ -94,21 +94,21 @@ void CDlgSideChannelAttackVisualizationHE::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgSideChannelAttackVisualizationHE, CDialog)
 	//{{AFX_MSG_MAP(CDlgSideChannelAttackVisualizationHE)
-	ON_BN_CLICKED(IDC_INTRODUCTION, OnIntroduction)
-	ON_BN_CLICKED(IDC_PREPARATIONS, OnPreparations)
-	ON_BN_CLICKED(IDC_MESSAGETRANSMISSION, OnMessagetransmission)
-	ON_BN_CLICKED(IDC_MESSAGEINTERCEPTION, OnMessageinterception)
-	ON_BN_CLICKED(IDC_ATTACKCYCLE, OnAttackcycle)
-	ON_BN_CLICKED(IDC_REPORT, OnReport)
-	ON_BN_CLICKED(IDC_ALICE, OnAlice)
-	ON_BN_CLICKED(IDC_BOB, OnBob)
-	ON_BN_CLICKED(IDC_TRUDY, OnTrudy)
-	ON_BN_CLICKED(IDCLOSE, OnClose)
+	ON_BN_CLICKED(IDC_INTRODUCTION, &CDlgSideChannelAttackVisualizationHE::OnIntroduction)
+	ON_BN_CLICKED(IDC_PREPARATIONS, &CDlgSideChannelAttackVisualizationHE::OnPreparations)
+	ON_BN_CLICKED(IDC_MESSAGETRANSMISSION, &CDlgSideChannelAttackVisualizationHE::OnMessagetransmission)
+	ON_BN_CLICKED(IDC_MESSAGEINTERCEPTION, &CDlgSideChannelAttackVisualizationHE::OnMessageinterception)
+	ON_BN_CLICKED(IDC_ATTACKCYCLE, &CDlgSideChannelAttackVisualizationHE::OnAttackcycle)
+	ON_BN_CLICKED(IDC_REPORT, &CDlgSideChannelAttackVisualizationHE::OnReport)
+	ON_BN_CLICKED(IDC_ALICE, &CDlgSideChannelAttackVisualizationHE::OnAlice)
+	ON_BN_CLICKED(IDC_BOB, &CDlgSideChannelAttackVisualizationHE::OnBob)
+	ON_BN_CLICKED(IDC_TRUDY, &CDlgSideChannelAttackVisualizationHE::OnTrudy)
+	ON_BN_CLICKED(IDCLOSE, &CDlgSideChannelAttackVisualizationHE::OnClose)
 	ON_WM_TIMER()
-	ON_BN_CLICKED(IDC_BUTTON_NEXTSINGLESTEP, OnButtonNextsinglestep)
-	ON_BN_CLICKED(IDC_BUTTON_ALLREMAININGSTEPS, OnButtonAllremainingsteps)
-	ON_BN_CLICKED(IDC_MESSAGERECEPTION, OnMessagereception)
-	ON_BN_CLICKED(IDC_CHECK_DISABLEHELP, OnCheckDisablehelp)
+	ON_BN_CLICKED(IDC_BUTTON_NEXTSINGLESTEP, &CDlgSideChannelAttackVisualizationHE::OnButtonNextsinglestep)
+	ON_BN_CLICKED(IDC_BUTTON_ALLREMAININGSTEPS, &CDlgSideChannelAttackVisualizationHE::OnButtonAllremainingsteps)
+	ON_BN_CLICKED(IDC_MESSAGERECEPTION, &CDlgSideChannelAttackVisualizationHE::OnMessagereception)
+	ON_BN_CLICKED(IDC_CHECK_DISABLEHELP, &CDlgSideChannelAttackVisualizationHE::OnCheckDisablehelp)
 	ON_WM_PAINT()
 	ON_WM_CTLCOLOR()
 	//}}AFX_MSG_MAP
@@ -1238,7 +1238,7 @@ void CDlgSideChannelAttackVisualizationHE::OnCheckDisablehelp()
 
 	if ( CT_OPEN_REGISTRY_SETTINGS( KEY_WRITE, IDS_REGISTRY_SETTINGS ) == ERROR_SUCCESS )
 	{
-		CT_WRITE_REGISTRY(unsigned long(this->m_bShowInfoDialogues), "SCA_InfoDialogues");
+		CT_WRITE_REGISTRY((unsigned long)(this->m_bShowInfoDialogues), "SCA_InfoDialogues");
 		CT_CLOSE_REGISTRY();
 	}
 	else

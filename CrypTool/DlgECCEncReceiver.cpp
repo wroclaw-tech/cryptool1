@@ -76,12 +76,12 @@ void CDlgECCEncReceiver::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgECCEncReceiver, CDialog)
 	//{{AFX_MSG_MAP(CDlgECCEncReceiver)
-	ON_NOTIFY(NM_CLICK, IDC_LIST1, OnClickList1)
-	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, OnColumnclickList1)
-	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, OnKeydownList1)
-	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST1, OnItemclickList1)
+	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CDlgECCEncReceiver::OnClickList1)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, &CDlgECCEncReceiver::OnColumnclickList1)
+	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, &CDlgECCEncReceiver::OnKeydownList1)
+	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST1, &CDlgECCEncReceiver::OnItemclickList1)
 	//}}AFX_MSG_MAP
-	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnLvnItemchangedList1)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CDlgECCEncReceiver::OnLvnItemchangedList1)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

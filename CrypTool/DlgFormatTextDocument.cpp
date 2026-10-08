@@ -24,7 +24,7 @@
 
 #include <iostream>
 #include <fstream>
-#include ".\dlgformattextdocument.h"
+#include "DlgFormatTextDocument.h"
 
 IMPLEMENT_DYNAMIC(CDlgFormatTextDocument, CDialog)
 CDlgFormatTextDocument::CDlgFormatTextDocument(CWnd* pParent /*=NULL*/)
@@ -118,11 +118,11 @@ CString CDlgFormatTextDocument::format(CString fileName)
 }
 
 BEGIN_MESSAGE_MAP(CDlgFormatTextDocument, CDialog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_BN_CLICKED(IDC_CHECK_REMOVE_NON_ALPHABET_CHARACTERS, OnBnClickedCheckRemoveNonAlphabetCharacters)
-	ON_BN_CLICKED(IDC_CHECK_CONVERT_TO_UPPERCASE, OnBnClickedCheckConvertToUppercase)
-	ON_BN_CLICKED(IDC_CHECK_CONVERT_TO_LOWERCASE, OnBnClickedCheckConvertToLowercase)
-	ON_BN_CLICKED(IDC_CHECK_DIVIDE_IN_BLOCKS, OnBnClickedCheckDivideInBlocks)
+	ON_BN_CLICKED(IDOK, &CDlgFormatTextDocument::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_CHECK_REMOVE_NON_ALPHABET_CHARACTERS, &CDlgFormatTextDocument::OnBnClickedCheckRemoveNonAlphabetCharacters)
+	ON_BN_CLICKED(IDC_CHECK_CONVERT_TO_UPPERCASE, &CDlgFormatTextDocument::OnBnClickedCheckConvertToUppercase)
+	ON_BN_CLICKED(IDC_CHECK_CONVERT_TO_LOWERCASE, &CDlgFormatTextDocument::OnBnClickedCheckConvertToLowercase)
+	ON_BN_CLICKED(IDC_CHECK_DIVIDE_IN_BLOCKS, &CDlgFormatTextDocument::OnBnClickedCheckDivideInBlocks)
 	ON_BN_CLICKED(ID_TEXTOPTIONS, &CDlgFormatTextDocument::OnBnClickedTextoptions)
 END_MESSAGE_MAP()
 

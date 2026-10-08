@@ -25,7 +25,7 @@
 #include "CrypToolApp.h"
 #include "DlgSideChannelAttackVisualizationHETrudy.h"
 #include "CrypToolTools.h"
-#include ".\dlgsidechannelattackvisualizationhetrudy.h"
+#include "DlgSideChannelAttackVisualizationHETrudy.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -82,7 +82,7 @@ void CDlgSideChannelAttackVisualizationHETrudy::DoDataExchange(CDataExchange* pD
 BEGIN_MESSAGE_MAP(CDlgSideChannelAttackVisualizationHETrudy, CDialog)
 	//{{AFX_MSG_MAP(CDlgSideChannelAttackVisualizationHETrudy)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDOK, &CDlgSideChannelAttackVisualizationHETrudy::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

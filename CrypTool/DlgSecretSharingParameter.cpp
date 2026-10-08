@@ -25,7 +25,7 @@
 #include "CrypToolApp.h"
 #include "DlgSecretSharingOptions.h"
 #include "DlgSecretSharingParameter.h"
-#include ".\dlgsecretsharingparameter.h"
+#include "DlgSecretSharingParameter.h"
 #include "CrypToolTools.h"
 
 // CDlgSecretSharingParameter-Dialogfeld
@@ -66,10 +66,10 @@ void CDlgSecretSharingParameter::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgSecretSharingParameter, CDialog)
-	ON_BN_CLICKED(IDB_GENERATENEW, OnButtonGenerateNew)
-	ON_EN_UPDATE(IDC_EDIT_MYPRIME, OnEnUpdateEditMyprime)
-	ON_BN_CLICKED(IDOK, OnButtonClickedOk)
-	ON_EN_UPDATE(IDC_EDIT_MYCOEFF, OnUpdateEditMycoeff)
+	ON_BN_CLICKED(IDB_GENERATENEW, &CDlgSecretSharingParameter::OnButtonGenerateNew)
+	ON_EN_UPDATE(IDC_EDIT_MYPRIME, &CDlgSecretSharingParameter::OnEnUpdateEditMyprime)
+	ON_BN_CLICKED(IDOK, &CDlgSecretSharingParameter::OnButtonClickedOk)
+	ON_EN_UPDATE(IDC_EDIT_MYCOEFF, &CDlgSecretSharingParameter::OnUpdateEditMycoeff)
 END_MESSAGE_MAP()
 
 BOOL CDlgSecretSharingParameter::OnInitDialog()

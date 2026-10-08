@@ -1,0 +1,13 @@
+/* Generated: @CT_WRAPPER_NAME@ for the CrypTool port (original: @CT_WRAPPER_ORIGINAL@). */
+#ifndef @CT_WRAPPER_GUARD@
+#define @CT_WRAPPER_GUARD@
+
+#include "ct_aes_prelude.h"
+
+#pragma push_macro("long")
+#undef long
+@CT_WRAPPER_NARROW_LONG@
+#include "@CT_WRAPPER_ORIGINAL@"
+#pragma pop_macro("long")
+
+#endif

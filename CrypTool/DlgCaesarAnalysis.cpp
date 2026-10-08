@@ -61,7 +61,7 @@ void CDlgCaesarAnalysis::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgCaesarAnalysis, CDialog)
 	//{{AFX_MSG_MAP(CDlgCaesarAnalysis)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdateEdit1)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgCaesarAnalysis::OnUpdateEdit1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

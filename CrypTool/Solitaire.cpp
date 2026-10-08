@@ -419,7 +419,7 @@ long c_solitaire::crypt( solitaire_action encrypt, const char *f_in, const char 
 {
 	long error = 0;
 	fstream fin, fout;
-	fin.open( f_in, ios::in || ios::binary );
+	fin.open( f_in, ios::in ); // was "ios::in || ios::binary", which evaluates to ios::in
 	if ( fin.is_open() )
 	{
 		fout.open( f_out, ios::out );

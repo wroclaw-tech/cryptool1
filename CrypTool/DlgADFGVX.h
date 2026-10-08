@@ -42,9 +42,9 @@ private:
 	CString pwdString;
 	CString matrix[6][6];
 	CToolTipButton buttonInsertKey;
-	void CDlgADFGVX::OnOK();
-	void CDlgADFGVX::Decrypt();
-	void CDlgADFGVX::Encrypt();
+	void OnOK();
+	void Decrypt();
+	void Encrypt();
 	bool restart;
 	BOOL printStage1;
 	BOOL newLineStage2, newLineStage1;
@@ -111,9 +111,9 @@ private:
 	afx_msg void OnBnClickedErasematrix();
 	afx_msg void OnBnClickedCheckBlockStage2();
 	afx_msg void OnBnClickedCheckBlockStage1();
-	BOOL CDlgADFGVX::OnInitDialog();
-	CString CDlgADFGVX::CheckInput(CString oldEntry, CString input);
-	void CDlgADFGVX::CheckProgress();
+	BOOL OnInitDialog();
+	CString CheckInput(CString oldEntry, CString input);
+	void CheckProgress();
 	CString numberedPassword;
 	BOOL boxBlockOutput2;
 	BOOL boxBlockOutput1;

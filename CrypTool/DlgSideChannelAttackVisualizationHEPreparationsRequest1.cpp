@@ -59,10 +59,10 @@ BOOL CDlgSideChannelAttackVisualizationHEPreparationsRequest1::OnInitDialog()
 }
 
 BEGIN_MESSAGE_MAP(CDlgSideChannelAttackVisualizationHEPreparationsRequest1, CDialog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
-	ON_BN_CLICKED(IDC_RADIO_CHOICE_1, OnBnClickedRadioChoice1)
-	ON_BN_CLICKED(IDC_RADIO_CHOICE_2, OnBnClickedRadioChoice2)
+	ON_BN_CLICKED(IDOK, &CDlgSideChannelAttackVisualizationHEPreparationsRequest1::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &CDlgSideChannelAttackVisualizationHEPreparationsRequest1::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_RADIO_CHOICE_1, &CDlgSideChannelAttackVisualizationHEPreparationsRequest1::OnBnClickedRadioChoice1)
+	ON_BN_CLICKED(IDC_RADIO_CHOICE_2, &CDlgSideChannelAttackVisualizationHEPreparationsRequest1::OnBnClickedRadioChoice2)
 END_MESSAGE_MAP()
 
 // CDlgSideChannelAttackVisualizationHEPreparationsRequest1 message handlers

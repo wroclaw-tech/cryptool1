@@ -1,0 +1,43 @@
+name: Port status
+
+on:
+  push:
+    branches: [xplat-port]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: port-status
+  cancel-in-progress: true
+
+jobs:
+  status:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: brew install wxwidgets@3.2 openssl@3 gmp ninja cmake
+      - name: Measure
+        run: python3 port/tools/port_status.py
+      - name: Publish to the port-status branch
+        run: |
+          pub="$RUNNER_TEMP/port-status"
+          git init -q "$pub"
+          cd "$pub"
+          git config user.name "port-status-bot"
+          git config user.email "port-status-bot@users.noreply.github.com"
+          git remote add origin "$(git -C "$GITHUB_WORKSPACE" config --get remote.origin.url)"
+          git -C "$GITHUB_WORKSPACE" config --get-regexp '^http\..*\.extraheader$' | while read -r key value; do
+            git config "$key" "$value"
+          done
+          if git fetch -q --depth 1 origin port-status; then
+            git checkout -q -b port-status FETCH_HEAD
+          else
+            git checkout -q --orphan port-status
+          fi
+          cp "$GITHUB_WORKSPACE"/port/status/* .
+          git add badge.json status.json STATUS.md
+          git diff --cached --quiet || git commit -m "chore(status): update port status for ${GITHUB_SHA::8}"
+          git push origin port-status

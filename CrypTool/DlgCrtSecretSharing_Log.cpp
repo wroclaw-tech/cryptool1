@@ -27,7 +27,7 @@
 #include "FileTools.h"
 #include "CrypToolApp.h"
 #include "DlgCrtSecretSharing_Log.h"
-#include ".\dlgcrtsecretsharing_log.h"
+#include "DlgCrtSecretSharing_Log.h"
 // #include <fstream.h>
 
 // CDlgCrtSecretSharing_Log-Dialogfeld
@@ -51,8 +51,8 @@ void CDlgCrtSecretSharing_Log::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgCrtSecretSharing_Log, baseCTestDlg)
-	ON_BN_CLICKED(IDC_BUTTON1, OnBnClickedButton1)
-	ON_BN_CLICKED(IDC_CRT_SecretSharing_Log_Save, OnBnClickedCrtSecretsharingLogSave)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgCrtSecretSharing_Log::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_CRT_SecretSharing_Log_Save, &CDlgCrtSecretSharing_Log::OnBnClickedCrtSecretsharingLogSave)
 END_MESSAGE_MAP()
 
 

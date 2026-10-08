@@ -28,7 +28,7 @@
 #include "stdafx.h"
 #include "ScintillaWnd.h"
 //#include "Tokenizer.h"
-#include "scintilla.h"
+#include "Scintilla.h"
 #include "SciLexer.h"
 #include <fstream>
 
@@ -276,7 +276,7 @@ LPSTR CScintillaWnd::GetText ()
       if (pReturn != NULL)
       {
          *pReturn = '\0';
-         SendMessage(SCI_GETTEXT, lLen, (long)pReturn);
+         SendMessage(SCI_GETTEXT, lLen, (LPARAM)pReturn);
          return pReturn;
       }
    }
@@ -366,7 +366,7 @@ void CScintillaWnd::Serialize(CArchive& ar)
 		do {
 			tr.chrg.cpMin = i;
 			tr.chrg.cpMax = i + nbuffer < len ? i + nbuffer : len;
-			n = SendMessage(SCI_GETTEXTRANGE, 0,(long)&tr);
+			n = SendMessage(SCI_GETTEXTRANGE, 0,(LPARAM)&tr);
 			ar.Write(buffer,n);
 			i += n;
 		} while (i < len);
@@ -402,7 +402,7 @@ BOOL CScintillaWnd::SaveFile (
 	   tr.chrg.cpMax = -1;
 	   tr.lpstrText = pBuffer;
 	   //SendMessage(SCI_GETTEXT, buflen,(long)pBuffer);
-	   SendMessage(SCI_GETTEXTRANGE, 0,(long)&tr);
+	   SendMessage(SCI_GETTEXTRANGE, 0,(LPARAM)&tr);
       file.write(pBuffer, buflen-1);
       delete [] pBuffer;
    }
@@ -462,7 +462,7 @@ int CScintillaWnd::GetLinenumberWidth ()
 // get number of chars needed to display highest linenumber
    int nChars = GetLinenumberChars ()+1;
 // get width of character '9' in pixels
-   LRESULT lWidth = SendMessage(SCI_TEXTWIDTH, STYLE_LINENUMBER, (long)_T("9"));
+   LRESULT lWidth = SendMessage(SCI_TEXTWIDTH, STYLE_LINENUMBER, (LPARAM)_T("9"));
    return nChars * lWidth;
 }
 /////////////////////////////////////
@@ -685,7 +685,7 @@ int CScintillaWnd::GetTextLength()
 //
 void CScintillaWnd::SetFontname(int nStyle, LPCSTR szFontname)
 {
-   SendMessage(SCI_STYLESETFONT, nStyle, (long)szFontname);
+   SendMessage(SCI_STYLESETFONT, nStyle, (LPARAM)szFontname);
 }
 /////////////////////////////////////
 // @mfunc Set the font height in points
@@ -980,13 +980,13 @@ BOOL CScintillaWnd::SearchForward(
    // added new search behaviour to be compliant to common search tools (tf.chrg.cpMin = lPos+1;)
    tf.chrg.cpMin = lPos;
    tf.chrg.cpMax = SendMessage(SCI_GETLENGTH, 0, 0);
-   lPos = SendMessage(SCI_FINDTEXT, m_nSearchflags, (long)&tf);
+   lPos = SendMessage(SCI_FINDTEXT, m_nSearchflags, (LPARAM)&tf);
    if (lPos >= 0)
    {
       SetFocus();
       GotoPosition(lPos);
       SendMessage(SCI_SETSEL, tf.chrgText.cpMin, tf.chrgText.cpMax);
-      SendMessage(SCI_FINDTEXT, m_nSearchflags, (long)&tf);
+      SendMessage(SCI_FINDTEXT, m_nSearchflags, (LPARAM)&tf);
       return TRUE;
    }
    return FALSE;
@@ -1009,13 +1009,13 @@ BOOL CScintillaWnd::SearchBackward(
    else
       tf.chrg.cpMin = lPos-1;
    tf.chrg.cpMax = 0;
-   lPos = SendMessage(SCI_FINDTEXT, m_nSearchflags, (long)&tf);
+   lPos = SendMessage(SCI_FINDTEXT, m_nSearchflags, (LPARAM)&tf);
    if (lPos >= 0)
    {
       SetFocus();
       GotoPosition(lPos);
       SendMessage(SCI_SETSEL, tf.chrgText.cpMin, tf.chrgText.cpMax);
-      SendMessage(SCI_FINDTEXT, m_nSearchflags, (long)&tf);
+      SendMessage(SCI_FINDTEXT, m_nSearchflags, (LPARAM)&tf);
       return TRUE;
    }
    return FALSE;
@@ -1031,9 +1031,9 @@ void CScintillaWnd::ReplaceSearchedText(
       return;
 	SendMessage(SCI_TARGETFROMSELECTION, 0, 0);
    if (m_nSearchflags & SCFIND_REGEXP)
-      SendMessage(SCI_REPLACETARGETRE, strlen(szText), (long)szText);
+      SendMessage(SCI_REPLACETARGETRE, strlen(szText), (LPARAM)szText);
    else
-      SendMessage(SCI_REPLACETARGET, strlen(szText), (long)szText);
+      SendMessage(SCI_REPLACETARGET, strlen(szText), (LPARAM)szText);
 }
 /////////////////////////////////////
 // @mfunc Set lexer format - see scintilla.h
@@ -1073,7 +1073,7 @@ CString CScintillaWnd::GetSelectedText()
       if (p != NULL)
       {
          *p = '\0';
-         SendMessage(SCI_GETSELTEXT, 0, (long)p);
+         SendMessage(SCI_GETSELTEXT, 0, (LPARAM)p);
          CString strReturn = p;
          delete [] p;
          return strReturn;
@@ -1102,21 +1102,21 @@ int CScintillaWnd::ReplaceAll(
       SendMessage(SCI_SETTARGETSTART, lStart);
       SendMessage(SCI_SETTARGETEND, lEnd);
 //    try to find text in target for the first time
-	   long lPos = SendMessage(SCI_SEARCHINTARGET, strlen(szFind), (long)szFind);
+	   long lPos = SendMessage(SCI_SEARCHINTARGET, strlen(szFind), (LPARAM)szFind);
 //    loop over selection until end of selection reached - moving the target start each time
       while (lPos < lEnd && lPos >= 0)
       {
          if (m_nSearchflags & SCFIND_REGEXP) // check for regular expression flag
-            lLen = SendMessage(SCI_REPLACETARGETRE, strlen(szReplace), (long)szReplace);
+            lLen = SendMessage(SCI_REPLACETARGETRE, strlen(szReplace), (LPARAM)szReplace);
          else
-            lLen = SendMessage(SCI_REPLACETARGET, strlen(szReplace), (long)szReplace);
+            lLen = SendMessage(SCI_REPLACETARGET, strlen(szReplace), (LPARAM)szReplace);
 //       the end of the selection was changed - recalc the end
          lEnd = GetSelectionEnd();
 //       move start of target behind last change and end of target to new end of selection
          SendMessage(SCI_SETTARGETSTART, lPos+lLen);
          SendMessage(SCI_SETTARGETEND, lEnd);
 //       find again - if nothing found loop exits
-	      lPos = SendMessage(SCI_SEARCHINTARGET, strlen(szFind), (long)szFind);
+	      lPos = SendMessage(SCI_SEARCHINTARGET, strlen(szFind), (LPARAM)szFind);
          nCount++;
       }
    }
@@ -1130,21 +1130,21 @@ int CScintillaWnd::ReplaceAll(
       SendMessage(SCI_SETTARGETSTART, lStart, 0);
       SendMessage(SCI_SETTARGETEND, lEnd, 0);
 //    try to find text in target for the first time
-	   long lPos = SendMessage(SCI_SEARCHINTARGET, strlen(szFind), (long)szFind);
+	   long lPos = SendMessage(SCI_SEARCHINTARGET, strlen(szFind), (LPARAM)szFind);
 //    loop over selection until end of selection reached - moving the target start each time
       while (lPos < lEnd && lPos >= 0)
       {
          if (m_nSearchflags & SCFIND_REGEXP) // check for regular expression flag
-            lLen = SendMessage(SCI_REPLACETARGETRE, strlen(szReplace), (long)szReplace);
+            lLen = SendMessage(SCI_REPLACETARGETRE, strlen(szReplace), (LPARAM)szReplace);
          else
-            lLen = SendMessage(SCI_REPLACETARGET, strlen(szReplace), (long)szReplace);
+            lLen = SendMessage(SCI_REPLACETARGET, strlen(szReplace), (LPARAM)szReplace);
 //       the end of the selection was changed - recalc the end
          lEnd = SendMessage(SCI_GETTEXTLENGTH, 0, 0);;
 //       move start of target behind last change and end of target to new end of buffer
          SendMessage(SCI_SETTARGETSTART, lPos+lLen);
          SendMessage(SCI_SETTARGETEND, lEnd);
 //       find again - if nothing found loop exits
-	      lPos = SendMessage(SCI_SEARCHINTARGET, strlen(szFind), (long)szFind);
+	      lPos = SendMessage(SCI_SEARCHINTARGET, strlen(szFind), (LPARAM)szFind);
          nCount++;
       }
    }

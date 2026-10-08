@@ -28,7 +28,7 @@
 #include "DialogeMessage.h"
 #include <fstream>
 #include "FileTools.h"
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include "DlgRSAEncryption.h"
 #include "DlgKeyHexAnalysis.h"
 #include "Cryptography.h"
@@ -132,17 +132,17 @@ void CDlgHybridEncryptionDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgHybridEncryptionDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgHybridEncryptionDemo)
-	ON_BN_CLICKED(IDC_BUTTON1_TXT_EINFUEGEN, OnButtonGetDocument)
-	ON_BN_CLICKED(IDC_BUTTON_ENC_KEY_ASYM, OnButtonEncKeyAsym)
-	ON_BN_CLICKED(IDC_BUTTON_ENC_TXT_SYM, OnButtonEncDocumentSym)
-	ON_BN_CLICKED(IDC_BUTTON_GEN_SYM_KEY, OnButtonGenSymKey)
-	ON_BN_CLICKED(IDC_BUTTON_GET_ASYM_KEY, OnButtonGetAsymKey)
-	ON_BN_CLICKED(IDC_BUTTON_SHOW_SYM_KEY, OnButtonShowSymKey)
-	ON_BN_CLICKED(IDC_BUTTON_SHOW_ASYM_KEY, OnButtonShowAsymKey)
-	ON_BN_CLICKED(IDC_BUTTON_SHOWTXT, OnButtonShowDocument)
-	ON_BN_CLICKED(IDC_BUTTON2, OnButtonShowEncDocument)
-	ON_BN_CLICKED(IDC_BUTTON3, OnButtonShowEncSymKey)
-	ON_BN_CLICKED(IDC_BUTTON_DATENAUSGABE, OnButtonDatenausgabe)
+	ON_BN_CLICKED(IDC_BUTTON1_TXT_EINFUEGEN, &CDlgHybridEncryptionDemo::OnButtonGetDocument)
+	ON_BN_CLICKED(IDC_BUTTON_ENC_KEY_ASYM, &CDlgHybridEncryptionDemo::OnButtonEncKeyAsym)
+	ON_BN_CLICKED(IDC_BUTTON_ENC_TXT_SYM, &CDlgHybridEncryptionDemo::OnButtonEncDocumentSym)
+	ON_BN_CLICKED(IDC_BUTTON_GEN_SYM_KEY, &CDlgHybridEncryptionDemo::OnButtonGenSymKey)
+	ON_BN_CLICKED(IDC_BUTTON_GET_ASYM_KEY, &CDlgHybridEncryptionDemo::OnButtonGetAsymKey)
+	ON_BN_CLICKED(IDC_BUTTON_SHOW_SYM_KEY, &CDlgHybridEncryptionDemo::OnButtonShowSymKey)
+	ON_BN_CLICKED(IDC_BUTTON_SHOW_ASYM_KEY, &CDlgHybridEncryptionDemo::OnButtonShowAsymKey)
+	ON_BN_CLICKED(IDC_BUTTON_SHOWTXT, &CDlgHybridEncryptionDemo::OnButtonShowDocument)
+	ON_BN_CLICKED(IDC_BUTTON2, &CDlgHybridEncryptionDemo::OnButtonShowEncDocument)
+	ON_BN_CLICKED(IDC_BUTTON3, &CDlgHybridEncryptionDemo::OnButtonShowEncSymKey)
+	ON_BN_CLICKED(IDC_BUTTON_DATENAUSGABE, &CDlgHybridEncryptionDemo::OnButtonDatenausgabe)
 	ON_WM_SETCURSOR()
 	ON_WM_PAINT()
 	//}}AFX_MSG_MAP
@@ -370,7 +370,7 @@ void CDlgHybridEncryptionDemo::OnButtonEncDocumentSym()
 			LoadString(AfxGetInstanceHandle(),IDS_SCA_KEYWORDPROBLEM,pc_str,STR_LAENGE_STRING_TABLE);
 			char temp[STR_LAENGE_STRING_TABLE+1];
 			memset(temp, 0, STR_LAENGE_STRING_TABLE+1);
-			sprintf(temp, pc_str, keyword);
+			sprintf(temp, pc_str, (LPCTSTR)keyword);
 
 			if(AfxMessageBox(temp, MB_YESNO) == IDYES)
 			{

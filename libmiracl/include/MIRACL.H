@@ -649,7 +649,7 @@ extern void  numer(_MIPT_ flash,big);
 extern void  denom(_MIPT_ flash,big);    
 extern BOOL  fit(big,big,int);    
 extern void  build(_MIPT_ flash,int (*)(_MIPT_ big,int));
-extern void  round(_MIPT_ big,big,flash);         
+extern void  mround(_MIPT_ big,big,flash);         
 extern void  flop(_MIPT_ flash,flash,int *,flash);
 extern void  fmul(_MIPT_ flash,flash,flash);      
 extern void  fdiv(_MIPT_ flash,flash,flash);      

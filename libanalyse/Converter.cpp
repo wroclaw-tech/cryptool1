@@ -29,6 +29,11 @@
 //
 /////////////////////////////////////////////////////////////////
 #include <string.h>
+#ifndef _MSC_VER
+#include <ctype.h>
+static char* _strlwr(char* s) { for (char* p = s; *p; ++p) *p = (char)tolower((unsigned char)*p); return s; }
+static char* _strupr(char* s) { for (char* p = s; *p; ++p) *p = (char)toupper((unsigned char)*p); return s; }
+#endif
 
 #define IMPLEMENT_CONVERTERCLASS 1
 #include "Converter.h"

@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgCrtSecretSharingOptions.h"
-#include ".\dlgcrtsecretsharingoptions.h"
+#include "DlgCrtSecretSharingOptions.h"
 #include "DialogeMessage.h"
 #include "IntegerArithmetic.h"
 #include "big.h"
@@ -59,8 +59,8 @@ void CDlgCrtSecretSharingOptions::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgCrtSecretSharingOptions, CDialog)
-	ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &CDlgCrtSecretSharingOptions::OnBnClickedCancel)
+	ON_BN_CLICKED(IDOK, &CDlgCrtSecretSharingOptions::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 // CDlgCrtSecretSharingOptions-Meldungshandler

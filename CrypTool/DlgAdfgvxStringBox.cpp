@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgAdfgvxStringBox.h"
-#include ".\dlgadfgvxstringbox.h"
+#include "DlgAdfgvxStringBox.h"
 
 // DlgAdfgvxStringBox-Dialogfeld
 
@@ -49,7 +49,7 @@ void DlgAdfgvxStringBox::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(DlgAdfgvxStringBox, CDialog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDOK, &DlgAdfgvxStringBox::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 BOOL DlgAdfgvxStringBox::OnInitDialog()

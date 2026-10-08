@@ -27,7 +27,7 @@
 #include <stdlib.h>
 
 #include "DlgPrimesGeneratorDemo.h"
-#include "Keyrepository.h"
+#include "KeyRepository.h"
 #include "DialogeMessage.h"
 #include "FileTools.h"
 #include "CrypToolTools.h"
@@ -126,17 +126,17 @@ void CDlgPrimesGeneratorDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgPrimesGeneratorDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgPrimesGeneratorDemo)
-	ON_BN_CLICKED(IDC_RADIO4, OnRadio4)
-	ON_BN_CLICKED(IDC_RADIO5, OnRadio5)
-	ON_BN_CLICKED(IDC_RADIO6, OnRadio6)
-	ON_BN_CLICKED(IDC_RADIO7, OnRadio7)
-	ON_BN_CLICKED(IDC_BUTTON_GENERATE, OnButtonGenerate)
-	ON_BN_CLICKED(IDC_BUTTON_ACCEPT, OnButtonAccept)
-	ON_BN_CLICKED(IDC_ENDDIALOG, OnEndDialog)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdateEdit)
-	ON_EN_UPDATE(IDC_EDIT2, OnUpdateEdit)
-	ON_EN_UPDATE(IDC_EDIT3, OnUpdateEdit)
-	ON_EN_UPDATE(IDC_EDIT4, OnUpdateEdit)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgPrimesGeneratorDemo::OnRadio4)
+	ON_BN_CLICKED(IDC_RADIO5, &CDlgPrimesGeneratorDemo::OnRadio5)
+	ON_BN_CLICKED(IDC_RADIO6, &CDlgPrimesGeneratorDemo::OnRadio6)
+	ON_BN_CLICKED(IDC_RADIO7, &CDlgPrimesGeneratorDemo::OnRadio7)
+	ON_BN_CLICKED(IDC_BUTTON_GENERATE, &CDlgPrimesGeneratorDemo::OnButtonGenerate)
+	ON_BN_CLICKED(IDC_BUTTON_ACCEPT, &CDlgPrimesGeneratorDemo::OnButtonAccept)
+	ON_BN_CLICKED(IDC_ENDDIALOG, &CDlgPrimesGeneratorDemo::OnEndDialog)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgPrimesGeneratorDemo::OnUpdateEdit)
+	ON_EN_UPDATE(IDC_EDIT2, &CDlgPrimesGeneratorDemo::OnUpdateEdit)
+	ON_EN_UPDATE(IDC_EDIT3, &CDlgPrimesGeneratorDemo::OnUpdateEdit)
+	ON_EN_UPDATE(IDC_EDIT4, &CDlgPrimesGeneratorDemo::OnUpdateEdit)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -365,7 +365,7 @@ void CDlgPrimesGeneratorDemo::OnButtonGenerate()
 		// display value range in progress dialog
 		char temp[1024];
 		LoadString(AfxGetInstanceHandle(), IDS_STRING_MULTIPLE_PRIME_NUMBERS_GENERATION_TEXT, pc_str, STR_LAENGE_STRING_TABLE);
-		sprintf(temp, pc_str, m_edit1, m_edit2);
+		sprintf(temp, pc_str, (LPCTSTR)m_edit1, (LPCTSTR)m_edit2);
 		theApp.fs.setFormat(temp);
 		// start the prime number generation thread
 		AfxBeginThread(singleThreadGenerateMultiplePrimeNumbers, PVOID(this));
@@ -408,7 +408,7 @@ void CDlgPrimesGeneratorDemo::OnButtonGenerate()
 		// either way, reset the abortion flag (otherwise we'll get weird errors)
 		generationMultiplePrimeNumbersAborted = false;
 		// build the notification message
-		sprintf(temp, pc_str, m_edit1, m_edit2, mapGeneratedPrimeNumbers.size());
+		sprintf(temp, pc_str, (LPCTSTR)m_edit1, (LPCTSTR)m_edit2, mapGeneratedPrimeNumbers.size());
 		message.Append(temp);
 		MessageBox(message, "CrypTool", MB_ICONINFORMATION);
 		// write the separator to the registry
@@ -447,11 +447,11 @@ void CDlgPrimesGeneratorDemo::OnButtonGenerate()
 			char temp[1024];
 			if(m_radio4 == 0) {
 				LoadString(AfxGetInstanceHandle(), IDS_STRING_PRIME_NUMBERS_GENERATION_TEXT2, pc_str, STR_LAENGE_STRING_TABLE);
-				sprintf(temp, pc_str, m_edit1, m_edit2, m_edit3, m_edit4);
+				sprintf(temp, pc_str, (LPCTSTR)m_edit1, (LPCTSTR)m_edit2, (LPCTSTR)m_edit3, (LPCTSTR)m_edit4);
 			}
 			else {
 				LoadString(AfxGetInstanceHandle(), IDS_STRING_PRIME_NUMBERS_GENERATION_TEXT1, pc_str, STR_LAENGE_STRING_TABLE);
-				sprintf(temp, pc_str, m_edit1, m_edit2);
+				sprintf(temp, pc_str, (LPCTSTR)m_edit1, (LPCTSTR)m_edit2);
 			}
 			theApp.fs.setFormat(temp);
 			// start the prime number generation thread

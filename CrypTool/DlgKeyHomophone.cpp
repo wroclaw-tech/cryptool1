@@ -28,7 +28,7 @@
 #include "assert.h"
 #include "DialogeMessage.h"
 #include "KeyRepository.h"
-#include ".\dlgkeyhomophone.h"
+#include "DlgKeyHomophone.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -84,20 +84,20 @@ void CDlgKeyHomophone::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgKeyHomophone, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeyHomophone)
-	ON_BN_CLICKED(IDC_ERZEUGEN, OnErzeugen)
-	ON_BN_CLICKED(IDC_BUTTON2, OnLoadKey)
-	ON_BN_CLICKED(IDC_BUTTON1, OnDecrypt)
-	ON_BN_CLICKED(IDOK, OnEncrypt)
-	ON_BN_CLICKED(IDC_RADIO4, OnHex)
-	ON_BN_CLICKED(IDC_RADIO5, OnDecimal)
-	ON_BN_CLICKED(IDC_BUTTON3, OnActualizeNoOfHomophones)
-	ON_NOTIFY(NM_CLICK, IDC_LIST1, OnSelectList)
-	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDblclkSelect)
-	ON_NOTIFY(NM_RETURN, IDC_LIST1, OnReturnSelect)
-	ON_BN_CLICKED(IDC_CHECK1, OnSelectEncryptFormatCharacters)
+	ON_BN_CLICKED(IDC_ERZEUGEN, &CDlgKeyHomophone::OnErzeugen)
+	ON_BN_CLICKED(IDC_BUTTON2, &CDlgKeyHomophone::OnLoadKey)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgKeyHomophone::OnDecrypt)
+	ON_BN_CLICKED(IDOK, &CDlgKeyHomophone::OnEncrypt)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgKeyHomophone::OnHex)
+	ON_BN_CLICKED(IDC_RADIO5, &CDlgKeyHomophone::OnDecimal)
+	ON_BN_CLICKED(IDC_BUTTON3, &CDlgKeyHomophone::OnActualizeNoOfHomophones)
+	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CDlgKeyHomophone::OnSelectList)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CDlgKeyHomophone::OnDblclkSelect)
+	ON_NOTIFY(NM_RETURN, IDC_LIST1, &CDlgKeyHomophone::OnReturnSelect)
+	ON_BN_CLICKED(IDC_CHECK1, &CDlgKeyHomophone::OnSelectEncryptFormatCharacters)
   //}}AFX_MSG_MAP
-  ON_BN_CLICKED(IDC_RADIO_TEXT_INPUT, OnBnClickedRadioTextInput)
-  ON_BN_CLICKED(IDC_RADIO_BINARY_INPUT, OnBnClickedRadioBinaryInput)
+  ON_BN_CLICKED(IDC_RADIO_TEXT_INPUT, &CDlgKeyHomophone::OnBnClickedRadioTextInput)
+  ON_BN_CLICKED(IDC_RADIO_BINARY_INPUT, &CDlgKeyHomophone::OnBnClickedRadioBinaryInput)
   ON_BN_CLICKED(IDC_BUTTON_TEXTOPTIONS, &CDlgKeyHomophone::OnBnClickedButtonTextoptions)
 END_MESSAGE_MAP()
 

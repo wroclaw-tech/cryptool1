@@ -22,8 +22,8 @@ public:
 	virtual ~CArcBall();
 
 	/* Public routines */
-	void place(CPosition &vecPos, double dRadius);
-	void setMouse(CPosition &vecNow);
+	void place(const CPosition &vecPos, double dRadius);
+	void setMouse(const CPosition &vecNow);
 	void startDragging();
 	void finishDragging();
 	CMatrix getRotatonMatrix();

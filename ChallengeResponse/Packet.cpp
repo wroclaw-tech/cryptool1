@@ -59,7 +59,7 @@ void CPacket::draw(CClientDC &dc)
 	dc.MoveTo(x1+1,y2-1);
 	dc.LineTo(x2-1,y1+1);
 
-	dc.SelectObject(&originalPen);
+	dc.SelectObject(originalPen);
 }
 
 void CPacket::erase(CClientDC &dc)
@@ -73,7 +73,7 @@ void CPacket::erase(CClientDC &dc)
 	dc.MoveTo(x1,y2);
 	dc.LineTo(x2,y1);
 
-	dc.SelectObject(&originalPen);
+	dc.SelectObject(originalPen);
 }
 
 

@@ -82,10 +82,10 @@ void CDlgRSAEncryption::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgRSAEncryption, CDialog)
 	//{{AFX_MSG_MAP(CDlgRSAEncryption)
-	ON_NOTIFY(NM_CLICK, IDC_LIST1, OnClickList1)
-	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, OnColumnclickList1)
-	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, OnKeydownList1)
-	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST1, OnItemclickList1)
+	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CDlgRSAEncryption::OnClickList1)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, &CDlgRSAEncryption::OnColumnclickList1)
+	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST1, &CDlgRSAEncryption::OnKeydownList1)
+	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST1, &CDlgRSAEncryption::OnItemclickList1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -115,7 +115,7 @@ BOOL CDlgRSAEncryption::OnInitDialog()
 	m_listview.InsertColumn( 5, pc_str, LVCFMT_LEFT, colWidth-20 , 5); // Interne ID-Nr.
 
 	CString tmpStr;
-	tmpStr.Format(IDS_TITLE_DLG_RSAENCRYPTION, oldTitle);
+	tmpStr.Format(IDS_TITLE_DLG_RSAENCRYPTION, (LPCTSTR)oldTitle);
 	this->SetWindowText(tmpStr);
 
 

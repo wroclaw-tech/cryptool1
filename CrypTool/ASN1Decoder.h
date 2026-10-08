@@ -38,7 +38,16 @@
 using namespace std;
 #endif
 
-class ASN1Error;
+// Klasse zur Ausnahmebehandlung/Fehlerbehandlung
+class ASN1Error
+{
+private:
+	long ErrorCode;
+public:
+	ASN1Error(long e){ ErrorCode = e;};
+	virtual ~ASN1Error() { };
+	long GetErrorCode() const { return ErrorCode; };
+};
 
 class ASN1Decoder  
 {
@@ -61,17 +70,6 @@ public:
 
 	void StoreASN1Dump(std::string) throw (ASN1Error);
 	void StoreCertDump(std::string, std::string) throw (ASN1Error);
-};
-
-// Klasse zur Ausnahmebehandlung/Fehlerbehandlung
-class ASN1Error
-{
-private:
-	long ErrorCode;
-public:
-	ASN1Error(long e){ ErrorCode = e;};
-	virtual ~ASN1Error() { };
-	long GetErrorCode() const { return ErrorCode; };
 };
 
 // Fehlermeldungen

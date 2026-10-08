@@ -42,13 +42,13 @@ public:
 	// StereotypedAttack();
 
 	// get/set-methods
-	void setN(ZZ&);
-	void setE(ZZ&);
-	void setLeftText(ZZ&);
-	void setRightText(ZZ&);
+	void setN(const ZZ&);
+	void setE(const ZZ&);
+	void setLeftText(const ZZ&);
+	void setRightText(const ZZ&);
 	void setUnknownLength(int);
-	void setCiphertext(ZZ&);
-	void setH(ZZ&);
+	void setCiphertext(const ZZ&);
+	void setH(const ZZ&);
 
 	ZZ& getBound();
 	ZZ& getSolution();

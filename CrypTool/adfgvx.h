@@ -65,7 +65,7 @@ private:
 	char subChars[2];
 	pmlist permMatrix;
 	pmlist::iterator permMatrixIterator;
-	int adfgvx::valueOf (char ch);
+	int valueOf (char ch);
 	CString lastPasswordFound;
   char m_szFrequency[36];
 	int m_iHighestFrequency;
@@ -73,7 +73,7 @@ private:
 public:
 
 	cblist countBigrammVector;
-	void adfgvx::countBigram();
+	void countBigram();
 	float countMatrix[6][6];
 
 	adfgvx();
@@ -109,16 +109,16 @@ public:
 
 	//***** ANALYSIS FUNCTIONS *****//
 
-	CString adfgvx::nextPassword(int minlength, int maxlength, CString start);
-	bool adfgvx::goodenough(bool forcePassword);
-	void adfgvx::ForcePassword(CString pwd);
-  void adfgvx::SetFrequencyTable(char* szFrequency, int iHighestFrequency);
+	CString nextPassword(int minlength, int maxlength, CString start);
+	bool goodenough(bool forcePassword);
+	void ForcePassword(CString pwd);
+  void SetFrequencyTable(char* szFrequency, int iHighestFrequency);
 	
 	//***** INPUT VALIDATION *****//
-	int adfgvx::CheckPassword(int minLength, int maxLength, CString password);
-	CString adfgvx::CleansePassword(int errorCode, CString password);
-	CString adfgvx::LettersToNumbers(CString password);
-	int adfgvx::CheckStringBox(CString input);
+	int CheckPassword(int minLength, int maxLength, CString password);
+	CString CleansePassword(int errorCode, CString password);
+	CString LettersToNumbers(CString password);
+	int CheckStringBox(CString input);
 };
 
 bool alphaSort  (pmlistelem l1, pmlistelem l2);

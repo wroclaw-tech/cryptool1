@@ -218,13 +218,13 @@ CString CDlgShowProgress::duration(double progress) const
 			d.Format("%02d h", s/3600);
 
 	} else if (rest < 3600.0*24.0*365.0) {
-		d.Format("%.1f %s",rest/(3600.0*24.0),m_days);
+		d.Format("%.1f %s",rest/(3600.0*24.0),(LPCTSTR)m_days);
 		// flomar, 05/04/2010
 		// we want language-dependent separators (i.e. "," in DE, "." in EN); therefore we replace 
 		// all periods (".", default!) with the appropriate separator (IDS_FLOAT_NUMBER_SEPARATOR)
 		d.Replace('.', m_floatNumberSeparator[0]);
 	} else {
-		d.Format("%.2g %s",rest/(3600.0*24.0*365.0),m_years);
+		d.Format("%.2g %s",rest/(3600.0*24.0*365.0),(LPCTSTR)m_years);
 		// flomar, 05/04/2010
 		// we want language-dependent separators (i.e. "," in DE, "." in EN); therefore we replace 
 		// all periods (".", default!) with the appropriate separator (IDS_FLOAT_NUMBER_SEPARATOR)
@@ -249,7 +249,7 @@ void CDlgShowProgress::OnTimer(UINT nIDEvent)
 		CString text;
 		double progress = m_model->getProgress();
 		int percent = (int)(100.0*progress+0.5);
-		text.Format(m_format,percent,duration(progress));
+		text.Format(m_format,percent,(LPCTSTR)duration(progress));
 		m_text_ctl.SetWindowText(text);
 		m_Progress.SetPos(percent);
 	} else {

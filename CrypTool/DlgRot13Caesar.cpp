@@ -22,7 +22,7 @@
 //
 
 #include "stdafx.h"
-#include "cryptoolapp.h"
+#include "CrypToolApp.h"
 #include "DlgRot13Caesar.h"
 #include "CrypToolTools.h"
 
@@ -76,18 +76,18 @@ void CDlgRot13Caesar::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgRot13Caesar, CDialog)
 	//{{AFX_MSG_MAP(CDlgRot13Caesar)
-	ON_BN_CLICKED(IDC_RADIO1, onUpdateGUI)
-	ON_BN_CLICKED(IDC_RADIO2, onUpdateGUI)
-	ON_BN_CLICKED(IDC_RADIO3, onUpdateGUI)
-	ON_BN_CLICKED(IDC_RADIO4, onUpdateGUI)
-	ON_BN_CLICKED(IDC_RADIO5, onUpdateGUI)
-	ON_BN_CLICKED(IDC_RADIO6, onUpdateGUI)
-	ON_EN_UPDATE(IDC_KEY, onUpdateGUI)
-	ON_EN_UPDATE(IDC_EDIT_ALPHCODE, onUpdateGUI)
-	ON_BN_CLICKED(IDC_PASTE_KEY, OnPasteKey)
-	ON_BN_CLICKED(ID_ENCRYPT, OnEncrypt)
-	ON_BN_CLICKED(ID_DECRYPT, OnDecrypt)
-	ON_BN_CLICKED(IDC_BUTTON_TxtOpt, onTextOptions)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgRot13Caesar::onUpdateGUI)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgRot13Caesar::onUpdateGUI)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgRot13Caesar::onUpdateGUI)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgRot13Caesar::onUpdateGUI)
+	ON_BN_CLICKED(IDC_RADIO5, &CDlgRot13Caesar::onUpdateGUI)
+	ON_BN_CLICKED(IDC_RADIO6, &CDlgRot13Caesar::onUpdateGUI)
+	ON_EN_UPDATE(IDC_KEY, &CDlgRot13Caesar::onUpdateGUI)
+	ON_EN_UPDATE(IDC_EDIT_ALPHCODE, &CDlgRot13Caesar::onUpdateGUI)
+	ON_BN_CLICKED(IDC_PASTE_KEY, &CDlgRot13Caesar::OnPasteKey)
+	ON_BN_CLICKED(ID_ENCRYPT, &CDlgRot13Caesar::OnEncrypt)
+	ON_BN_CLICKED(ID_DECRYPT, &CDlgRot13Caesar::OnDecrypt)
+	ON_BN_CLICKED(IDC_BUTTON_TxtOpt, &CDlgRot13Caesar::onTextOptions)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

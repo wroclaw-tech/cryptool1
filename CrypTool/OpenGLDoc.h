@@ -30,7 +30,7 @@
 #include "VolumeRenderer.h"
 #include "VolumeUtilities.h"
 #include "StreamToVolume.h"
-#include "cryptoolapp.h"
+#include "CrypToolApp.h"
 
 
 /////////////////////////////////////////////////////////////////////////////

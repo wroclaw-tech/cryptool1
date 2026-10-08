@@ -1,0 +1,88 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: brew install wxwidgets@3.2 openssl@3 gmp ninja cmake
+      - name: Build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          ninja -C build
+      - name: Package
+        run: cd build && cpack -G DragNDrop
+      - uses: actions/upload-artifact@v7
+        with:
+          name: macos
+          path: build/CrypTool-*.dmg
+          if-no-files-found: error
+
+  linux:
+    strategy:
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ninja-build libwxgtk3.2-dev libssl-dev libgmp-dev libglu1-mesa-dev xvfb xauth
+      - name: Build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+          ninja -C build
+      - name: Start CrypTool
+        env:
+          MFCWX_SNAPSHOT_DIR: ${{ runner.temp }}/snapshots
+          MFCWX_SNAPSHOT_COUNT: 2
+          MFCWX_SNAPSHOT_DISMISS: 1
+          MFCWX_SNAPSHOT_INTERVAL: 3000
+        run: |
+          mkdir -p "$MFCWX_SNAPSHOT_DIR"
+          timeout 120 xvfb-run -a build/port/app/CrypTool
+          ls "$MFCWX_SNAPSHOT_DIR"/*.png
+      - name: Package
+        run: cd build && cpack -G "DEB;TGZ"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux-${{ matrix.runner }}
+          path: |
+            build/CrypTool-*.deb
+            build/CrypTool-*.tar.gz
+          if-no-files-found: error
+
+  release:
+    needs: [macos, linux]
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: CMakeLists.txt
+          sparse-checkout-cone-mode: false
+          path: src
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(sed -n 's/^project([^ ]* VERSION \([0-9.]*\).*/\1/p' src/CMakeLists.txt)
+          tag="v${version}-build.${GITHUB_RUN_NUMBER}"
+          ls -la dist
+          gh release create "$tag" dist/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "CrypTool ${version} (build ${GITHUB_RUN_NUMBER})" --generate-notes

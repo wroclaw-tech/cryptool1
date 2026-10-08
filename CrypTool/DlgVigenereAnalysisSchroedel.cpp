@@ -22,7 +22,7 @@
 //
 
 #include "stdafx.h"
-#include "CryptoolApp.h"
+#include "CrypToolApp.h"
 #include "DlgVigenereAnalysisSchroedel.h"
 #include "CrypToolTools.h"
 #include "FileTools.h"
@@ -994,17 +994,17 @@ int VigenereAnalysisSchroedel::solveTrigram() {
 	CString unitCharacters;
 	unitCharacters.LoadStringA(IDS_STRING_VIGENERE_ANALYSIS_SCHROEDEL_UNIT_CHARACTERS);
 	CString ciphertextLength;
-	ciphertextLength.Format("%s %d %s", ciphertextLengthTag, ciphertext.GetLength(), unitCharacters);
+	ciphertextLength.Format("%s %d %s", (LPCTSTR)ciphertextLengthTag, ciphertext.GetLength(), (LPCTSTR)unitCharacters);
 	output(ciphertextLength, true);
 
 	// dump the selected keyword language(s)
 	CString selectedKeywordLanguagesTag;
-	selectedKeywordLanguagesTag.Format(IDS_STRING_VIGENERE_ANALYSIS_SCHROEDEL_SELECTED_KEYWORD_LANGUAGES, theDialog->getSelectedCiphertextLanguageAsString());
+	selectedKeywordLanguagesTag.Format(IDS_STRING_VIGENERE_ANALYSIS_SCHROEDEL_SELECTED_KEYWORD_LANGUAGES, (LPCTSTR)theDialog->getSelectedCiphertextLanguageAsString());
 	output(selectedKeywordLanguagesTag, true);
 
 	// dump the selected ciphertext language
 	CString selectedCiphertextLanguageTag;
-	selectedCiphertextLanguageTag.Format(IDS_STRING_VIGENERE_ANALYSIS_SCHROEDEL_SELECTED_CIPHERTEXT_LANGUAGE, theDialog->getSelectedCiphertextLanguageAsString());
+	selectedCiphertextLanguageTag.Format(IDS_STRING_VIGENERE_ANALYSIS_SCHROEDEL_SELECTED_CIPHERTEXT_LANGUAGE, (LPCTSTR)theDialog->getSelectedCiphertextLanguageAsString());
 	output(selectedCiphertextLanguageTag, true);
 
 	output("", true);
@@ -1475,9 +1475,9 @@ void CDlgVigenereAnalysisSchroedel::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CDlgVigenereAnalysisSchroedel, CDialog)
-	ON_BN_CLICKED(IDC_BUTTON_START_ANALYSIS, OnBnClickedStartAnalysis)
-	ON_BN_CLICKED(IDC_BUTTON_CANCEL_ANALYSIS, OnBnClickedCancelAnalysis)
-	ON_BN_CLICKED(IDC_BUTTON_SHOW_ANALYSIS_RESULTS, OnBnClickedShowAnalysisResults)
+	ON_BN_CLICKED(IDC_BUTTON_START_ANALYSIS, &CDlgVigenereAnalysisSchroedel::OnBnClickedStartAnalysis)
+	ON_BN_CLICKED(IDC_BUTTON_CANCEL_ANALYSIS, &CDlgVigenereAnalysisSchroedel::OnBnClickedCancelAnalysis)
+	ON_BN_CLICKED(IDC_BUTTON_SHOW_ANALYSIS_RESULTS, &CDlgVigenereAnalysisSchroedel::OnBnClickedShowAnalysisResults)
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
@@ -1526,7 +1526,7 @@ void CDlgVigenereAnalysisSchroedel::updateSelectedLanguages(const CString &_sele
 	// if our language is empty, we go with the default column header (language assumption not displayed)
 	if(selectedCiphertextLanguageAsString.IsEmpty()) columnHeaderCleartext.Format(IDS_STRING_VIGENERE_ANALYSIS_SCHROEDEL_COLUMNHEADERCLEARTEXT);
 	// if our language is set, we add the language assumption
-	else columnHeaderCleartext.Format(IDS_STRING_VIGENERE_ANALYSIS_SCHROEDEL_COLUMNHEADERCLEARTEXT_WITHLANGUAGE, selectedCiphertextLanguageAsString);
+	else columnHeaderCleartext.Format(IDS_STRING_VIGENERE_ANALYSIS_SCHROEDEL_COLUMNHEADERCLEARTEXT_WITHLANGUAGE, (LPCTSTR)selectedCiphertextLanguageAsString);
 	// delete old column
 	controlListPossibleResults.DeleteColumn(1);
 	// add new column
@@ -1669,7 +1669,7 @@ void CDlgVigenereAnalysisSchroedelChooseLanguages::DoDataExchange(CDataExchange*
 }
 
 BEGIN_MESSAGE_MAP(CDlgVigenereAnalysisSchroedelChooseLanguages, CDialog)
-	ON_BN_CLICKED(IDOK, OnOK)
+	ON_BN_CLICKED(IDOK, &CDlgVigenereAnalysisSchroedelChooseLanguages::OnOK)
 END_MESSAGE_MAP()
 
 BOOL CDlgVigenereAnalysisSchroedelChooseLanguages::OnInitDialog()

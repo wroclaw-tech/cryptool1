@@ -109,7 +109,7 @@ BOOL CDlgShowPrecalculatedScores::OnInitDialog()
 }
 
 BEGIN_MESSAGE_MAP(CDlgShowPrecalculatedScores, CDialog)
-	ON_BN_CLICKED(ID_SHOW_DETAILS, OnBnClickedShowSequence)
+	ON_BN_CLICKED(ID_SHOW_DETAILS, &CDlgShowPrecalculatedScores::OnBnClickedShowSequence)
 END_MESSAGE_MAP()
 
 

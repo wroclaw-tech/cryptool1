@@ -81,7 +81,7 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV-Unterstützung
 	//}}AFX_VIRTUAL
 
-	void CDlgShowPublicKeyEC::UpdateEcListBox();
+	void UpdateEcListBox();
 
 // Implementierung
 protected:

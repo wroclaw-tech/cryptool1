@@ -67,7 +67,7 @@ void CDlgPeriodicityAnalysis::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgPeriodicityAnalysis, CDialog)
 	//{{AFX_MSG_MAP(CDlgPeriodicityAnalysis)
-	ON_BN_CLICKED(IDOK, OnSaveList)
+	ON_BN_CLICKED(IDOK, &CDlgPeriodicityAnalysis::OnSaveList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

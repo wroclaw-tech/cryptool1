@@ -29,7 +29,7 @@
 #include "Cryptography.h"
 #include "HexEdit.h"
 #include "DlgBruteForceAES.h"
-#include ".\dlgbruteforceaes.h"
+#include "DlgBruteForceAES.h"
 
 // nibble i contains a parity bit if m_parity == CRYPT_PARITY_DES*: in low nibble (i & 1) and for DESX* in the first 64 bit only
 #define parity_in_nibble(i) (m_parity_check && (i & 1) && (m_parity_check != CRYPT_PARITY_DESX || i < 64/4))
@@ -67,11 +67,11 @@ void CDlgBruteForceAES::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgBruteForceAES, CDialog)
 	//{{AFX_MSG_MAP(CDlgBruteForceAES)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdate)
-	ON_CBN_SELCHANGE(IDC_KEY_LEN, OnSelchangeKeyLen)
-	ON_EN_SETFOCUS(IDC_EDIT1, OnSetfocusHexEdit)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgBruteForceAES::OnUpdate)
+	ON_CBN_SELCHANGE(IDC_KEY_LEN, &CDlgBruteForceAES::OnSelchangeKeyLen)
+	ON_EN_SETFOCUS(IDC_EDIT1, &CDlgBruteForceAES::OnSetfocusHexEdit)
 	//}}AFX_MSG_MAP
-	ON_BN_CLICKED(IDOK2, OnBnClickedOk2)
+	ON_BN_CLICKED(IDOK2, &CDlgBruteForceAES::OnBnClickedOk2)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -222,7 +222,7 @@ BOOL CDlgBruteForceAES::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	CString titel;
-	titel.Format(IDS_STRING_ANALYSE_ON,m_alg);
+	titel.Format(IDS_STRING_ANALYSE_ON,(LPCTSTR)m_alg);
 	SetWindowText(titel);
 	m_font.CreatePointFont(100,"Courier New");
 	m_text_ctl.SetFont(&m_font);

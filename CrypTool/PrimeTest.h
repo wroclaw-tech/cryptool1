@@ -33,7 +33,7 @@ class PrimeTest
   public:
   
     // supported algorithms
-    static enum Algo { AKS=1, SOLOVAY_STRASSEN=2, ERATOSTENES=3 };
+    enum Algo { AKS=1, SOLOVAY_STRASSEN=2, ERATOSTENES=3 };
 
     mpz_class n;
     double test_time;

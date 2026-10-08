@@ -91,9 +91,9 @@ void CDlgShowPublicKeyEC::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgShowPublicKeyEC, CDialog)
 	//{{AFX_MSG_MAP(CDlgShowPublicKeyEC)
-	ON_BN_CLICKED(IDC_RADIO1, OnOctalRadio)
-	ON_BN_CLICKED(IDC_RADIO2, OnDecimalRadio)
-	ON_BN_CLICKED(IDC_RADIO3, OnHexRadio)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgShowPublicKeyEC::OnOctalRadio)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgShowPublicKeyEC::OnDecimalRadio)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgShowPublicKeyEC::OnHexRadio)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -251,7 +251,7 @@ BOOL CDlgShowPublicKeyEC::OnInitDialog()
 	// m_dom_param_listview aufbauen
 	UpdateData(TRUE);
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_EC_DOMAIN_PARAMETER,pc_str,STR_LAENGE_STRING_TABLE);
-	sprintf(pc_str1, pc_str, curveID);
+	sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 	m_ec_dom_par_editbox = (CString) pc_str1;
 	UpdateData(FALSE);
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_PARAMETER,pc_str,STR_LAENGE_STRING_TABLE);

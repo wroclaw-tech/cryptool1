@@ -23,7 +23,7 @@
 #include "adfgvx.h"
 #include "afxwin.h"
 #include <string>
-#include <AlphabetTextEdit.h>
+#include "AlphabetTextEdit.h"
 #include "ToolTipButton.h"
 
 // CDlgAdfgvxManual-Dialogfeld
@@ -34,7 +34,7 @@ class CDlgAdfgvxManual : public CDialog
 	DECLARE_DYNAMIC(CDlgAdfgvxManual)
 
 public:
-	CDlgAdfgvxManual::CDlgAdfgvxManual(char* infile, CString oldTitle, CWnd* pParent);
+	CDlgAdfgvxManual(char* infile, CString oldTitle, CWnd* pParent);
 	//CDlgAdfgvxManual(CWnd* pParent = NULL);   // Standardkonstruktor
 	virtual ~CDlgAdfgvxManual();
 
@@ -119,7 +119,7 @@ private:
 	CString oldTitle;
 	CString oldEntry;
 	basic_string <char>::iterator strIterTyp;	
-	CString CDlgAdfgvxManual::CheckInput(CString oldEntry, CString input);
+	CString CheckInput(CString oldEntry, CString input);
 	CString numberedPassword;
 	bool analysed;
 	int validCiphertext;
@@ -136,8 +136,8 @@ private:
 	CAlphabetTextEdit editTranspositionPassword;
 
 public:
-	BOOL CDlgAdfgvxManual::OnInitDialog();
-	void CDlgAdfgvxManual::Permutate();
+	BOOL OnInitDialog();
+	void Permutate();
 
 	afx_msg void OnBnClickedButtonStringbox();
 

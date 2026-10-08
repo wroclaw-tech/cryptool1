@@ -231,20 +231,20 @@ void CDlgVerifySignature::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgVerifySignature, CDialog)
 	//{{AFX_MSG_MAP(CDlgVerifySignature)
-	ON_NOTIFY(NM_CLICK, IDC_LIST2, OnClickList2)
-	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST2, OnItemclickList2)
-	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST2, OnColumnclickList2)
-	ON_BN_CLICKED(IDC_CHECK_DSA_KEYS, OnCheckDsaKey)
-	ON_BN_CLICKED(IDC_CHECK_EC_KEYS, OnCheckEcKey)
-	ON_BN_CLICKED(IDC_CHECK_RSA_KEYS, OnCheckRsaKey)
-	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST2, OnKeydownList2)
-	ON_BN_CLICKED(IDC_BUTTON1, OnButtonSearchKey)
-	ON_BN_CLICKED(IDC_RADIO5, OnRadioECDSA)
-	ON_BN_CLICKED(IDC_RADIO6, OnRadioECNR)
-	ON_BN_CLICKED(IDC_RADIO7, OnRadioSHA1)
-	ON_BN_CLICKED(IDC_RADIO8, OnRadioRIPEMD)
-	ON_BN_CLICKED(IDC_RADIO1, OnRadioAffineCoord)
-	ON_BN_CLICKED(IDC_RADIO2, OnRadioProjectCoord)
+	ON_NOTIFY(NM_CLICK, IDC_LIST2, &CDlgVerifySignature::OnClickList2)
+	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST2, &CDlgVerifySignature::OnItemclickList2)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST2, &CDlgVerifySignature::OnColumnclickList2)
+	ON_BN_CLICKED(IDC_CHECK_DSA_KEYS, &CDlgVerifySignature::OnCheckDsaKey)
+	ON_BN_CLICKED(IDC_CHECK_EC_KEYS, &CDlgVerifySignature::OnCheckEcKey)
+	ON_BN_CLICKED(IDC_CHECK_RSA_KEYS, &CDlgVerifySignature::OnCheckRsaKey)
+	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST2, &CDlgVerifySignature::OnKeydownList2)
+	ON_BN_CLICKED(IDC_BUTTON1, &CDlgVerifySignature::OnButtonSearchKey)
+	ON_BN_CLICKED(IDC_RADIO5, &CDlgVerifySignature::OnRadioECDSA)
+	ON_BN_CLICKED(IDC_RADIO6, &CDlgVerifySignature::OnRadioECNR)
+	ON_BN_CLICKED(IDC_RADIO7, &CDlgVerifySignature::OnRadioSHA1)
+	ON_BN_CLICKED(IDC_RADIO8, &CDlgVerifySignature::OnRadioRIPEMD)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgVerifySignature::OnRadioAffineCoord)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgVerifySignature::OnRadioProjectCoord)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -908,7 +908,7 @@ void CDlgVerifySignature::OnButtonSearchKey()
 		// Info: Schlüsselbezeichner signKey nicht in Liste vorhanden,
 		// obwohl alle Schlüsseltypen durchsucht wurden
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_MSG_KEY_IDENTIFIER_NOT_FOUND,pc_str1,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str, pc_str1, signKey);
+		sprintf(pc_str, pc_str1, (LPCTSTR)signKey);
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_ERR_UNKNOWN_SIGNATURE,pc_str1,STR_LAENGE_STRING_TABLE);
 		MessageBox(pc_str,pc_str1,MB_ICONWARNING|MB_OK);
 		return; // no selection
@@ -931,7 +931,7 @@ void CDlgVerifySignature::OnButtonSearchKey()
 			// Info: Schlüsselbezeichner nicht in Liste vorhanden, obwohl alle Schlüsseltypen
 			// durchsucht wurden
 			LoadString(AfxGetInstanceHandle(),IDS_STRING_MSG_KEY_IDENTIFIER_NOT_FOUND,pc_str1,STR_LAENGE_STRING_TABLE);
-			sprintf(pc_str, pc_str1, signKey);
+			sprintf(pc_str, pc_str1, (LPCTSTR)signKey);
 			LoadString(AfxGetInstanceHandle(),IDS_STRING_ERR_UNKNOWN_SIGNATURE,pc_str1,STR_LAENGE_STRING_TABLE);
 			MessageBox(pc_str,pc_str1,MB_ICONWARNING|MB_OK);
 			return; // no selection

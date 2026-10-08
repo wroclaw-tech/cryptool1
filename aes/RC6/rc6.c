@@ -32,10 +32,10 @@
  * shifts: when shifting a [32-bit] dword, the shift count is treated as
  * a number modulo 32. */
 #define ROTL(x,count) \
-  (((x) >> (thirtytwo-(count))) | ((x) << (count)))
+  (((x) >> ((thirtytwo-(count)) & 31)) | ((x) << ((count) & 31)))
 
 #define ROTR(x,count) \
-  (((x) << (thirtytwo-(count))) | ((x) >> (count)))
+  (((x) << ((thirtytwo-(count)) & 31)) | ((x) >> ((count) & 31)))
 
 
 

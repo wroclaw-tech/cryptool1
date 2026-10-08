@@ -24,7 +24,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "DlgAdfgvxIntro.h"
-#include ".\dlgadfgvxintro.h"
+#include "DlgAdfgvxIntro.h"
 #include "CrypToolTools.h"
 
 
@@ -49,7 +49,7 @@ void DlgAdfgvxIntro::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(DlgAdfgvxIntro, CDialog)
-	ON_BN_CLICKED(IDC_CHECK1, OnBnClickedCheck1)
+	ON_BN_CLICKED(IDC_CHECK1, &DlgAdfgvxIntro::OnBnClickedCheck1)
 END_MESSAGE_MAP()
 
 
@@ -61,7 +61,7 @@ void DlgAdfgvxIntro::OnBnClickedCheck1()
 
 	if ( CT_OPEN_REGISTRY_SETTINGS( KEY_WRITE, IDS_REGISTRY_SETTINGS, "ADFGVX" ) == ERROR_SUCCESS )
 	{
-		CT_WRITE_REGISTRY(unsigned long(noIntro), "ShowIntro");
+		CT_WRITE_REGISTRY((unsigned long)(noIntro), "ShowIntro");
 		CT_CLOSE_REGISTRY();
 	}
 	else

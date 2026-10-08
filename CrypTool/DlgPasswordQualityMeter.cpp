@@ -237,9 +237,9 @@ void CDlgPasswordQualityMeter::UpdateUserInterface()
 }
 
 BEGIN_MESSAGE_MAP(CDlgPasswordQualityMeter, CDialog)
-	ON_EN_CHANGE(IDC_EDIT_PASSWORD, EditPasswordChanged)
-	ON_BN_CLICKED(IDC_CHECK_SHOWPASSWORD, OnBnClickedCheckShowpassword)
-	ON_BN_CLICKED(ID_CONFIGURE_PASSWORD_GUIDELINES, OnBnClickedConfigurePasswordGuidelines)
+	ON_EN_CHANGE(IDC_EDIT_PASSWORD, &CDlgPasswordQualityMeter::EditPasswordChanged)
+	ON_BN_CLICKED(IDC_CHECK_SHOWPASSWORD, &CDlgPasswordQualityMeter::OnBnClickedCheckShowpassword)
+	ON_BN_CLICKED(ID_CONFIGURE_PASSWORD_GUIDELINES, &CDlgPasswordQualityMeter::OnBnClickedConfigurePasswordGuidelines)
 END_MESSAGE_MAP()
 
 

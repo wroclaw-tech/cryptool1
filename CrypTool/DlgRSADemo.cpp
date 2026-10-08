@@ -21,7 +21,7 @@
 // RSA_mit_kleinenPZ.cpp: Implementierungsdatei
 //
 #include "stdafx.h"
-#include "Afx.h"
+#include "afx.h"
 #include "CrypToolApp.h"
 #include "DlgOptionsRSADemo.h"
 #include "DlgRSADemo.h"
@@ -157,21 +157,21 @@ void CDlgRSADemo::DoDataExchange(CDataExchange* pDX)
 //******************************************************************************
 BEGIN_MESSAGE_MAP(CDlgRSADemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgRSADemo)
-	ON_BN_CLICKED(IDC_BUTTON_PZ_GENERIEREN, OnButtonGeneratePrimes)
-	ON_BN_CLICKED(IDC_BUTTON2, OnButtonUpdateRSAParameter)
-	ON_BN_CLICKED(IDC_OPTIONEN, OnButtonOptions)
-	ON_BN_CLICKED(IDC_BUTTON_VERSCHLUESSELN, OnButtonEncrypt)
-	ON_BN_CLICKED(IDC_BUTTON_ENTSCHLUESSELN, OnButtonDecrypt)
-	ON_BN_CLICKED(IDC_ENDDIALOG, OnEndDialog)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdatePrimeP)
-	ON_EN_UPDATE(IDC_EDIT2, OnUpdatePrimeQ)
-	ON_EN_UPDATE(IDC_EDIT3, OnUpdateModulN)
-	ON_EN_UPDATE(IDC_EDIT5, OnUpdatePublicKeyE)
-	ON_EN_UPDATE(IDC_EDIT10, OnUpdateRSAInput)
-	ON_BN_CLICKED(IDC_RADIO1, OnRadioRSAText)
-	ON_BN_CLICKED(IDC_RADIO2, OnRadioRSANumbers)
-	ON_BN_CLICKED(IDC_RADIO3, OnRadioRSAComplete)
-	ON_BN_CLICKED(IDC_RADIO4, OnRadioRSAPublicKey)
+	ON_BN_CLICKED(IDC_BUTTON_PZ_GENERIEREN, &CDlgRSADemo::OnButtonGeneratePrimes)
+	ON_BN_CLICKED(IDC_BUTTON2, &CDlgRSADemo::OnButtonUpdateRSAParameter)
+	ON_BN_CLICKED(IDC_OPTIONEN, &CDlgRSADemo::OnButtonOptions)
+	ON_BN_CLICKED(IDC_BUTTON_VERSCHLUESSELN, &CDlgRSADemo::OnButtonEncrypt)
+	ON_BN_CLICKED(IDC_BUTTON_ENTSCHLUESSELN, &CDlgRSADemo::OnButtonDecrypt)
+	ON_BN_CLICKED(IDC_ENDDIALOG, &CDlgRSADemo::OnEndDialog)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgRSADemo::OnUpdatePrimeP)
+	ON_EN_UPDATE(IDC_EDIT2, &CDlgRSADemo::OnUpdatePrimeQ)
+	ON_EN_UPDATE(IDC_EDIT3, &CDlgRSADemo::OnUpdateModulN)
+	ON_EN_UPDATE(IDC_EDIT5, &CDlgRSADemo::OnUpdatePublicKeyE)
+	ON_EN_UPDATE(IDC_EDIT10, &CDlgRSADemo::OnUpdateRSAInput)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgRSADemo::OnRadioRSAText)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgRSADemo::OnRadioRSANumbers)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgRSADemo::OnRadioRSAComplete)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgRSADemo::OnRadioRSAPublicKey)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -604,7 +604,7 @@ void CDlgRSADemo::InitPrivateRSAParameter()
 			// an invalid parameter e, we present two options to the user: either going 
 			// with e=2^16+1 (the default) or computing e with regards to p and q
 			CString message;
-			message.Format(IDS_STRING_RSATUT_WRONG_PUBLICKEY, m_edit_e, m_edit_phi_of_N);
+			message.Format(IDS_STRING_RSATUT_WRONG_PUBLICKEY, (LPCTSTR)m_edit_e, (LPCTSTR)m_edit_phi_of_N);
 			if(AfxMessageBox(message, MB_ICONINFORMATION | MB_YESNO) == IDYES) {
 				if(!calculateSmallestE(m_edit_e, m_edit_p, m_edit_q)) {
 					CString message;
@@ -1194,14 +1194,14 @@ void CDlgRSADemo::SetHeadLine(CString &mHeader, int IDS_STRING_ID, int base, int
 	mHeader = line;
 }
 
-void CDlgRSADemo::SetHeadLine(CString &mHeader, int IDS_STRING_ID, CString &Str, const char *str2)
+void CDlgRSADemo::SetHeadLine(CString &mHeader, int IDS_STRING_ID, const CString &Str, const char *str2)
 {
 	char line[IDS_STRINGLENGTH];
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_ID,pc_str,STR_LAENGE_STRING_TABLE);
 	if ( !str2 )
-		sprintf( line, pc_str, Str );
+		sprintf( line, pc_str, (LPCTSTR)Str );
 	else
-		sprintf( line, pc_str, Str, str2 );
+		sprintf( line, pc_str, (LPCTSTR)Str, str2 );
 	mHeader = line;
 }
 
@@ -2039,7 +2039,7 @@ CMyRSADemoEdit::~CMyRSADemoEdit()
 BEGIN_MESSAGE_MAP(CMyRSADemoEdit, CEdit)
 	//{{AFX_MSG_MAP(CMyRSADemoEdit)
 	ON_WM_CHAR()
-	ON_COMMAND(ID_EDIT_PASTE, OnMyPaste)
+	ON_COMMAND(ID_EDIT_PASTE, &CMyRSADemoEdit::OnMyPaste)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

@@ -146,16 +146,16 @@ void CDlgKeyAsymGeneration::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgKeyAsymGeneration, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeyAsymGeneration)
-	ON_CBN_SELCHANGE(IDC_COMBO3, OnSelchangeEcCombo)
-	ON_BN_CLICKED(IDC_RADIO1, OnRSARadio)
-	ON_BN_CLICKED(IDC_RADIO2, OnDSARadio)
-	ON_BN_CLICKED(IDC_RADIO3, OnECRadio)
-	ON_BN_CLICKED(IDC_RADIO5, OnDecimalRadio)
-	ON_BN_CLICKED(IDC_RADIO4, OnOctalRadio)
-	ON_BN_CLICKED(IDC_RADIO6, OnHexRadio)
-	ON_BN_CLICKED(IDC_BUTTON_P12IMPORT, OnButtonP12import)
-	ON_NOTIFY(NM_CLICK, IDC_LIST1, OnClickList)
-	ON_EN_KILLFOCUS(IDC_EDIT_LV, OnKillfocusEditLv)
+	ON_CBN_SELCHANGE(IDC_COMBO3, &CDlgKeyAsymGeneration::OnSelchangeEcCombo)
+	ON_BN_CLICKED(IDC_RADIO1, &CDlgKeyAsymGeneration::OnRSARadio)
+	ON_BN_CLICKED(IDC_RADIO2, &CDlgKeyAsymGeneration::OnDSARadio)
+	ON_BN_CLICKED(IDC_RADIO3, &CDlgKeyAsymGeneration::OnECRadio)
+	ON_BN_CLICKED(IDC_RADIO5, &CDlgKeyAsymGeneration::OnDecimalRadio)
+	ON_BN_CLICKED(IDC_RADIO4, &CDlgKeyAsymGeneration::OnOctalRadio)
+	ON_BN_CLICKED(IDC_RADIO6, &CDlgKeyAsymGeneration::OnHexRadio)
+	ON_BN_CLICKED(IDC_BUTTON_P12IMPORT, &CDlgKeyAsymGeneration::OnButtonP12import)
+	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CDlgKeyAsymGeneration::OnClickList)
+	ON_EN_KILLFOCUS(IDC_EDIT_LV, &CDlgKeyAsymGeneration::OnKillfocusEditLv)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BUTTON1, &CDlgKeyAsymGeneration::OnBnClickedButton1)
 END_MESSAGE_MAP()
@@ -440,7 +440,7 @@ void CDlgKeyAsymGeneration::UpdateEcListBox(EcDomParam_ac_ptr curveParameter, Ec
 	{
 		UpdateData(TRUE);
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_EC_DOMAIN_PARAMETER,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, curveID);
+		sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 		m_ec_dom_par_description = (CString) pc_str1;
 		UpdateData(FALSE);
 		
@@ -1074,7 +1074,7 @@ void CDlgKeyAsymGeneration::CreateAsymKeys()
 
 	// user-information: key pair succesfully created.
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_ASYMKEY_MSG_STORE_KEYPAIR,pc_str,STR_LAENGE_STRING_TABLE);
-	sprintf(pc_str1, pc_str, UserKeyId);
+	sprintf(pc_str1, pc_str, (LPCTSTR)UserKeyId);
 	LoadString(AfxGetInstanceHandle(),IDS_STRING_MSG_KEY_GENERATION_TIME,pc_str,STR_LAENGE_STRING_TABLE);
 	char temp[256];
 	char strDuration[20];

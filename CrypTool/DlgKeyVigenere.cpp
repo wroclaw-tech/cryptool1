@@ -58,7 +58,7 @@ void CDlgKeyVigenereAnalyisis::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgKeyVigenereAnalyisis, CDialog)
 	//{{AFX_MSG_MAP(CDlgKeyVigenereAnalyisis)
-	ON_EN_UPDATE(IDC_EDIT1, OnUpdateEdit1)
+	ON_EN_UPDATE(IDC_EDIT1, &CDlgKeyVigenereAnalyisis::OnUpdateEdit1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

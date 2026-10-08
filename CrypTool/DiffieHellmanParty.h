@@ -34,11 +34,21 @@
 /*****************************************************************/
 
 // Miracl-Bibliothek (für große Zahlen)
-#include "../libmiracl/include/BIG.H"
+#include "big.h"
 
 #include <string>
 
-class DHError;
+// Klasse zur Ausnahmebehandlung/Fehlerbehandlung
+class DHError
+{
+private:
+	long ErrorCode;
+
+public:
+	DHError(long e) { ErrorCode = e; };
+	
+	long GetErrorCode() { return ErrorCode; };
+};
 
 class DiffieHellmanParty
 {
@@ -83,18 +93,6 @@ public:
 	// "quick-n-dirty"-Implementierung der Klasse DiffieHellmanLogFile
 	std::string GetStrSecret() { return strSecret; };
 	bool HasSecret() { return bHasSecret; };
-};
-
-// Klasse zur Ausnahmebehandlung/Fehlerbehandlung
-class DHError
-{
-private:
-	long ErrorCode;
-
-public:
-	DHError(long e) { ErrorCode = e; };
-	
-	long GetErrorCode() { return ErrorCode; };
 };
 
 // Fehlercodes

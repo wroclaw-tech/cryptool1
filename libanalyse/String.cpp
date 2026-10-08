@@ -1204,9 +1204,15 @@ String common_suffix(const String& x, const String& y, int startpos)
 
 // IO
 
+#ifdef _MSC_VER
+#define LA_IPFX(s) (s).ipfx(0)
+#else
+#define LA_IPFX(s) bool(istream::sentry(s))
+#endif
+
 istream& operator>>(istream& s, String& x)
 {
-  if (!s.ipfx(0) || (!(s.flags() & ios::skipws) && !ws(s)))
+  if (!LA_IPFX(s) || (!(s.flags() & ios::skipws) && !ws(s)))
   {
     s.clear(ios::failbit|s.rdstate()); // Redundant if using GNU iostreams.
     return s;
@@ -1225,7 +1231,7 @@ istream& operator>>(istream& s, String& x)
   }
   x.rep->s[i] = 0;
   x.rep->len = i;
-  int new_state = s.rdstate();
+  ios::iostate new_state = s.rdstate();
   if (i == 0) new_state |= ios::failbit;
   if (ch == EOF) new_state |= ios::eofbit;
   s.clear(new_state);
@@ -1234,7 +1240,7 @@ istream& operator>>(istream& s, String& x)
 
 int readline(istream& s, String& x, char terminator, int discard)
 {
-  if (!s.ipfx(0))
+  if (!LA_IPFX(s))
     return 0;
   int ch;
   int i = 0;

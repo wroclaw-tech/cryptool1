@@ -72,7 +72,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // Behandlungsroutinen für Nachrichten CDlgPINAccess 
 
-int CDlgPINAccess::DoModal() 
+INT_PTR CDlgPINAccess::DoModal() 
 {
 	// TODO: Speziellen Code hier einfügen und/oder Basisklasse aufrufen
 	
@@ -103,7 +103,7 @@ BOOL CDlgPINAccess::OnInitDialog()
 		m_ModusInfoBox = (CString) pc_str;
 
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_REQ_DEL_KEYDATA,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, UserKeyId);
+		sprintf(pc_str1, pc_str, (LPCTSTR)UserKeyId);
 		m_InfoBox = (CString) pc_str1;
 	}
 	else
@@ -114,7 +114,7 @@ BOOL CDlgPINAccess::OnInitDialog()
 		m_ModusInfoBox = (CString) pc_str;
 
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_REQUEST_FOR_PIN,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, UserKeyId);
+		sprintf(pc_str1, pc_str, (LPCTSTR)UserKeyId);
 		m_InfoBox = (CString) pc_str1;
 	}
 	

@@ -23,7 +23,7 @@
 
 #include "stdafx.h"
 #include "CrypToolApp.h"
-#include "RSAStereotypedMSGDlg.h"
+#include "rsastereotypedmsgdlg.h"
 #include "NTLExpPars.h"
 #include "FileTools.h"
 #ifdef _DEBUG
@@ -74,31 +74,31 @@ BEGIN_MESSAGE_MAP(CRSAStereotypedMSGDlg, CDialog)
 	//{{AFX_MSG_MAP(CRSAStereotypedMSGDlg)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_EN_CHANGE(IDC_EDITPLAIN, OnChangeEditplain)
-	ON_EN_CHANGE(IDC_EDITLENGTH, OnChangeEditlength)
-	ON_EN_CHANGE(IDC_EDITPOS, OnChangeEditpos)
-	ON_EN_CHANGE(IDC_EDITBITSOFN, OnChangeEditbitsofn)
-	ON_EN_CHANGE(IDC_EDITN, OnChangeEditn)
-	ON_EN_CHANGE(IDC_EDITE, OnChangeEdite)
-	ON_BN_CLICKED(IDC_BUTTONENCRYPT, OnButtonencrypt)
-	ON_BN_CLICKED(IDC_RADIONUMBER, OnRadionumber)
-	ON_BN_CLICKED(IDC_RADIOHEX, OnRadiohex)
-	ON_EN_KILLFOCUS(IDC_EDITCIPHER, OnKillfocusEditcipher)
-	ON_EN_CHANGE(IDC_EDITH, OnChangeEdith)
-	ON_EN_UPDATE(IDC_EDITCIPHER, OnUpdateEditcipher)
-	ON_BN_CLICKED(IDC_BUTTONSTART, OnButtonstart)
+	ON_EN_CHANGE(IDC_EDITPLAIN, &CRSAStereotypedMSGDlg::OnChangeEditplain)
+	ON_EN_CHANGE(IDC_EDITLENGTH, &CRSAStereotypedMSGDlg::OnChangeEditlength)
+	ON_EN_CHANGE(IDC_EDITPOS, &CRSAStereotypedMSGDlg::OnChangeEditpos)
+	ON_EN_CHANGE(IDC_EDITBITSOFN, &CRSAStereotypedMSGDlg::OnChangeEditbitsofn)
+	ON_EN_CHANGE(IDC_EDITN, &CRSAStereotypedMSGDlg::OnChangeEditn)
+	ON_EN_CHANGE(IDC_EDITE, &CRSAStereotypedMSGDlg::OnChangeEdite)
+	ON_BN_CLICKED(IDC_BUTTONENCRYPT, &CRSAStereotypedMSGDlg::OnButtonencrypt)
+	ON_BN_CLICKED(IDC_RADIONUMBER, &CRSAStereotypedMSGDlg::OnRadionumber)
+	ON_BN_CLICKED(IDC_RADIOHEX, &CRSAStereotypedMSGDlg::OnRadiohex)
+	ON_EN_KILLFOCUS(IDC_EDITCIPHER, &CRSAStereotypedMSGDlg::OnKillfocusEditcipher)
+	ON_EN_CHANGE(IDC_EDITH, &CRSAStereotypedMSGDlg::OnChangeEdith)
+	ON_EN_UPDATE(IDC_EDITCIPHER, &CRSAStereotypedMSGDlg::OnUpdateEditcipher)
+	ON_BN_CLICKED(IDC_BUTTONSTART, &CRSAStereotypedMSGDlg::OnButtonstart)
 	ON_WM_TIMER()
-	ON_BN_CLICKED(IDC_BUTTONCANCELATTACK, OnButtoncancelattack)
-	ON_BN_CLICKED(IDC_RANDOM, OnRandom)
+	ON_BN_CLICKED(IDC_BUTTONCANCELATTACK, &CRSAStereotypedMSGDlg::OnButtoncancelattack)
+	ON_BN_CLICKED(IDC_RANDOM, &CRSAStereotypedMSGDlg::OnRandom)
 	ON_WM_SETCURSOR()
 	ON_WM_CLOSE()
-	ON_BN_CLICKED(IDC_BUTTONLOG, OnButtonlog)
-	ON_BN_CLICKED(IDC_RADIOCHOICE, OnRadiochoice)
-	ON_BN_CLICKED(IDC_BUTTONDELETE, OnButtondelete)
-	ON_EN_CHANGE(IDC_EDITPLAINFULL, OnChangeEditplainfull)
-	ON_EN_KILLFOCUS(IDC_EDITE, OnKillfocusEdite)
-	ON_BN_CLICKED(IDC_RADIOCHOICE2, OnRadiochoice)
-	ON_EN_KILLFOCUS(IDC_EDITN, OnKillfocusEditn)
+	ON_BN_CLICKED(IDC_BUTTONLOG, &CRSAStereotypedMSGDlg::OnButtonlog)
+	ON_BN_CLICKED(IDC_RADIOCHOICE, &CRSAStereotypedMSGDlg::OnRadiochoice)
+	ON_BN_CLICKED(IDC_BUTTONDELETE, &CRSAStereotypedMSGDlg::OnButtondelete)
+	ON_EN_CHANGE(IDC_EDITPLAINFULL, &CRSAStereotypedMSGDlg::OnChangeEditplainfull)
+	ON_EN_KILLFOCUS(IDC_EDITE, &CRSAStereotypedMSGDlg::OnKillfocusEdite)
+	ON_BN_CLICKED(IDC_RADIOCHOICE2, &CRSAStereotypedMSGDlg::OnRadiochoice)
+	ON_EN_KILLFOCUS(IDC_EDITN, &CRSAStereotypedMSGDlg::OnKillfocusEditn)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -798,7 +798,7 @@ void CRSAStereotypedMSGDlg::OnChangeEditplainfull()
 		MaxChars = to_ZZ(floor(log(N+255)/log(256.0)));
 	else
 		MaxChars = 0;
-	chars.Format("%d (%s)",tmp.GetLength(),toString(MaxChars,10,0));
+	chars.Format("%d (%s)",tmp.GetLength(),(LPCTSTR)toString(MaxChars,10,0));
 	SetDlgItemText(IDC_EDITPLAINLENGTH,chars);
 	SetDlgItemText(IDC_EDITCIPHER,"");
 	UpdateSliders();

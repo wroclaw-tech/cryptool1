@@ -66,7 +66,7 @@ void CDlgSecretSharingReveal::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgSecretSharingReveal, CDialog)
-	ON_BN_CLICKED(IDC_BUTTON_LOG, OnShowLog)
+	ON_BN_CLICKED(IDC_BUTTON_LOG, &CDlgSecretSharingReveal::OnShowLog)
 END_MESSAGE_MAP()
 
 BOOL CDlgSecretSharingReveal::OnInitDialog()

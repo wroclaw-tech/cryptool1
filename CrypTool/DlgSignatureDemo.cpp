@@ -87,20 +87,20 @@ void CDlgSignatureDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgSignatureDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgSignatureDemo)
-	ON_BN_CLICKED(IDC_SELECT_DOCUMENT, OnSelectDocument)
-	ON_BN_CLICKED(IDC_INFO_DOCUMENT, OnInfoDocument)
-	ON_BN_CLICKED(IDC_SELECT_KEY, OnSelectKey)
-	ON_BN_CLICKED(IDC_INFO_KEY, OnInfoKey)
-	ON_BN_CLICKED(IDC_SELECT_HASHALG, OnSelectHashAlg)
-	ON_BN_CLICKED(IDC_COMPUTE, OnCompute)
-	ON_BN_CLICKED(IDC_INFO_HASH, OnInfoHash)
-	ON_BN_CLICKED(IDC_ENCRYPT, OnEncrypt)
-	ON_BN_CLICKED(IDC_INFO_HASH_ENC, OnInfoHashEnc)
-	ON_BN_CLICKED(IDC_SELECT_CERT, OnSelectCert)
-	ON_BN_CLICKED(IDC_INFO_ALG, OnInfoAlg)
-	ON_BN_CLICKED(IDC_COMBINE, OnCombine)
-	ON_BN_CLICKED(IDC_INFO_CERT, OnInfoCert)
-	ON_BN_CLICKED(IDC_INFO_SIGN, OnInfoSign)
+	ON_BN_CLICKED(IDC_SELECT_DOCUMENT, &CDlgSignatureDemo::OnSelectDocument)
+	ON_BN_CLICKED(IDC_INFO_DOCUMENT, &CDlgSignatureDemo::OnInfoDocument)
+	ON_BN_CLICKED(IDC_SELECT_KEY, &CDlgSignatureDemo::OnSelectKey)
+	ON_BN_CLICKED(IDC_INFO_KEY, &CDlgSignatureDemo::OnInfoKey)
+	ON_BN_CLICKED(IDC_SELECT_HASHALG, &CDlgSignatureDemo::OnSelectHashAlg)
+	ON_BN_CLICKED(IDC_COMPUTE, &CDlgSignatureDemo::OnCompute)
+	ON_BN_CLICKED(IDC_INFO_HASH, &CDlgSignatureDemo::OnInfoHash)
+	ON_BN_CLICKED(IDC_ENCRYPT, &CDlgSignatureDemo::OnEncrypt)
+	ON_BN_CLICKED(IDC_INFO_HASH_ENC, &CDlgSignatureDemo::OnInfoHashEnc)
+	ON_BN_CLICKED(IDC_SELECT_CERT, &CDlgSignatureDemo::OnSelectCert)
+	ON_BN_CLICKED(IDC_INFO_ALG, &CDlgSignatureDemo::OnInfoAlg)
+	ON_BN_CLICKED(IDC_COMBINE, &CDlgSignatureDemo::OnCombine)
+	ON_BN_CLICKED(IDC_INFO_CERT, &CDlgSignatureDemo::OnInfoCert)
+	ON_BN_CLICKED(IDC_INFO_SIGN, &CDlgSignatureDemo::OnInfoSign)
 	ON_WM_PAINT()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -265,13 +265,13 @@ void CDlgSignatureDemo::OnInfoKey()
 	m_DisplayContent.LoadString(IDS_CONTENT_KEY);
 	sOutput.Format(IDS_BITLENGTH_MODN, m_Cert->GetBitLength());
 	m_DisplayInfo += sOutput;
-	sOutput.Format(IDS_MOD_N, sModN);
+	sOutput.Format(IDS_MOD_N, (LPCTSTR)sModN);
 	m_DisplayInfo += sOutput;
-	sOutput.Format(IDS_PHI_N, sPhiN);
+	sOutput.Format(IDS_PHI_N, (LPCTSTR)sPhiN);
 	m_DisplayInfo += sOutput;
-	sOutput.Format(IDS_KEY_PUBLIC, sKeyPublic);
+	sOutput.Format(IDS_KEY_PUBLIC, (LPCTSTR)sKeyPublic);
 	m_DisplayInfo += sOutput;
-	sOutput.Format(IDS_KEY_PRIVATE, sKeyPrivate);
+	sOutput.Format(IDS_KEY_PRIVATE, (LPCTSTR)sKeyPrivate);
 	m_DisplayInfo += sOutput;
 	UpdateData(FALSE);
 }
@@ -524,7 +524,7 @@ void CDlgSignatureDemo::OnInfoHash()
 	UpdateData(TRUE);
 	int srcSize = m_osHash.noctets;
 	dataToHexDump(m_osHash.octets, m_osHash.noctets, m_DisplayInfo); /*FIXME*/
-	m_DisplayContent.Format(IDS_STRING_HASH_VALUE_OF, m_Cert->GetHashAlg(), m_sFileName);
+	m_DisplayContent.Format(IDS_STRING_HASH_VALUE_OF, (LPCTSTR)m_Cert->GetHashAlg(), (LPCTSTR)m_sFileName);
 	UpdateData(FALSE);
 }
 
@@ -582,17 +582,17 @@ void CDlgSignatureDemo::OnInfoHashEnc()
 	UpdateData(TRUE);
 	m_DisplayInfo.Empty();
 	m_DisplayContent.LoadString(IDS_CONTENT_HASH_ENC);
-	Text.Format(IDS_PADDING, Padding);
+	Text.Format(IDS_PADDING, (LPCTSTR)Padding);
 	m_DisplayInfo += Text;
-	Text.Format(IDS_DERCODE, Encoding);
+	Text.Format(IDS_DERCODE, (LPCTSTR)Encoding);
 	m_DisplayInfo += Text;
-	Text.Format(IDS_HASHVALUE, Hash);
+	Text.Format(IDS_HASHVALUE, (LPCTSTR)Hash);
 	m_DisplayInfo += Text+"\r\n";
-	Text.Format(IDS_HASHDER, HashDER);
+	Text.Format(IDS_HASHDER, (LPCTSTR)HashDER);
 	m_DisplayInfo += Text;
 	Text.Format(IDS_BITLENGTH, m_osHashDER.noctets*8);
 	m_DisplayInfo += Text+"\r\n";
-	Text.Format(IDS_HASHENC, HashEnc);
+	Text.Format(IDS_HASHENC, (LPCTSTR)HashEnc);
 	m_DisplayInfo += Text;
 	Text.Format(IDS_BITLENGTH, m_osHashEnc.noctets*8);
 	m_DisplayInfo += Text+"\r\n";
@@ -644,11 +644,11 @@ void CDlgSignatureDemo::OnInfoAlg()
 	UpdateData(TRUE);
 	m_DisplayInfo.Empty();
 	m_DisplayContent.LoadString(IDS_CONTENT_ALG);
-	Text.Format(IDS_NAME2, m_Cert->GetHashAlg(), "");
+	Text.Format(IDS_NAME2, (LPCTSTR)m_Cert->GetHashAlg(), "");
 	m_DisplayInfo += Text;
 	Text.Format(IDS_BITLENGTH, m_Cert->GetHashLength());
 	m_DisplayInfo += Text;
-	Text.Format(IDS_DERCODE, Encoding);
+	Text.Format(IDS_DERCODE, (LPCTSTR)Encoding);
 	m_DisplayInfo += Text;
 	UpdateData(FALSE);
 
@@ -682,17 +682,17 @@ void CDlgSignatureDemo::OnOK()
 		theApp.SecudeLib.aux_OctetString2file(&m_SignText, outfile,2);
 		NewDoc = theApp.OpenDocumentFileNoMRU(outfile);
 		remove(outfile);
-		m_sFileNameNew.Format(IDS_RSA_SIGNATURE_OF, m_Cert->GetHashAlg(), m_sFileName);
+		m_sFileNameNew.Format(IDS_RSA_SIGNATURE_OF, (LPCTSTR)m_Cert->GetHashAlg(), (LPCTSTR)m_sFileName);
 		NewDoc->SetTitle(m_sFileNameNew);
 
 		CString Text;
 		CString Msg;
 		Msg.LoadString(IDS_CONGRATULATIONS);
-		Text.Format(IDS_RSASGN_DOCNAME, m_sFileName);
+		Text.Format(IDS_RSASGN_DOCNAME, (LPCTSTR)m_sFileName);
 		Msg += Text;		
-		Text.Format(m_bPSEIsExtern? IDS_RSASGN_PSE_IMP: IDS_RSASGN_PSE, m_Cert->CreateUserKeyID());
+		Text.Format(m_bPSEIsExtern? IDS_RSASGN_PSE_IMP: IDS_RSASGN_PSE, (LPCTSTR)m_Cert->CreateUserKeyID());
 		Msg += Text;
-		Text.Format(IDS_RSASGN_ALG, m_Cert->GetHashAlg());
+		Text.Format(IDS_RSASGN_ALG, (LPCTSTR)m_Cert->GetHashAlg());
 		Msg += Text;
 		AfxMessageBox(Msg, MB_OK | MB_ICONINFORMATION);
 	}	
@@ -725,7 +725,7 @@ void CDlgSignatureDemo::OnInfoSign()
 	if (!HexDumpMem(msgdata, destSize, reinterpret_cast<unsigned char*>(m_SignText.octets), srcSize, m_nCols)) return;
 
 	UpdateData(TRUE);
-	m_DisplayContent.Format(IDS_CONTENT_SIGN, m_Cert->GetHashAlg(), m_sFileName);
+	m_DisplayContent.Format(IDS_CONTENT_SIGN, (LPCTSTR)m_Cert->GetHashAlg(), (LPCTSTR)m_sFileName);
 	m_DisplayInfo = static_cast<CString>(msgdata);
 	UpdateData(FALSE);
 }

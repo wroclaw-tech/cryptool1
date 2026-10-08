@@ -23,7 +23,7 @@ big Big::getbig() const
 BOOL Big::iszero() const
          { if (size(fn)==0) return TRUE; return FALSE;}
 Big operator-(const Big& b)
-{Big nb; negate(b.fn,nb.fn); return nb;}
+{Big nb; ::negate(b.fn,nb.fn); return nb;}
 Big operator+(const Big& b,int i)
 {Big abi; incr(b.fn, i, abi.fn); return abi;}
 Big operator+(int i,const Big& b)
@@ -34,7 +34,7 @@ Big operator+(const Big& b1, const Big& b2)
 Big operator-(const Big& b, int i)
 {Big mbi; decr(b.fn, i, mbi.fn); return mbi;}
 Big operator-(int i, const Big& b)
-{Big mib;decr(b.fn, i, mib.fn);negate(mib.fn,mib.fn);return mib;}
+{Big mib;decr(b.fn, i, mib.fn);::negate(mib.fn,mib.fn);return mib;}
 Big operator-(const Big& b1, const Big& b2)
 {Big mbb; subtract(b1.fn,b2.fn,mbb.fn); return mbb;}
 

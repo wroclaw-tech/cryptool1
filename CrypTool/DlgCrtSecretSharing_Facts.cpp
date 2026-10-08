@@ -25,7 +25,7 @@
 #include "stdlib.h"
 #include "CrypToolApp.h"
 #include "DlgCrtSecretSharing_Facts.h"
-#include ".\dlgcrtsecretsharing_Facts.h"
+#include "DlgCrtSecretSharing_Facts.h"
 #include "DlgCrtSecretSharing_Log.h"
 #include "DialogeMessage.h"
 
@@ -66,8 +66,8 @@ void CDlgCrtSecretSharing_Facts::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDlgCrtSecretSharing_Facts, CDialog)
-	ON_BN_CLICKED(IDC_CRT_SHOWLOG, OnBnClickedCrtShowlog)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
+	ON_BN_CLICKED(IDC_CRT_SHOWLOG, &CDlgCrtSecretSharing_Facts::OnBnClickedCrtShowlog)
+	ON_BN_CLICKED(IDOK, &CDlgCrtSecretSharing_Facts::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 

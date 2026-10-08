@@ -102,7 +102,7 @@ void CDlgECSignatureStepByStep::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgECSignatureStepByStep, CDialog)
 	//{{AFX_MSG_MAP(CDlgECSignatureStepByStep)
-	ON_BN_CLICKED(IDC_BUTTON_CONTINUE, OnButtonContinue)
+	ON_BN_CLICKED(IDC_BUTTON_CONTINUE, &CDlgECSignatureStepByStep::OnButtonContinue)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -323,7 +323,7 @@ int CDlgECSignatureStepByStep::UpdateDataDisplay()
 			return -1;
 		}
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_DOMAIN_PARAMETER_TO_USE,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, curveID);
+		sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 		m_DataDisplay += (CString) pc_str1 + nl + nl;
 		m_DataDisplay += ( sp2 + ((CString)"a  = ") + DomParamAcString.a + nl );
 		m_DataDisplay += ( sp2 + ((CString)"b  = ") + DomParamAcString.b + nl );
@@ -339,7 +339,7 @@ int CDlgECSignatureStepByStep::UpdateDataDisplay()
 
 		// Signaturverfahren und Hashfunktion
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_SEL_SIGNATURE_HASH_FUNCTION,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, SigAlg, HashAlg);
+		sprintf(pc_str1, pc_str, (LPCTSTR)SigAlg, (LPCTSTR)HashAlg);
 		m_DataDisplay += ( ((CString)pc_str1) + nl + nl);
 
 		// Länge der zu signierenden Nachricht in Byte
@@ -356,7 +356,7 @@ int CDlgECSignatureStepByStep::UpdateDataDisplay()
 		char *fstr;
 		// message Representative f
 		LoadString(AfxGetInstanceHandle(),IDS_STRING_SIGNATURE_HASHING,pc_str,STR_LAENGE_STRING_TABLE);
-		sprintf(pc_str1, pc_str, HashAlg);
+		sprintf(pc_str1, pc_str, (LPCTSTR)HashAlg);
 		m_DataDisplay += ( ((CString)pc_str1) + nl + nl);
 		err = ln_to_string (MsgRepData.f, &fstr, base);
 		if (err > 0)
@@ -388,7 +388,7 @@ int CDlgECSignatureStepByStep::UpdateDataDisplay()
 		{
 			// one-time key pair
 			LoadString(AfxGetInstanceHandle(),IDS_STRING_CREATE_RANDOM_ASYMKEY,pc_str,STR_LAENGE_STRING_TABLE);
-			sprintf(pc_str1, pc_str, curveID);
+			sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 			m_DataDisplay += ( ((CString)pc_str1) + nl + nl);
 			m_DataDisplay += ( sp2 + ((CString)"u  = ") + DsaSignDataStrings.u + nl);
 			m_DataDisplay += ( sp2 + ((CString)"Vx  = ") + DsaSignDataStrings.Vx + nl);
@@ -450,7 +450,7 @@ int CDlgECSignatureStepByStep::UpdateDataDisplay()
 		{
 			// one-time key pair
 			LoadString(AfxGetInstanceHandle(),IDS_STRING_CREATE_RANDOM_ASYMKEY,pc_str,STR_LAENGE_STRING_TABLE);
-			sprintf(pc_str1, pc_str, curveID);
+			sprintf(pc_str1, pc_str, (LPCTSTR)curveID);
 			m_DataDisplay += ( ((CString)pc_str1) + nl + nl);
 
 			m_DataDisplay += ( sp2 + ((CString)"u  = ") + NrSignDataStrings.u + nl);

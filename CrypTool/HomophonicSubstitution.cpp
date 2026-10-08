@@ -108,7 +108,7 @@ CString HomophonicSubstitution::exportKeyAsString() const {
 				stringKeyEntryHomophones.Append(",");
 			}
 		}
-		stringKeyEntry.Format("%s/%s/%s/%s/%s/%s", stringKeyEntryCode, stringKeyEntryCharacter, stringKeyEntryCount, stringKeyEntryFrequency, stringKeyEntryCountHomophones, stringKeyEntryHomophones);
+		stringKeyEntry.Format("%s/%s/%s/%s/%s/%s", (LPCTSTR)stringKeyEntryCode, (LPCTSTR)stringKeyEntryCharacter, (LPCTSTR)stringKeyEntryCount, (LPCTSTR)stringKeyEntryFrequency, (LPCTSTR)stringKeyEntryCountHomophones, (LPCTSTR)stringKeyEntryHomophones);
 		stringKey.Append(stringKeyEntry);
 		if(indexKeyEntry + 1 < m_keyEntries.size()) {
 			stringKey.Append(";");

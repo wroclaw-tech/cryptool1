@@ -81,10 +81,10 @@ void CDlgRSADecryption::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgRSADecryption, CDialog)
 	//{{AFX_MSG_MAP(CDlgRSADecryption)
-	ON_NOTIFY(NM_CLICK, IDC_LIST_KEYS, OnClickListKeys)
-	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST_KEYS, OnItemclickListKeys)
-	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_KEYS, OnColumnclickListKeys)
-	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST_KEYS, OnKeydownListKeys)
+	ON_NOTIFY(NM_CLICK, IDC_LIST_KEYS, &CDlgRSADecryption::OnClickListKeys)
+	ON_NOTIFY(HDN_ITEMCLICK, IDC_LIST_KEYS, &CDlgRSADecryption::OnItemclickListKeys)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_KEYS, &CDlgRSADecryption::OnColumnclickListKeys)
+	ON_NOTIFY(LVN_KEYDOWN, IDC_LIST_KEYS, &CDlgRSADecryption::OnKeydownListKeys)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

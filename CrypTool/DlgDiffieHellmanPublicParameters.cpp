@@ -25,7 +25,7 @@
 #include "NTL/ZZ.h"
 
 #include "stdafx.h"
-#include "CryptoolApp.h"
+#include "CrypToolApp.h"
 #include "DlgDiffieHellmanPublicParameters.h"
 #include "DlgGenerateSavePrime.h"
 #include <math.h>
@@ -84,8 +84,8 @@ void CDlgDiffieHellmanPublicParameters::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgDiffieHellmanPublicParameters, CDialog)
 	//{{AFX_MSG_MAP(CDlgDiffieHellmanPublicParameters)
-	ON_BN_CLICKED(IDC_GENERATE_PRIME, OnGeneratePrime)
-	ON_BN_CLICKED(IDC_GENERATE_GENERATOR, OnGenerateGenerator)
+	ON_BN_CLICKED(IDC_GENERATE_PRIME, &CDlgDiffieHellmanPublicParameters::OnGeneratePrime)
+	ON_BN_CLICKED(IDC_GENERATE_GENERATOR, &CDlgDiffieHellmanPublicParameters::OnGenerateGenerator)
 	//}}AFX_MSG_MAP
 	ON_EN_CHANGE(IDC_PRIME, &CDlgDiffieHellmanPublicParameters::OnEnChangePrime)
 END_MESSAGE_MAP()

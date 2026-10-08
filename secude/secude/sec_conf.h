@@ -93,6 +93,10 @@
      || defined(SEC_TARGET_CPU_PPC) && SEC_TARGET_CPU_PPC \
      || defined(SEC_TARGET_CPU_HPPA) && SEC_TARGET_CPU_HPPA
 #   define SEC_BYTE_ORDER      SEC_BIG_ENDIAN
+#  elif defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#   define SEC_BYTE_ORDER      SEC_LITTLE_ENDIAN
+#  elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+#   define SEC_BYTE_ORDER      SEC_BIG_ENDIAN
 #  endif
 # endif
 #endif

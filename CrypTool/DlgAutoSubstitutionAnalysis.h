@@ -36,21 +36,21 @@ class CDlgAutoSubstitutionAnalysis : public CDialog
 public:
 	CDlgAutoSubstitutionAnalysis(CWnd* pParent = NULL);   // Standardkonstruktor
 
-	void CDlgAutoSubstitutionAnalysis::setText(char *text);
-	CString CDlgAutoSubstitutionAnalysis::getText();
-	void CDlgAutoSubstitutionAnalysis::setLanguageInfo(char *text);
-	void CDlgAutoSubstitutionAnalysis::setKey(char *text);
-	CString CDlgAutoSubstitutionAnalysis::getKey();
-	void CDlgAutoSubstitutionAnalysis::setCharacterNumber(char *text);
-	void CDlgAutoSubstitutionAnalysis::setSpaceInAlphabet(bool value);
+	void setText(char *text);
+	CString getText();
+	void setLanguageInfo(char *text);
+	void setKey(char *text);
+	CString getKey();
+	void setCharacterNumber(char *text);
+	void setSpaceInAlphabet(bool value);
 
-	void CDlgAutoSubstitutionAnalysis::setThreadFinished(bool value);
-	bool CDlgAutoSubstitutionAnalysis::getThreadFinished();
-	void CDlgAutoSubstitutionAnalysis::setGuiFinished(bool value);
-	bool CDlgAutoSubstitutionAnalysis::getGuiFinished();
-	void CDlgAutoSubstitutionAnalysis::setThreadFailed(bool value);
-	bool CDlgAutoSubstitutionAnalysis::getThreadFailed();
-	bool CDlgAutoSubstitutionAnalysis::getManualAnalysis();
+	void setThreadFinished(bool value);
+	bool getThreadFinished();
+	void setGuiFinished(bool value);
+	bool getGuiFinished();
+	void setThreadFailed(bool value);
+	bool getThreadFailed();
+	bool getManualAnalysis();
 
 
 // Dialogfelddaten

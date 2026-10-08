@@ -21,7 +21,7 @@
 #include "stdafx.h"
 #include "CrypToolApp.h"
 #include "AppDocument.h"
-#include "Windows.h"
+#include "windows.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -57,8 +57,8 @@ CAppDocument::~CAppDocument()
 
 BEGIN_MESSAGE_MAP(CAppDocument, CDocument)
 	//{{AFX_MSG_MAP(CAppDocument)
-	ON_UPDATE_COMMAND_UI(ID_GOTO_VATER, OnUpdateGotoVater)
-	ON_UPDATE_COMMAND_UI(ID_SHOW_KEY, OnUpdateShowKey)
+	ON_UPDATE_COMMAND_UI(ID_GOTO_VATER, &CAppDocument::OnUpdateGotoVater)
+	ON_UPDATE_COMMAND_UI(ID_SHOW_KEY, &CAppDocument::OnUpdateShowKey)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

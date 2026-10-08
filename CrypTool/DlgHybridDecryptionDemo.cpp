@@ -25,7 +25,7 @@
 #include "CrypToolApp.h"
 #include <fstream>
 #include "FileTools.h"
-#include <sys\stat.h>
+#include <sys/stat.h>
 #include "Cryptography.h"
 #include "CryptDoc.h"
 #include "AppDocument.h"
@@ -89,8 +89,8 @@ void CDlgHybridDecryptionDemo::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgHybridDecryptionDemo, CDialog)
 	//{{AFX_MSG_MAP(CDlgHybridDecryptionDemo)
-	ON_BN_CLICKED(IDC_BUTTON_CONTINUE, OnButtonContinue)
-	ON_BN_CLICKED(IDC_SHOW_CERTIFICATE, OnButtonShowCertificate)
+	ON_BN_CLICKED(IDC_BUTTON_CONTINUE, &CDlgHybridDecryptionDemo::OnButtonContinue)
+	ON_BN_CLICKED(IDC_SHOW_CERTIFICATE, &CDlgHybridDecryptionDemo::OnButtonShowCertificate)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

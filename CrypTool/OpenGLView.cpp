@@ -30,7 +30,7 @@
 #include "OpenGL.h"
 #include <gl/gl.h>
 #include <gl/glu.h>
-#include ".\openglview.h"
+#include "OpenGLView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -114,9 +114,9 @@ BEGIN_MESSAGE_MAP(COpenGLView, CView)
 	ON_WM_LBUTTONUP()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
-	ON_COMMAND(ID_POPUP_OPENGL_SHOW_BOX, OnPopupOpenglShowBox)
+	ON_COMMAND(ID_POPUP_OPENGL_SHOW_BOX, &COpenGLView::OnPopupOpenglShowBox)
 	ON_WM_DESTROY()
-	ON_COMMAND(ID_POPUP_OPENGL_EIGENSCHAFTEN, OnPopupOpenglEigenschaften)
+	ON_COMMAND(ID_POPUP_OPENGL_EIGENSCHAFTEN, &COpenGLView::OnPopupOpenglEigenschaften)
 	ON_WM_RBUTTONDOWN()
 	ON_WM_RBUTTONUP()
 	//}}AFX_MSG_MAP
@@ -201,8 +201,8 @@ int COpenGLView::Init()
     // Createan  OpenGL rendering context
 	m_hOpenGLContext = wglCreateContext(m_pDC->GetSafeHdc());
 	ASSERT(m_hOpenGLContext != NULL);
-	wglMakeCurrent(m_pDC->GetSafeHdc(), m_hOpenGLContext);
-	glEnable(GL_DEPTH_TEST);
+	if (wglMakeCurrent(m_pDC->GetSafeHdc(), m_hOpenGLContext))
+		glEnable(GL_DEPTH_TEST);
 
 	return 1;
 }

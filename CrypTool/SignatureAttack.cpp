@@ -339,7 +339,7 @@ UINT SignatureAttack::Do_Floyd()
 			}
 			HashStore[jj] = 0;
 
-			fprintf(m_TestFile,	"\nRun_No=%2.2d\nHashInit=%s\nCollSteps=%I64i\nConfSteps=%I64i",
+			fprintf(m_TestFile,	"\nRun_No=%2.2d\nHashInit=%s\nCollSteps=%lld\nConfSteps=%lld",
 				m_ResSigAtt->GetRuns(), HashStore, m_ResSigAtt->GetCollisionStepsOfRun(m_ResSigAtt->GetRuns() - 1),
 				m_ResSigAtt->GetConfirmationStepsOfRun(m_ResSigAtt->GetRuns() - 1));
 
@@ -372,7 +372,7 @@ UINT SignatureAttack::Do_Floyd()
 
 	if (m_OptSigAtt->GetTestMode())
 	{
-		fprintf(m_TestFile,	"\nResult=%d\nTotalSteps=%I64i\nExpectedSteps=%I64i\nHashOps=%I64i\nElapsedTime=%.3f",
+		fprintf(m_TestFile,	"\nResult=%d\nTotalSteps=%lld\nExpectedSteps=%lld\nHashOps=%lld\nElapsedTime=%.3f",
 			m_ResSigAtt->GetFloydResult(), m_ResSigAtt->GetTotalSteps(), m_ResSigAtt->GetExpectedSteps(),
 			m_ResSigAtt->GetHashOperationsPerformed(), m_ResSigAtt->GetEffectiveTime());
 	}

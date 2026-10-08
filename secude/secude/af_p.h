@@ -5527,11 +5527,13 @@ char SEC_GLOBAL_FUNC_PREFIX * SEC_API_CALLING_CONV  str_up SEC_PROTOTYPE_1(
 
 );
 
+#ifdef _WIN32 /* elsewhere the name belongs to cracklib's char *Trim(char *) */
 int SEC_GLOBAL_FUNC_PREFIX SEC_API_CALLING_CONV Trim SEC_PROTOTYPE_1(
 	
 	char	 *	, str
 
 );
+#endif
 
 int SEC_GLOBAL_FUNC_PREFIX SEC_API_CALLING_CONV Skip_blanks SEC_PROTOTYPE_2(
 	

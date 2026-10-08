@@ -180,10 +180,10 @@ IMPLEMENT_DYNCREATE(CHexEditBase, CWnd)
 
 BEGIN_MESSAGE_MAP(CHexEditBase, CWnd)
 	//{{AFX_MSG_MAP(CHexEditBase)
-	ON_MESSAGE(UM_SETSCROLRANGE, OnUmSetScrollRange)
-	ON_MESSAGE(WM_CHAR, OnWMChar)
-	ON_MESSAGE(WM_SETFONT, OnWMSetFont)
-	ON_MESSAGE(WM_GETFONT, OnWMGetFont)
+	ON_MESSAGE(UM_SETSCROLRANGE, &CHexEditBase::OnUmSetScrollRange)
+	ON_MESSAGE(WM_CHAR, &CHexEditBase::OnWMChar)
+	ON_MESSAGE(WM_SETFONT, &CHexEditBase::OnWMSetFont)
+	ON_MESSAGE(WM_GETFONT, &CHexEditBase::OnWMGetFont)
 	ON_WM_DESTROY()
 	ON_WM_TIMER()
 	ON_WM_KILLFOCUS()
@@ -201,12 +201,12 @@ BEGIN_MESSAGE_MAP(CHexEditBase, CWnd)
 	ON_WM_KEYDOWN()
 	ON_WM_MOUSEWHEEL()
 	ON_WM_CONTEXTMENU()
-	ON_COMMAND(ID_EDIT_CUT, OnEditCut)
-	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-	ON_COMMAND(ID_EDIT_PASTE, OnEditPaste)
-	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
-	ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
-	ON_COMMAND(ID_TOTXT, OnToTxt)
+	ON_COMMAND(ID_EDIT_CUT, &CHexEditBase::OnEditCut)
+	ON_COMMAND(ID_EDIT_COPY, &CHexEditBase::OnEditCopy)
+	ON_COMMAND(ID_EDIT_PASTE, &CHexEditBase::OnEditPaste)
+	ON_COMMAND(ID_EDIT_CLEAR, &CHexEditBase::OnEditClear)
+	ON_COMMAND(ID_EDIT_SELECT_ALL, &CHexEditBase::OnEditSelectAll)
+	ON_COMMAND(ID_TOTXT, &CHexEditBase::OnToTxt)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -817,7 +817,8 @@ void CHexEditBase::PaintHexData(CDC& cDC)
 				cRect.right -= (pBuf-1+m_tPaintDetails.nBytesPerRow*3-pSelectionBufPtrEnd) * m_tPaintDetails.nCharacterWidth;
 				CRect cSelectionRect(cRect);
 				cSelectionRect.InflateRect(0, -1, +1, 0);
-				cDC.FillRect(cSelectionRect, &CBrush(bHasFocus ? m_tSelectedFousBkgCol : m_tSelectedNoFocusBkgCol));
+				CBrush cSelectionBrush(bHasFocus ? m_tSelectedFousBkgCol : m_tSelectedNoFocusBkgCol);
+				cDC.FillRect(cSelectionRect, &cSelectionBrush);
 				*pSelectionBufPtrEnd = '\0'; // set "end-mark"
 				cDC.SetTextColor(bHasFocus ? m_tSelectedFousTxtCol : m_tSelectedNoFocusTxtCol);
 				cDC.SetBkColor(m_tHighlightBkgCol);
@@ -1006,7 +1007,8 @@ ASSERT(m_tPaintDetails.nBytesPerRow > 0);
 				cRect.right -= (pBuf + m_tPaintDetails.nBytesPerRow - pSelectionBufPtrEnd)*m_tPaintDetails.nCharacterWidth;
 				CRect cSelectionRect(cRect);
 				cSelectionRect.InflateRect(0, -1, +1, 0);
-				cDC.FillRect(cSelectionRect, &CBrush(bHasFocus ? m_tSelectedFousBkgCol : m_tSelectedNoFocusBkgCol));
+				CBrush cSelectionBrush(bHasFocus ? m_tSelectedFousBkgCol : m_tSelectedNoFocusBkgCol);
+				cDC.FillRect(cSelectionRect, &cSelectionBrush);
 				*pSelectionBufPtrEnd = '\0'; // set "end-mark"
 				cDC.SetTextColor(bHasFocus ? m_tSelectedFousTxtCol : m_tSelectedNoFocusTxtCol);
 				cDC.SetBkColor(m_tHighlightBkgCol);
@@ -1181,7 +1183,7 @@ void CHexEditBase::OnKillFocus(CWnd* pNewWnd)
 void CHexEditBase::OnSize(UINT nType, int cx, int cy) 
 {
 	CWnd::OnSize(nType, cx, cy);
-	CalculatePaintingDetails(CClientDC(this));
+	{ CClientDC cClientDC(this); CalculatePaintingDetails(cClientDC); }
 	SetEditCaretPos(m_nCurrentAddress, m_bHighBits);
 	SetScrollbarRanges();
 }
@@ -1350,7 +1352,7 @@ ASSERT(::IsWindow(m_hWnd));
 		return;
 	}	
 	if(m_bRecalc) {
-		CalculatePaintingDetails(CClientDC(this));
+		{ CClientDC cClientDC(this); CalculatePaintingDetails(cClientDC); }
 	}
 	if(m_nCurrentAddress < m_nScrollPostionY*m_tPaintDetails.nBytesPerRow 
 		|| (m_nCurrentAddress >= (m_nScrollPostionY + m_tPaintDetails.nVisibleLines)*m_tPaintDetails.nBytesPerRow) ) {

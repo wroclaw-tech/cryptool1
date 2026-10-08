@@ -60,8 +60,8 @@ void CDlgBinKeyLength::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgBinKeyLength, CDialog)
 	//{{AFX_MSG_MAP(CDlgBinKeyLength)
-	ON_EN_CHANGE(IDC_EDIT2, OnChangeEdit2)
-	ON_EN_CHANGE(IDC_EDIT1, OnChangeEdit2)
+	ON_EN_CHANGE(IDC_EDIT2, &CDlgBinKeyLength::OnChangeEdit2)
+	ON_EN_CHANGE(IDC_EDIT1, &CDlgBinKeyLength::OnChangeEdit2)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 

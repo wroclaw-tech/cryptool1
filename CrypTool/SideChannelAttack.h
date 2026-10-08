@@ -51,7 +51,7 @@ class SCA_Attacker;
 #include <iostream>
 #include <fstream>
 #include "AsymmetricEncryption.h"
-#include "../libmiracl/include/BIG.H"
+#include "big.h"
 #include "DlgKeyAsymGeneration.h"
 #include "KeyFileHandling.h"
 

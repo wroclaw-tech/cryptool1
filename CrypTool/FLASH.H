@@ -159,5 +159,7 @@ public:
 };
 
 #endif
+Flash pi();
+
 #endif
 
