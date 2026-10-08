@@ -848,3 +848,16 @@ intptr_t _spawnl(int mode, const char* cmdname, const char* arg0, ...) {
     CloseHandle(pi.hProcess);
     return 0;
 }
+
+namespace {
+
+thread_local unsigned int g_randSeed = 1;
+
+} // namespace
+
+extern "C" int mfcwx_rand(void) {
+    g_randSeed = g_randSeed * 214013u + 2531011u;
+    return static_cast<int>((g_randSeed >> 16) & 0x7fff);
+}
+
+extern "C" void mfcwx_srand(unsigned int seed) { g_randSeed = seed; }
