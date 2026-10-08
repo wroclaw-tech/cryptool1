@@ -718,7 +718,10 @@ const CWnd wndNoTopMost;
 CWnd::CWnd() : m_hWnd(nullptr) {}
 
 CWnd::~CWnd() {
-    if (m_hWnd && IsMainThread()) {
+    if (!m_hWnd)
+        return;
+    // Wrappers destroyed on worker threads (dialogs run from AfxBeginThread) must detach too.
+    OnMain([this] {
         wxWindow* w = GetWx();
         WindowState* st = GetState(w);
         if (st && st->permanent == this) {
@@ -730,7 +733,7 @@ CWnd::~CWnd() {
             }
         }
         m_hWnd = nullptr;
-    }
+    });
 }
 
 CWnd* CWnd::FromWx(wxWindow* window) { return WrapperFor(window); }
@@ -1455,7 +1458,7 @@ CWnd* CWnd::SetActiveWindow() { return FromHandle(::SetActiveWindow(m_hWnd)); }
 CWnd* CWnd::GetForegroundWindow() { return FromHandle(::GetForegroundWindow()); }
 BOOL CWnd::SetForegroundWindow() { return ::SetForegroundWindow(m_hWnd); }
 CWnd* CWnd::GetFocus() { return FromHandle(::GetFocus()); }
-CWnd* CWnd::SetFocus() { return FromHandle(::SetFocus(m_hWnd)); }
+CWnd* CWnd::SetFocus() { return FromHandle(::SetFocus(GetSafeHwnd())); }
 CWnd* CWnd::GetDesktopWindow() { return nullptr; }
 CWnd* CWnd::GetCapture() { return FromHandle(::GetCapture()); }
 CWnd* CWnd::SetCapture() { return FromHandle(::SetCapture(m_hWnd)); }
