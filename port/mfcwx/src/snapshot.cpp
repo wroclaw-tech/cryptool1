@@ -2,6 +2,7 @@
 
 #include <wx/dcclient.h>
 #include <wx/dcmemory.h>
+#include <wx/aui/auibook.h>
 #include <wx/dialog.h>
 #include <wx/timer.h>
 #include <wx/toplevel.h>
@@ -88,6 +89,33 @@ std::string SafeName(const wxString& title) {
     return name.substr(0, 40);
 }
 
+wxAuiTabCtrl* FindTabCtrl(wxWindow* w) {
+    if (auto* t = wxDynamicCast(w, wxAuiTabCtrl))
+        return t;
+    for (wxWindow* c : w->GetChildren())
+        if (wxAuiTabCtrl* t = FindTabCtrl(c))
+            return t;
+    return nullptr;
+}
+
+void ClickTab(int index, bool closeButton) {
+    wxWindow* main = MainWxWindow();
+    wxAuiTabCtrl* tabs = main ? FindTabCtrl(main) : nullptr;
+    if (!tabs || index < 0 || static_cast<size_t>(index) >= tabs->GetPageCount()) {
+        fprintf(stderr, "mfcwx automation: no tab %d\n", index);
+        return;
+    }
+    wxRect r = tabs->GetPage(static_cast<size_t>(index)).rect;
+    wxPoint pt = closeButton ? wxPoint(r.GetRight() - 12, r.y + r.height / 2) : wxPoint(r.x + r.width / 3, r.y + r.height / 2);
+    for (wxEventType type : {wxEVT_MOTION, wxEVT_LEFT_DOWN, wxEVT_LEFT_UP}) {
+        wxMouseEvent e(type);
+        e.SetEventObject(tabs);
+        e.SetPosition(pt);
+        e.m_leftDown = type == wxEVT_LEFT_DOWN;
+        tabs->GetEventHandler()->ProcessEvent(e);
+    }
+}
+
 wxWindow* ActiveDialog() {
     wxWindow* found = nullptr;
     for (wxWindow* w : wxTopLevelWindows) {
@@ -102,6 +130,8 @@ wxWindow* ActiveDialog() {
 //   command <id>        WM_COMMAND to the main window
 //   button <id>         WM_COMMAND (BN_CLICKED) to the topmost dialog
 //   text <id> <text>    sets the text of a control of the topmost dialog
+//   tab <n> / closetab <n>   clicks the n-th MDI tab or its close button
+//   tabs                print the MDI tabs
 //   wait <ms>
 //   snapshot <label>    PNGs of all shown top-level windows into MFCWX_SNAPSHOT_DIR (or .)
 //   quit
@@ -141,6 +171,18 @@ public:
             CWnd* dlg = WrapperFor(ActiveDialog());
             if (dlg && dlg->m_hWnd)
                 ::SetDlgItemText(dlg->m_hWnd, id, text.c_str());
+        } else if (op == "tab" || op == "closetab") {
+            int index = 0;
+            in >> index;
+            ClickTab(index, op == "closetab");
+        } else if (op == "tabs") {
+            wxWindow* main = MainWxWindow();
+            wxAuiTabCtrl* tabs = main ? FindTabCtrl(main) : nullptr;
+            if (tabs)
+                for (size_t i = 0; i < tabs->GetPageCount(); ++i)
+                    fprintf(stderr, "mfcwx automation: tab %zu \"%s\"%s\n", i,
+                            static_cast<const char*>(tabs->GetPage(i).caption.utf8_str()),
+                            tabs->GetPage(i).active ? " (active)" : "");
         } else if (op == "wait") {
             long ms = 0;
             in >> ms;
