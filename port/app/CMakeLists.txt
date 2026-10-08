@@ -125,9 +125,17 @@ install(DIRECTORY ${CRYPTOOL_DEV_DATA_DIR}/PSE DESTINATION ${CRYPTOOL_DATA_DEST}
 
 if(APPLE)
     # Copies the Homebrew dylibs (wxWidgets, OpenSSL, GMP) into the bundle so it runs on other Macs.
+    execute_process(COMMAND brew --prefix OUTPUT_VARIABLE brew_prefix OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+    set(bundle_lib_dirs)
+    foreach(prefix ${brew_prefix} /opt/homebrew /usr/local)
+        if(EXISTS ${prefix}/lib)
+            list(APPEND bundle_lib_dirs ${prefix}/lib)
+        endif()
+    endforeach()
+    list(REMOVE_DUPLICATES bundle_lib_dirs)
     install(CODE "
         include(BundleUtilities)
-        fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/CrypTool.app\" \"\" \"\")
+        fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/CrypTool.app\" \"\" \"${bundle_lib_dirs}\")
         execute_process(COMMAND codesign --force --deep --sign - \"\${CMAKE_INSTALL_PREFIX}/CrypTool.app\"
                         RESULT_VARIABLE sign_result)
         if(NOT sign_result EQUAL 0)
