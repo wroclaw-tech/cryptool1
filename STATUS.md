@@ -7,6 +7,6 @@
 | CrypTool sources compiling | 298 / 298 |
 | CrypTool links | yes |
 | Tests passing | 13 / 13 |
-| Updated | 2026-10-08 10:14 UTC |
+| Updated | 2026-10-08 10:54 UTC |
 
 Progress = 50% x sources compiling + 20% if the app links + 30% x tests passing.
