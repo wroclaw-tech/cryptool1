@@ -129,6 +129,7 @@ wxWindow* ActiveDialog() {
 // Development aid: MFCWX_AUTOMATION=file runs one step per line on a timer, for UI tests:
 //   command <id>        WM_COMMAND to the main window
 //   button <id>         WM_COMMAND (BN_CLICKED) to the topmost dialog
+//   close               WM_CLOSE to the main window
 //   text <id> <text>    sets the text of a control of the topmost dialog
 //   tab <n> / closetab <n>   clicks the n-th MDI tab or its close button
 //   tabs                print the MDI tabs
@@ -161,6 +162,10 @@ public:
                 target->PostMessage(WM_COMMAND, MAKEWPARAM(id, BN_CLICKED), 0);
             else
                 fprintf(stderr, "mfcwx automation: no target window\n");
+        } else if (op == "close") {
+            CWnd* main = AfxGetMainWnd();
+            if (main && main->m_hWnd)
+                main->PostMessage(WM_CLOSE, 0, 0);
         } else if (op == "text") {
             int id = 0;
             in >> id;
