@@ -189,6 +189,15 @@ std::string GetDataDirectory() {
             Ctx().dataDir = std::string(env.utf8_str());
         } else {
             wxString installed = wxStandardPaths::Get().GetResourcesDir();
+#if !defined(__WXOSX__)
+            wxFileName exe(wxStandardPaths::Get().GetExecutablePath());
+            wxString relative = exe.GetPath() + "/../share/" + exe.GetName();
+            if (wxDirExists(relative + "/res")) {
+                wxFileName dir = wxFileName::DirName(relative);
+                dir.Normalize(wxPATH_NORM_DOTS | wxPATH_NORM_ABSOLUTE);
+                installed = dir.GetPath();
+            }
+#endif
             if (wxDirExists(installed + "/res") || Ctx().defaultDataDir.empty())
                 Ctx().dataDir = std::string(installed.utf8_str());
             else

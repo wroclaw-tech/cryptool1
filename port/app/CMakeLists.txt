@@ -128,6 +128,11 @@ if(APPLE)
     install(CODE "
         include(BundleUtilities)
         fixup_bundle(\"\${CMAKE_INSTALL_PREFIX}/CrypTool.app\" \"\" \"\")
+        execute_process(COMMAND codesign --force --deep --sign - \"\${CMAKE_INSTALL_PREFIX}/CrypTool.app\"
+                        RESULT_VARIABLE sign_result)
+        if(NOT sign_result EQUAL 0)
+            message(FATAL_ERROR \"codesign failed\")
+        endif()
     ")
 endif()
 
