@@ -1,0 +1,43 @@
+name: Linux
+
+on:
+  push:
+    branches: [xplat-port]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: linux-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ninja-build libwxgtk3.2-dev libssl-dev libgmp-dev libglu1-mesa-dev xvfb xauth
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DMFCWX_TESTS=ON -DCRYPTOOL_THIRDPARTY_TESTS=ON
+      - name: Build
+        run: ninja -C build
+      - name: Test
+        run: xvfb-run -a ctest --test-dir build --output-on-failure --timeout 300
+      - name: Start CrypTool
+        env:
+          MFCWX_SNAPSHOT_DIR: ${{ runner.temp }}/snapshots
+          MFCWX_SNAPSHOT_COUNT: 3
+          MFCWX_SNAPSHOT_DISMISS: 1
+          MFCWX_SNAPSHOT_INTERVAL: 3000
+        run: |
+          mkdir -p "$MFCWX_SNAPSHOT_DIR"
+          timeout 120 xvfb-run -a -s "-screen 0 1600x1000x24" build/port/app/CrypTool
+          ls "$MFCWX_SNAPSHOT_DIR"/*.png
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: linux-snapshots
+          path: ${{ runner.temp }}/snapshots
+          if-no-files-found: ignore

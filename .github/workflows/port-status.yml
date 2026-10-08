@@ -16,7 +16,7 @@ jobs:
   status:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install dependencies
         run: brew install wxwidgets@3.2 openssl@3 gmp ninja cmake
       - name: Measure
