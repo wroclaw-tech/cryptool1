@@ -88,6 +88,14 @@ wxAuiNotebook* ClientNotebook(CMDIFrameWnd* frame) {
     return frame && frame->m_hWndMDIClient ? wxDynamicCast(ToWx(frame->m_hWndMDIClient), wxAuiNotebook) : nullptr;
 }
 
+// Resolves a frame by its window at call time, so deferred calls never use a deleted frame object.
+CMDIFrameWnd* LiveMDIFrame(HWND hWnd) {
+    if (!hWnd || !IsWindow(hWnd))
+        return nullptr;
+    CWnd* wnd = PermanentWnd(ToWx(hWnd));
+    return wnd && wnd->IsKindOf(RUNTIME_CLASS(CMDIFrameWnd)) ? static_cast<CMDIFrameWnd*>(wnd) : nullptr;
+}
+
 CMDIFrameWnd* MainMDIFrame() {
     CWinApp* app = AfxGetApp();
     CWnd* main = app ? app->m_pMainWnd : nullptr;
@@ -893,9 +901,11 @@ BOOL CMDIFrameWnd::OnCreateClient(LPCREATESTRUCT, CCreateContext*) {
         auto* sizer = new wxBoxSizer(wxVERTICAL);
         sizer->Add(book, 1, wxEXPAND);
         frame->SetSizer(sizer);
-        book->Bind(wxEVT_AUINOTEBOOK_PAGE_CHANGED, [this](wxAuiNotebookEvent& e) {
+        HWND frameWnd = m_hWnd;
+        book->Bind(wxEVT_AUINOTEBOOK_PAGE_CHANGED, [frameWnd](wxAuiNotebookEvent& e) {
             e.Skip();
-            OnChildActivated();
+            if (CMDIFrameWnd* mdi = LiveMDIFrame(frameWnd))
+                mdi->OnChildActivated();
         });
         book->Bind(wxEVT_AUINOTEBOOK_PAGE_CLOSE, [book](wxAuiNotebookEvent& e) {
             e.Veto();
@@ -1117,11 +1127,13 @@ BOOL CMDIChildWnd::DestroyWindow() {
                 book->RemovePage(static_cast<size_t>(index));
         }
         DestroyWxWindow(panel);
-        if (mdi)
-            PostToMainThread([mdi] {
-                if (mdi->m_hWnd)
-                    mdi->OnChildActivated();
+        if (mdi) {
+            HWND frameWnd = mdi->m_hWnd;
+            PostToMainThread([frameWnd] {
+                if (CMDIFrameWnd* live = LiveMDIFrame(frameWnd))
+                    live->OnChildActivated();
             });
+        }
         return TRUE;
     });
 }

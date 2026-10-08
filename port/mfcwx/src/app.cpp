@@ -236,6 +236,7 @@ int main(int argc, char** argv) { return wxEntry(argc, argv); }
 IMPLEMENT_DYNAMIC(CWinApp, CWinThread)
 
 BEGIN_MESSAGE_MAP(CWinApp, CWinThread)
+    ON_COMMAND(ID_APP_EXIT, &CWinApp::OnAppExit)
     ON_COMMAND_EX_RANGE(ID_FILE_MRU_FILE1, ID_FILE_MRU_FILE16, &CWinApp::OnOpenRecentFile)
     ON_UPDATE_COMMAND_UI(ID_FILE_MRU_FILE1, &CWinApp::OnUpdateRecentFileMenu)
 END_MESSAGE_MAP()
