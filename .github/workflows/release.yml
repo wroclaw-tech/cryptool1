@@ -1,0 +1,94 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  pull_request:
+    paths:
+      - .github/workflows/release.yml
+      - port/app/**
+      - CMakeLists.txt
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to create the release for (created from the selected ref if it does not exist)
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: brew install wxwidgets@3.2 openssl@3 gmp ninja cmake
+      - name: Build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          ninja -C build
+      - name: Package
+        run: cd build && cpack -G DragNDrop
+      - uses: actions/upload-artifact@v7
+        with:
+          name: macos
+          path: build/CrypTool-*.dmg
+          if-no-files-found: error
+
+  linux:
+    strategy:
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ninja-build libwxgtk3.2-dev libssl-dev libgmp-dev libglu1-mesa-dev xvfb xauth
+      - name: Build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+          ninja -C build
+      - name: Start CrypTool
+        env:
+          MFCWX_SNAPSHOT_DIR: ${{ runner.temp }}/snapshots
+          MFCWX_SNAPSHOT_COUNT: 2
+          MFCWX_SNAPSHOT_DISMISS: 1
+          MFCWX_SNAPSHOT_INTERVAL: 3000
+        run: |
+          mkdir -p "$MFCWX_SNAPSHOT_DIR"
+          timeout 120 xvfb-run -a build/port/app/CrypTool
+          ls "$MFCWX_SNAPSHOT_DIR"/*.png
+      - name: Package
+        run: cd build && cpack -G "DEB;TGZ"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux-${{ matrix.runner }}
+          path: |
+            build/CrypTool-*.deb
+            build/CrypTool-*.tar.gz
+          if-no-files-found: error
+
+  release:
+    needs: [macos, linux]
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
+        run: |
+          ls -la dist
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+              --title "CrypTool $TAG" --generate-notes --prerelease
+          fi
