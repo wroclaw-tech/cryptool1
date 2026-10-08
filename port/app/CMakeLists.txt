@@ -18,7 +18,8 @@ file(GLOB CT_EXTRA_SOURCES CONFIGURE_DEPENDS
     ${REPO_ROOT}/libVolRen/CQuaternion.cpp ${REPO_ROOT}/libVolRen/CVector.cpp ${REPO_ROOT}/libVolRen/Volume.cpp
     ${REPO_ROOT}/libVolRen/VolumeUtilities.cpp ${REPO_ROOT}/ChallengeResponse/*.cpp)
 
-add_executable(CrypTool ${CT_SOURCES} ${CT_EXTRA_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/platform.cpp)
+add_executable(CrypTool ${CT_SOURCES} ${CT_EXTRA_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/platform.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/miracl_rand.cpp)
 mfcwx_add_rc(CrypTool RC ${CT_SRC}/CrypTool.rc MODULE CrypTool HEADERS ${CT_SRC}/resource.h
              REPLACE "[CRYPTOOL_VERSION_FULL]=CrypTool ${PROJECT_VERSION}" "[CRYPTOOL_VERSION]=${PROJECT_VERSION}")
 

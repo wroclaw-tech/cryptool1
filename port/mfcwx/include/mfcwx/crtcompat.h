@@ -387,8 +387,20 @@ int _findclose(intptr_t handle);
 #define _findfirsti64 _findfirst
 #define _findnexti64 _findnext
 
+/* rand() of the Microsoft C runtime (per-thread LCG, RAND_MAX 0x7fff); CrypTool sizes buffers for it. */
+int mfcwx_rand(void);
+void mfcwx_srand(unsigned int seed);
+#undef RAND_MAX
+#define RAND_MAX 0x7fff
+#define rand mfcwx_rand
+#define srand mfcwx_srand
+
 #endif /* _MFCWX_CRTCOMPAT */
 
 #ifdef __cplusplus
+}
+namespace std {
+using ::mfcwx_rand;
+using ::mfcwx_srand;
 }
 #endif
