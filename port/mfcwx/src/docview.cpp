@@ -45,7 +45,7 @@ public:
         Bind(wxEVT_UPDATE_UI, [this](wxUpdateUIEvent& e) { UpdateCommandUI(this, e); });
         Bind(wxEVT_MENU_HIGHLIGHT, [this](wxMenuEvent& e) {
             CWnd* p = PermanentWnd(this);
-            if (p && p->IsKindOf(RUNTIME_CLASS(CFrameWnd)) && e.GetMenuId() >= kIdOffset) {
+            if (p && p->IsKindOf(RUNTIME_CLASS(CFrameWnd)) && IsCommandWxId(e.GetMenuId())) {
                 CString text;
                 static_cast<CFrameWnd*>(p)->GetMessageString(static_cast<UINT>(MenuWinId(e.GetMenuId())), text);
                 static_cast<CFrameWnd*>(p)->SetMessageText(text);
@@ -61,7 +61,7 @@ public:
 
     static void UpdateCommandUI(wxWindow* frame, wxUpdateUIEvent& e) {
         CWnd* p = PermanentWnd(frame);
-        if (!p || e.GetId() < kIdOffset - 1 || !p->IsKindOf(RUNTIME_CLASS(CFrameWnd))) {
+        if (!p || !IsCommandWxId(e.GetId()) || !p->IsKindOf(RUNTIME_CLASS(CFrameWnd))) {
             if (e.GetId() == wxID_ABOUT || e.GetId() == wxID_EXIT)
                 e.Enable(true);
             return;

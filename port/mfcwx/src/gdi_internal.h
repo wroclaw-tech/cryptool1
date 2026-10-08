@@ -53,6 +53,7 @@ struct GdiObjectImpl {
     wxBrush brush;
 
     LOGFONT logFont{};
+    bool fontPending = false;
     wxFont font;
     double emPx = 0;
     double scaledFor = 1.0;

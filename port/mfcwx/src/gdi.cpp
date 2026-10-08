@@ -464,7 +464,11 @@ HGDIOBJ NewFont(const LOGFONT* lf) {
     auto* impl = NewImpl(GdiKind::Font);
     impl->logFont = *lf;
     impl->logFont.lfFaceName[LF_FACESIZE - 1] = 0;
-    impl->font = MakeFont(impl->logFont, &impl->emPx);
+    // Fonts created by static initializers wait for the toolkit, which GTK needs before any font query.
+    if (wxTheApp)
+        impl->font = MakeFont(impl->logFont, &impl->emPx);
+    else
+        impl->fontPending = true;
     return RegisterGdiObject(impl);
 }
 
@@ -751,10 +755,18 @@ wxBrush DeviceBrush(HBRUSH h) {
     return impl->brush;
 }
 
+void RealizeFont(GdiObjectImpl* impl) {
+    if (impl && impl->fontPending) {
+        impl->fontPending = false;
+        impl->font = MakeFont(impl->logFont, &impl->emPx);
+    }
+}
+
 wxFont DeviceFont(HFONT h, double scale) {
     GdiObjectImpl* impl = GdiImpl(h, GdiKind::Font);
     if (!impl)
         impl = Stock(SYSTEM_FONT);
+    RealizeFont(impl);
     if (impl->stock || std::fabs(scale - 1.0) < 1e-6 || scale <= 0)
         return impl->font;
     if (!impl->scaledFont.IsOk() || std::fabs(impl->scaledFor - scale) > 1e-6) {
@@ -769,6 +781,7 @@ double FontEmPixels(HFONT h) {
     GdiObjectImpl* impl = GdiImpl(h, GdiKind::Font);
     if (!impl)
         impl = Stock(SYSTEM_FONT);
+    RealizeFont(impl);
     return impl->emPx;
 }
 
@@ -850,6 +863,7 @@ wxBrush BrushFromHandle(HBRUSH h) {
 wxFont FontFromHandle(HFONT h) {
     GdiLock lock;
     GdiObjectImpl* impl = GdiImpl(h, GdiKind::Font);
+    RealizeFont(impl);
     return impl ? impl->font : wxNullFont;
 }
 

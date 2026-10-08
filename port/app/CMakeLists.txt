@@ -23,6 +23,9 @@ mfcwx_add_rc(CrypTool RC ${CT_SRC}/CrypTool.rc MODULE CrypTool HEADERS ${CT_SRC}
              REPLACE "[CRYPTOOL_VERSION_FULL]=CrypTool ${PROJECT_VERSION}" "[CRYPTOOL_VERSION]=${PROJECT_VERSION}")
 
 set_target_properties(CrypTool PROPERTIES CXX_STANDARD 14 CXX_EXTENSIONS ON)
+# The zip code defines inflate, deflate, error, ... globally; exported, they would replace zlib's and glibc's
+# functions for the shared libraries (FreeType crashes in CrypTool's inflate on Linux).
+set_target_properties(CrypTool PROPERTIES C_VISIBILITY_PRESET hidden CXX_VISIBILITY_PRESET hidden)
 # Quoted includes only: <monty.h> etc. must resolve to the libraries, as on Windows.
 target_compile_options(CrypTool PRIVATE "SHELL:-iquote ${CT_SRC}" "SHELL:-iquote ${REPO_ROOT}/libVolRen"
     "SHELL:-iquote ${REPO_ROOT}/ChallengeResponse")

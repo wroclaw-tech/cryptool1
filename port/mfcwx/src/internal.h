@@ -61,8 +61,10 @@ wxString MenuTextToWx(const char* utf8Text);
 
 // Win32 control ids map to wx ids with an offset so they never collide with wx's stock ids.
 constexpr int kIdOffset = 20000;
-inline int ToWxId(int winId) { return winId == -1 || winId == 0xFFFF ? wxID_ANY : winId + kIdOffset; }
-inline int FromWxId(int wxId) { return wxId >= kIdOffset ? wxId - kIdOffset : (wxId == wxID_ANY ? -1 : wxId); }
+// wx ids must stay below 0x7fff: small Windows ids are offset, larger ones get compact ids above wxID_HIGHEST.
+int ToWxId(int winId);
+int FromWxId(int wxId);
+bool IsCommandWxId(int wxId);
 
 enum class ControlKind {
     Generic,      // custom-drawn wxWindow (CWnd::Create, owner-drawn controls, views)

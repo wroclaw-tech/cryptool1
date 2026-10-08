@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
 #include <unordered_map>
 
 namespace mfcwx {
@@ -128,6 +129,59 @@ wxMenu* CloneMenu(wxMenu* src) {
 }
 
 } // namespace
+
+namespace {
+
+constexpr int kCompactBase = wxID_HIGHEST + 1;
+
+struct CompactIds {
+    std::mutex mutex;
+    std::unordered_map<int, int> toWx;
+    std::vector<int> toWin;
+};
+
+CompactIds& Compact() {
+    static CompactIds ids;
+    return ids;
+}
+
+} // namespace
+
+int ToWxId(int winId) {
+    if (winId == -1 || winId == 0xFFFF)
+        return wxID_ANY;
+    if (winId + kIdOffset < 0x7fff)
+        return winId + kIdOffset;
+    CompactIds& c = Compact();
+    std::lock_guard<std::mutex> lock(c.mutex);
+    auto it = c.toWx.find(winId);
+    if (it != c.toWx.end())
+        return it->second;
+    int compact = kCompactBase + static_cast<int>(c.toWin.size());
+    c.toWx.emplace(winId, compact);
+    c.toWin.push_back(winId);
+    return compact;
+}
+
+int FromWxId(int wxId) {
+    if (wxId == wxID_ANY)
+        return -1;
+    if (wxId >= kIdOffset)
+        return wxId - kIdOffset;
+    CompactIds& c = Compact();
+    std::lock_guard<std::mutex> lock(c.mutex);
+    if (wxId >= kCompactBase && wxId < kCompactBase + static_cast<int>(c.toWin.size()))
+        return c.toWin[static_cast<size_t>(wxId - kCompactBase)];
+    return wxId;
+}
+
+bool IsCommandWxId(int wxId) {
+    if (wxId >= kIdOffset - 1)
+        return true;
+    CompactIds& c = Compact();
+    std::lock_guard<std::mutex> lock(c.mutex);
+    return wxId >= kCompactBase && wxId < kCompactBase + static_cast<int>(c.toWin.size());
+}
 
 int MenuWxId(int winId) {
     if (winId == ID_APP_ABOUT)
