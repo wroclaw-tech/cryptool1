@@ -146,6 +146,7 @@ bool IsMainThread();
 // Runs fn on the main thread and waits for it (Windows SendMessage semantics across threads).
 void RunOnMainThread(const std::function<void()>& fn);
 void PostToMainThread(std::function<void()> fn);
+void PumpMainThreadTasks();
 
 // Converts a window rectangle in dialog units to pixels for the given dialog window.
 wxRect DialogUnitsToPixels(wxWindow* dialog, int x, int y, int cx, int cy);
