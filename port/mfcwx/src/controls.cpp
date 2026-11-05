@@ -1136,6 +1136,12 @@ wxWindow* CreateControl(wxWindow* parent, const char* cls, const char* text, int
         // Statics are never in the tab order.
         st.style &= ~WS_TABSTOP;
     }
+    if (kind == ControlKind::GroupBox) {
+        // Win32 group boxes are transparent to the mouse, but rc files often declare them after the
+        // controls they enclose. A wxStaticBox created later would sit on top and swallow clicks
+        // (e.g. the ciphertext edit of the stereotyped-message dialog), so keep it at the bottom.
+        w->Lower();
+    }
     if (kind == ControlKind::Slider) {
         Extra<RangeExtra>(st).maxValue = 100;
     }
