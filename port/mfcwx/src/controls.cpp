@@ -191,9 +191,10 @@ void SetControlText(wxWindow* w, const wxString& text) {
     case ControlKind::RichEdit:
         if (auto* t = AsText(w)) {
             wxString v = ToEditText(*st, text);
+            // Only notify when the text really changes: dialogs such as the stereotyped-message
+            // attack set sibling edits from their change handlers, which otherwise recurse
+            // until the stack overflows.
             if (t->GetValue() != v)
-                t->SetValue(v);
-            else
                 t->SetValue(v);
             Extra<EditExtra>(*st).modified = false;
         }
