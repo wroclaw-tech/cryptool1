@@ -584,8 +584,11 @@ HANDLE GetCurrentProcess(void) { return kCurrentProcess; }
 
 HANDLE GetCurrentThread(void) { return kCurrentThread; }
 
+namespace mfcwx { void PumpMainThreadTasks(); }
+
 void Sleep(DWORD ms) {
     CheckSuspend();
+    mfcwx::PumpMainThreadTasks();
     if (ms == 0) {
         sched_yield();
     } else if (ms == INFINITE) {

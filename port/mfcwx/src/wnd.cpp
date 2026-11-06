@@ -50,6 +50,14 @@ void RunOnMainThread(const std::function<void()>& fn) {
         std::rethrow_exception(error);
 }
 
+// Sleep() on the main thread must keep serving RunOnMainThread requests from worker threads,
+// otherwise a worker holding a lock while waiting for the main thread deadlocks with the main
+// thread spinning in a Sleep loop (e.g. the factorisation progress dialog).
+void PumpMainThreadTasks() {
+    if (IsMainThread() && wxTheApp)
+        wxTheApp->ProcessPendingEvents();
+}
+
 void PostToMainThread(std::function<void()> fn) {
     if (wxTheApp)
         wxTheApp->CallAfter(std::move(fn));

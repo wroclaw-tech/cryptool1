@@ -446,6 +446,10 @@ BOOL CRSABloemerMayDlg::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 }
 
 
+// Set while the dialog itself updates the delta / bit length fields, so their change
+// handlers (which clear N, e and d after a user edit) do not fire on those updates.
+static bool g_programmaticUpdate = false;
+
 void CRSABloemerMayDlg::checkStartButton()
 {
 	NTLExpPars myPars;
@@ -457,7 +461,9 @@ void CRSABloemerMayDlg::checkStartButton()
 		m_delta= doubleToCString(log(d)/log(N));
 	m_BitsOfN.Format("%d",NumBits(N));
 	GetDlgItem(IDC_BUTTONSTART)->EnableWindow(N>0 && e>0 && m_m>3);
+	g_programmaticUpdate = true;
 	UpdateData(false);
+	g_programmaticUpdate = false;
 }
 
 void CRSABloemerMayDlg::OnButtondefault() 
@@ -536,6 +542,7 @@ void CRSABloemerMayDlg::OnChangeEditd()
 
 void CRSABloemerMayDlg::OnChangeEditbitsofn() 
 {
+	if (g_programmaticUpdate) return;
 	UpdateData();
 	m_N="";
 	m_e="";
@@ -545,6 +552,7 @@ void CRSABloemerMayDlg::OnChangeEditbitsofn()
 
 void CRSABloemerMayDlg::OnChangeEditdelta() 
 {
+	if (g_programmaticUpdate) return;
 	UpdateData();
 	m_d="";
 	if(m_choice==1){
