@@ -60,6 +60,12 @@ public:
     }
 
     static void UpdateCommandUI(wxWindow* frame, wxUpdateUIEvent& e) {
+        // The tab control / notebook of the MDI client get wx-generated ids that may fall into the
+        // command id range; auto-disabling them as "unhandled commands" made tabs unclickable.
+        if (wxWindow* w = wxDynamicCast(e.GetEventObject(), wxWindow)) {
+            if (wxDynamicCast(w, wxAuiTabCtrl) || wxDynamicCast(w, wxAuiNotebook))
+                return;
+        }
         CWnd* p = PermanentWnd(frame);
         if (!p || !IsCommandWxId(e.GetId()) || !p->IsKindOf(RUNTIME_CLASS(CFrameWnd))) {
             if (e.GetId() == wxID_ABOUT || e.GetId() == wxID_EXIT)

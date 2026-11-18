@@ -191,9 +191,10 @@ void SetControlText(wxWindow* w, const wxString& text) {
     case ControlKind::RichEdit:
         if (auto* t = AsText(w)) {
             wxString v = ToEditText(*st, text);
+            // Only notify when the text really changes: dialogs such as the stereotyped-message
+            // attack set sibling edits from their change handlers, which otherwise recurse
+            // until the stack overflows.
             if (t->GetValue() != v)
-                t->SetValue(v);
-            else
                 t->SetValue(v);
             Extra<EditExtra>(*st).modified = false;
         }
@@ -1134,6 +1135,12 @@ wxWindow* CreateControl(wxWindow* parent, const char* cls, const char* text, int
     if (kind == ControlKind::Static || kind == ControlKind::GroupBox) {
         // Statics are never in the tab order.
         st.style &= ~WS_TABSTOP;
+    }
+    if (kind == ControlKind::GroupBox) {
+        // Win32 group boxes are transparent to the mouse, but rc files often declare them after the
+        // controls they enclose. A wxStaticBox created later would sit on top and swallow clicks
+        // (e.g. the ciphertext edit of the stereotyped-message dialog), so keep it at the bottom.
+        w->Lower();
     }
     if (kind == ControlKind::Slider) {
         Extra<RangeExtra>(st).maxValue = 100;
